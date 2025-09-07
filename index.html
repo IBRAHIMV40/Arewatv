@@ -2460,7 +2460,7 @@
             // Update save button state
             updateSaveButton();
             
-            // Push state to history
+            // Only push state if we're not already in the modal
             if (!inVideoModal) {
                 history.pushState({ videoOpen: true }, '');
                 inVideoModal = true;
@@ -2837,18 +2837,43 @@
         
         // Function to close the modal
         const closeModal = () => {
+            // Stop the video immediately
+            const videoPlayer = document.getElementById('video-player');
+            const currentSrc = videoPlayer.src;
+            
+            // Clear the src to stop playback
+            videoPlayer.src = '';
+            
+            // For YouTube videos, we need additional handling
+            if (currentSrc && currentSrc.includes('youtube.com/embed/')) {
+                // Create a temporary iframe to properly unload YouTube content
+                const tempIframe = document.createElement('iframe');
+                tempIframe.style.display = 'none';
+                document.body.appendChild(tempIframe);
+                tempIframe.src = 'about:blank';
+                setTimeout(() => document.body.removeChild(tempIframe), 100);
+            }
+            
+            // Hide the modal
             document.getElementById('video-nav').style.display = 'none';
-            document.getElementById('video-player').src = '';
+            
+            // Reset state
             currentMovieInModal = null;
             inVideoModal = false;
+            
+            // Clear any episode/season data
+            const episodeFooter = document.getElementById('episode-footer');
+            episodeFooter.style.display = 'none';
         };
         
         const closeNav = () => {
-            // Only go back in history if we're in the video modal
             if (inVideoModal) {
-                history.back();
+                closeModal();
+                // Only use history.back() if we actually pushed a state
+                if (window.history.state && window.history.state.videoOpen) {
+                    window.history.back();
+                }
             } else {
-                // If not in video modal state, just close the modal
                 closeModal();
             }
         };
