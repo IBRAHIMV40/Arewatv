@@ -5,6 +5,7 @@ const seriesData = [
         description: "A drama series about the lives of different families in a community.",
         imgUrl: "https://ucarecdn.com/374e7b01-decc-4b7d-83c0-e5c70688083d/-/preview/720x900/",
         carouselCover: "https://ucarecdn.com/374e7b01-decc-4b7d-83c0-e5c70688083d/-/preview/720x900/",
+        videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
         category: "Kannywood",
         genre: "Drama",
         year: "2022",
