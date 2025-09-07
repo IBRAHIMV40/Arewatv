@@ -467,6 +467,7 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 10px;
+            grid-column: 1 / -1; /* Span all columns */
         }
         
         .filter-group {
@@ -1728,6 +1729,330 @@
     </footer>
     
     <script>
+        // Videos Data
+        const videosData = [
+            {
+                id: 1,
+                title: "CUTAR KAI",
+                description: "A thrilling action movie about revenge and justice.",
+                imgUrl: "https://bit.ly/3xW9i8x",
+                videoUrl: "https://drive.google.com/file/d/1CWOELtePqeDDI-t07aWB0NAWQXlvH-ul/preview",
+                genre: "Action",
+                country: "Nigeria",
+                year: 2023,
+                category: "Kannywood",
+                type: "Movie",
+                trending: true
+            },
+            {
+                id: 2,
+                title: "GIDAN GADAR GARI",
+                description: "A family drama that explores the complexities of modern relationships.",
+                imgUrl: "https://bit.ly/3xW9i8x",
+                videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
+                genre: "Drama",
+                country: "Nigeria",
+                year: 2022,
+                category: "Kannywood",
+                type: "Movie"
+            },
+            {
+                id: 3,
+                title: "MATSAYIN RAI",
+                description: "A romantic comedy about finding love in unexpected places.",
+                imgUrl: "https://bit.ly/3xW9i8x",
+                videoUrl: "https://drive.google.com/file/d/1CWOELtePqeDDI-t07aWB0NAWQXlvH-ul/preview",
+                genre: "Romance",
+                country: "Nigeria",
+                year: 2023,
+                category: "Kannywood",
+                type: "Movie"
+            },
+            {
+                id: 4,
+                title: "DAN MARAYA ZAHIR",
+                description: "A historical epic set in ancient Hausa kingdoms.",
+                imgUrl: "https://bit.ly/3xW9i8x",
+                videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
+                genre: "Action",
+                country: "Nigeria",
+                year: 2021,
+                category: "Kannywood",
+                type: "Movie",
+                trending: true
+            },
+            {
+                id: 5,
+                title: "SIRRIN KIRARI",
+                description: "A mystery thriller that keeps you guessing until the end.",
+                imgUrl: "https://bit.ly/3xW9i8x",
+                videoUrl: "https://drive.google.com/file/d/1CWOELtePqeDDI-t07aWB0NAWQXlvH-ul/preview",
+                genre: "Thriller",
+                country: "Nigeria",
+                year: 2022,
+                category: "Kannywood",
+                type: "Movie"
+            },
+            {
+                id: 6,
+                title: "HADAR GANI",
+                description: "A comedy about a man who inherits unexpected wealth.",
+                imgUrl: "https://bit.ly/3xW9i8x",
+                videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
+                genre: "Comedy",
+                country: "Nigeria",
+                year: 2023,
+                category: "Kannywood",
+                type: "Movie"
+            },
+            {
+                id: 7,
+                title: "KIRARI",
+                description: "A drama about societal expectations and personal dreams.",
+                imgUrl: "https://bit.ly/3xW9i8x",
+                videoUrl: "https://drive.google.com/file/d/1CWOELtePqeDDI-t07aWB0NAWQXlvH-ul/preview",
+                genre: "Drama",
+                country: "Nigeria",
+                year: 2022,
+                category: "Kannywood",
+                type: "Movie"
+            },
+            {
+                id: 8,
+                title: "INAKI",
+                description: "An action-packed adventure through the Sahara desert.",
+                imgUrl: "https://bit.ly/3xW9i8x",
+                videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
+                genre: "Action",
+                country: "Nigeria",
+                year: 2021,
+                category: "Kannywood",
+                type: "Movie"
+            },
+            {
+                id: 9,
+                title: "THE AVENGERS",
+                description: "Earth's mightiest heroes must come together to save the world.",
+                imgUrl: "https://bit.ly/3xW9i8x",
+                videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
+                genre: "Action",
+                country: "USA",
+                year: 2012,
+                category: "Hollywood",
+                type: "Movie",
+                trending: true
+            },
+            {
+                id: 10,
+                title: "TITANIC",
+                description: "A tragic romance set against the backdrop of the infamous ship.",
+                imgUrl: "https://bit.ly/3xW9i8x",
+                videoUrl: "https://drive.google.com/file/d/1CWOELtePqeDDI-t07aWB0NAWQXlvH-ul/preview",
+                genre: "Romance",
+                country: "USA",
+                year: 1997,
+                category: "Hollywood",
+                type: "Movie"
+            },
+            {
+                id: 11,
+                title: "THE DARK KNIGHT",
+                description: "Batman faces his greatest challenge against the Joker.",
+                imgUrl: "https://bit.ly/3xW9i8x",
+                videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
+                genre: "Action",
+                country: "USA",
+                year: 2008,
+                category: "Hollywood",
+                type: "Movie"
+            },
+            {
+                id: 12,
+                title: "INCEPTION",
+                description: "A mind-bending thriller about dreams within dreams.",
+                imgUrl: "https://bit.ly/3xW9i8x",
+                videoUrl: "https://drive.google.com/file/d/1CWOELtePqeDDI-t07aWB0NAWQXlvH-ul/preview",
+                genre: "Thriller",
+                country: "USA",
+                year: 2010,
+                category: "Hollywood",
+                type: "Movie"
+            },
+            {
+                id: 13,
+                title: "DILWALE DULHANIA LE JAYENGE",
+                description: "A classic Bollywood romance that transcends borders.",
+                imgUrl: "https://bit.ly/3xW9i8x",
+                videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
+                genre: "Romance",
+                country: "India",
+                year: 1995,
+                category: "Bollywood",
+                type: "Movie"
+            },
+            {
+                id: 14,
+                title: "BAHUBALI",
+                description: "An epic Indian action film about a lost prince.",
+                imgUrl: "https://bit.ly/3xW9i8x",
+                videoUrl: "https://drive.google.com/file/d/1CWOELtePqeDDI-t07aWB0NAWQXlvH-ul/preview",
+                genre: "Action",
+                country: "India",
+                year: 2015,
+                category: "Bollywood",
+                type: "Movie",
+                trending: true
+            },
+            {
+                id: 15,
+                title: "LIVING IN BONDAGE",
+                description: "A groundbreaking Nollywood film about ritual practices.",
+                imgUrl: "https://bit.ly/3xW9i8x",
+                videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
+                genre: "Drama",
+                country: "Nigeria",
+                year: 1992,
+                category: "Nollywood",
+                type: "Movie"
+            },
+            {
+                id: 16,
+                title: "THE CEO",
+                description: "A corporate drama about power and ambition.",
+                imgUrl: "https://bit.ly/3xW9i8x",
+                videoUrl: "https://drive.google.com/file/d/1CWOELtePqeDDI-t07aWB0NAWQXlvH-ul/preview",
+                genre: "Drama",
+                country: "Nigeria",
+                year: 2016,
+                category: "Nollywood",
+                type: "Movie"
+            }
+        ];
+
+        // Series Data
+        const seriesData = [
+            {
+                id: 1001,
+                title: "GAME OF THRONES",
+                description: "Nine noble families fight for control over the lands of Westeros.",
+                imgUrl: "https://bit.ly/3xW9i8x",
+                videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
+                genre: "Drama",
+                country: "USA",
+                year: 2011,
+                category: "Hollywood",
+                type: "Series",
+                isSeries: true,
+                trending: true,
+                seasons: [
+                    {
+                        seasonNumber: 1,
+                        episodes: [
+                            { number: 1, url: "https://www.youtube.com/embed/MN4hHqWWpwU" },
+                            { number: 2, url: "https://drive.google.com/file/d/1CWOELtePqeDDI-t07aWB0NAWQXlvH-ul/preview" },
+                            { number: 3, url: "https://www.youtube.com/embed/MN4hHqWWpwU" }
+                        ]
+                    },
+                    {
+                        seasonNumber: 2,
+                        episodes: [
+                            { number: 1, url: "https://drive.google.com/file/d/1CWOELtePqeDDI-t07aWB0NAWQXlvH-ul/preview" },
+                            { number: 2, url: "https://www.youtube.com/embed/MN4hHqWWpwU" }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 1002,
+                title: "BREAKING BAD",
+                description: "A high school chemistry teacher turned methamphetamine producer.",
+                imgUrl: "https://bit.ly/3xW9i8x",
+                videoUrl: "https://drive.google.com/file/d/1CWOELtePqeDDI-t07aWB0NAWQXlvH-ul/preview",
+                genre: "Drama",
+                country: "USA",
+                year: 2008,
+                category: "Hollywood",
+                type: "Series",
+                isSeries: true,
+                seasons: [
+                    {
+                        seasonNumber: 1,
+                        episodes: [
+                            { number: 1, url: "https://www.youtube.com/embed/MN4hHqWWpwU" },
+                            { number: 2, url: "https://drive.google.com/file/d/1CWOELtePqeDDI-t07aWB0NAWQXlvH-ul/preview" }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 1003,
+                title: "KUCH RANG PYAR KE AISE BHI",
+                description: "A touching story about love and relationships.",
+                imgUrl: "https://bit.ly/3xW9i8x",
+                videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
+                genre: "Romance",
+                country: "India",
+                year: 2016,
+                category: "Bollywood",
+                type: "Series",
+                isSeries: true,
+                seasons: [
+                    {
+                        seasonNumber: 1,
+                        episodes: [
+                            { number: 1, url: "https://drive.google.com/file/d/1CWOELtePqeDDI-t07aWB0NAWQXlvH-ul/preview" },
+                            { number: 2, url: "https://www.youtube.com/embed/MN4hHqWWpwU" }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 1004,
+                title: "JENIFA'S DIARY",
+                description: "A comedy series about a village girl in the city.",
+                imgUrl: "https://bit.ly/3xW9i8x",
+                videoUrl: "https://drive.google.com/file/d/1CWOELtePqeDDI-t07aWB0NAWQXlvH-ul/preview",
+                genre: "Comedy",
+                country: "Nigeria",
+                year: 2015,
+                category: "Nollywood",
+                type: "Series",
+                isSeries: true,
+                trending: true,
+                seasons: [
+                    {
+                        seasonNumber: 1,
+                        episodes: [
+                            { number: 1, url: "https://www.youtube.com/embed/MN4hHqWWpwU" },
+                            { number: 2, url: "https://drive.google.com/file/d/1CWOELtePqeDDI-t07aWB0NAWQXlvH-ul/preview" }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 1005,
+                title: "DADIN KOWA",
+                description: "A Hausa drama series about family and tradition.",
+                imgUrl: "https://bit.ly/3xW9i8x",
+                videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
+                genre: "Drama",
+                country: "Nigeria",
+                year: 2018,
+                category: "Kannywood",
+                type: "Series",
+                isSeries: true,
+                seasons: [
+                    {
+                        seasonNumber: 1,
+                        episodes: [
+                            { number: 1, url: "https://drive.google.com/file/d/1CWOELtePqeDDI-t07aWB0NAWQXlvH-ul/preview" },
+                            { number: 2, url: "https://www.youtube.com/embed/MN4hHqWWpwU" }
+                        ]
+                    }
+                ]
+            }
+        ];
+
         // Anime Videos Data
         const animeData = [
             {
@@ -1742,6 +2067,7 @@
                 category: "Anime",
                 type: "Series",
                 isSeries: true,
+                trending: true,
                 seasons: [
                     {
                         seasonNumber: 1,
@@ -1883,6 +2209,59 @@
                 year: 2016,
                 category: "Anime",
                 type: "Movie"
+            }
+        ];
+
+        // Profile Apps Data
+        const profileApps = [
+            {
+                name: "Hausa Movies Pro",
+                description: "Watch unlimited Hausa movies and series",
+                icon: "https://cdn-icons-png.flaticon.com/128/2306/2306171.png",
+                link: "https://www.appcreator24.com/app3501058-ks4rfa"
+            },
+            {
+                name: "Hausa Music",
+                description: "Listen to the latest Hausa music",
+                icon: "https://cdn-icons-png.flaticon.com/128/2936/2936886.png",
+                link: "https://www.appcreator24.com/app3501058-ks4rfa"
+            },
+            {
+                name: "Hausa News",
+                description: "Get the latest news in Hausa language",
+                icon: "https://cdn-icons-png.flaticon.com/128/5769/5769132.png",
+                link: "https://www.appcreator24.com/app3501058-ks4rfa"
+            },
+            {
+                name: "Hausa Recipes",
+                description: "Learn how to cook traditional Hausa dishes",
+                icon: "https://cdn-icons-png.flaticon.com/128/2936/2936763.png",
+                link: "https://www.appcreator24.com/app3501058-ks4rfa"
+            }
+        ];
+
+        // Ads Data
+        const adsData = [
+            {
+                name: "Hausa Games",
+                description: "Play fun Hausa cultural games",
+                icon: "https://cdn-icons-png.flaticon.com/128/2997/2997973.png",
+                link: "https://www.appcreator24.com/app3501058-ks4rfa",
+                rating: "4.5"
+            },
+            {
+                name: "Hausa Dictionary",
+                description: "Learn Hausa language with ease",
+                icon: "https://cdn-icons-png.flaticon.com/128/3426/3426595.png",
+                link: "https://www.appcreator24.com/app3501058-ks4rfa",
+                rating: "4.7"
+            },
+            {
+                name: "Hausa Radio",
+                description: "Listen to Hausa radio stations",
+                icon: "https://cdn-icons-png.flaticon.com/128/2936/2936754.png",
+                link: "https://www.appcreator24.com/app3501058-ks4rfa",
+                rating: "4.3"
             }
         ];
 
