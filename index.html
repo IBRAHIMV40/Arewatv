@@ -455,6 +455,58 @@
         .grid-container .frame {
             width: 100%;
         }
+        
+        /* Filter Section for Grid View */
+        .filter-section {
+            background-color: var(--card-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .filter-dropdown {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            outline: none;
+        }
+        
+        .filter-dropdown:focus {
+            border-color: var(--primary-color);
+        }
+        
+        .filter-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .filter-button:hover {
+            background-color: #009900;
+        }
+        
         /* Navigation Modal Styles */
         .nav-container {
             display: none;
@@ -1674,12 +1726,166 @@
             <span>Apps</span>
         </div>
     </footer>
-    <!-- External JavaScript files -->
-    <script src="videos-data.js"></script>
-    <script src="series-data.js"></script>
-    <script src="profile-apps.js"></script>
-    <script src="ads-data.js"></script>
+    
     <script>
+        // Anime Videos Data
+        const animeData = [
+            {
+                id: 2001,
+                title: "Attack on Titan",
+                description: "Humanity fights for survival against giant humanoid Titans.",
+                imgUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
+                genre: "Action",
+                country: "Japan",
+                year: 2013,
+                category: "Anime",
+                type: "Series",
+                isSeries: true,
+                seasons: [
+                    {
+                        seasonNumber: 1,
+                        episodes: [
+                            { number: 1, url: "https://www.youtube.com/embed/MN4hHqWWpwU" },
+                            { number: 2, url: "https://www.youtube.com/embed/MN4hHqWWpwU" },
+                            { number: 3, url: "https://www.youtube.com/embed/MN4hHqWWpwU" }
+                        ]
+                    },
+                    {
+                        seasonNumber: 2,
+                        episodes: [
+                            { number: 1, url: "https://www.youtube.com/embed/MN4hHqWWpwU" },
+                            { number: 2, url: "https://www.youtube.com/embed/MN4hHqWWpwU" }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 2002,
+                title: "My Hero Academia",
+                description: "A boy without powers in a super-powered world strives to become a hero.",
+                imgUrl: "https://images.unsplash.com/photo-1581091226835-a9a0a7174fc7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
+                genre: "Action",
+                country: "Japan",
+                year: 2016,
+                category: "Anime",
+                type: "Series",
+                isSeries: true,
+                seasons: [
+                    {
+                        seasonNumber: 1,
+                        episodes: [
+                            { number: 1, url: "https://www.youtube.com/embed/MN4hHqWWpwU" },
+                            { number: 2, url: "https://www.youtube.com/embed/MN4hHqWWpwU" }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 2003,
+                title: "Demon Slayer",
+                description: "A young boy becomes a demon slayer to avenge his family and cure his sister.",
+                imgUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
+                genre: "Action",
+                country: "Japan",
+                year: 2019,
+                category: "Anime",
+                type: "Movie"
+            },
+            {
+                id: 2004,
+                title: "One Piece",
+                description: "Follow Monkey D. Luffy and his pirate crew in search of the greatest treasure.",
+                imgUrl: "https://images.unsplash.com/photo-1581091226835-a9a0a7174fc7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
+                genre: "Adventure",
+                country: "Japan",
+                year: 1999,
+                category: "Anime",
+                type: "Series",
+                isSeries: true,
+                seasons: [
+                    {
+                        seasonNumber: 1,
+                        episodes: [
+                            { number: 1, url: "https://www.youtube.com/embed/MN4hHqWWpwU" },
+                            { number: 2, url: "https://www.youtube.com/embed/MN4hHqWWpwU" }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 2005,
+                title: "Naruto",
+                description: "A young ninja seeks recognition from his peers and dreams of becoming the village leader.",
+                imgUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
+                genre: "Action",
+                country: "Japan",
+                year: 2002,
+                category: "Anime",
+                type: "Series",
+                isSeries: true,
+                seasons: [
+                    {
+                        seasonNumber: 1,
+                        episodes: [
+                            { number: 1, url: "https://www.youtube.com/embed/MN4hHqWWpwU" },
+                            { number: 2, url: "https://www.youtube.com/embed/MN4hHqWWpwU" }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 2006,
+                title: "Death Note",
+                description: "A high school student discovers a supernatural notebook that grants him the power to kill anyone.",
+                imgUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
+                genre: "Thriller",
+                country: "Japan",
+                year: 2006,
+                category: "Anime",
+                type: "Series",
+                isSeries: true,
+                seasons: [
+                    {
+                        seasonNumber: 1,
+                        episodes: [
+                            { number: 1, url: "https://www.youtube.com/embed/MN4hHqWWpwU" },
+                            { number: 2, url: "https://www.youtube.com/embed/MN4hHqWWpwU" }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 2007,
+                title: "Spirited Away",
+                description: "A young girl enters a world ruled by gods and witches.",
+                imgUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
+                genre: "Fantasy",
+                country: "Japan",
+                year: 2001,
+                category: "Anime",
+                type: "Movie"
+            },
+            {
+                id: 2008,
+                title: "Your Name",
+                description: "Two teenagers share a profound connection when they discover they are swapping bodies.",
+                imgUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
+                genre: "Romance",
+                country: "Japan",
+                year: 2016,
+                category: "Anime",
+                type: "Movie"
+            }
+        ];
+
         // Initialize saved movies from localStorage
         let savedMovies = JSON.parse(localStorage.getItem('savedMovies')) || [];
         
@@ -1689,8 +1895,8 @@
             avatar: null
         };
         
-        // Combine videos and series data and shuffle
-        const combinedData = [...videosData, ...seriesData];
+        // Combine videos, series, and anime data and shuffle
+        const combinedData = [...videosData, ...seriesData, ...animeData];
         const data = shuffleArray(combinedData);
         
         // Track if we're currently in the video modal
@@ -1710,6 +1916,9 @@
         
         // Track current active navigation item
         let currentActiveNav = 'Discover';
+        
+        // Track current grid data for filtering
+        let currentGridData = [];
         
         const logosData = [
             { imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIlQrAhJwP4oyweBiy8rHJngSeN7E2_gNWQjtqKDOiRQ&s", videoUrl: "https://darulfikr.com/" },
@@ -2001,6 +2210,8 @@
             history.pushState({ gridView: true }, '');
             
             const trendingData = data.filter(item => item.trending); // Filter trending videos
+            currentGridData = trendingData; // Set current grid data for filtering
+            
             const gridContainer = document.getElementById('grid-container');
             gridContainer.innerHTML = '';
             gridContainer.scrollTop = 0; // Reset grid container scroll
@@ -2009,6 +2220,10 @@
             document.getElementById('discover-container').style.display = 'none';
             document.getElementById('categories-container').style.display = 'none';
             gridContainer.style.display = 'grid';
+            
+            // Add filter section
+            const filterSection = createFilterSection();
+            gridContainer.insertBefore(filterSection, gridContainer.firstChild);
             
             // Add trending videos to the grid
             if (trendingData.length > 0) {
@@ -2060,6 +2275,8 @@
             history.pushState({ gridView: true }, '');
             
             const homeData = data; // Use the entire data array for home videos
+            currentGridData = homeData; // Set current grid data for filtering
+            
             const gridContainer = document.getElementById('grid-container');
             gridContainer.innerHTML = '';
             gridContainer.scrollTop = 0; // Reset grid container scroll
@@ -2068,6 +2285,10 @@
             document.getElementById('discover-container').style.display = 'none';
             document.getElementById('categories-container').style.display = 'none';
             gridContainer.style.display = 'grid';
+            
+            // Add filter section
+            const filterSection = createFilterSection();
+            gridContainer.insertBefore(filterSection, gridContainer.firstChild);
             
             // Add home videos to the grid
             if (homeData.length > 0) {
@@ -2134,6 +2355,122 @@
             
             // Update the active state of the bottom navigation bar
             updateBottomNavActive('Discover');
+        };
+        
+        // Function to create filter section
+        const createFilterSection = () => {
+            const filterSection = document.createElement('div');
+            filterSection.className = 'filter-section';
+            
+            // Get unique genres, countries, and years from currentGridData
+            const genres = [...new Set(currentGridData.map(item => item.genre).filter(Boolean))];
+            const countries = [...new Set(currentGridData.map(item => item.country).filter(Boolean))];
+            const years = [...new Set(currentGridData.map(item => item.year).filter(Boolean))].sort((a, b) => b - a);
+            
+            // Create genre dropdown
+            const genreDropdown = document.createElement('select');
+            genreDropdown.className = 'filter-dropdown';
+            genreDropdown.id = 'genre-filter';
+            
+            const genreDefault = document.createElement('option');
+            genreDefault.value = '';
+            genreDefault.textContent = 'All Genres';
+            genreDropdown.appendChild(genreDefault);
+            
+            genres.forEach(genre => {
+                const option = document.createElement('option');
+                option.value = genre;
+                option.textContent = genre;
+                genreDropdown.appendChild(option);
+            });
+            
+            // Create country dropdown
+            const countryDropdown = document.createElement('select');
+            countryDropdown.className = 'filter-dropdown';
+            countryDropdown.id = 'country-filter';
+            
+            const countryDefault = document.createElement('option');
+            countryDefault.value = '';
+            countryDefault.textContent = 'All Countries';
+            countryDropdown.appendChild(countryDefault);
+            
+            countries.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country;
+                option.textContent = country;
+                countryDropdown.appendChild(option);
+            });
+            
+            // Create year dropdown
+            const yearDropdown = document.createElement('select');
+            yearDropdown.className = 'filter-dropdown';
+            yearDropdown.id = 'year-filter';
+            
+            const yearDefault = document.createElement('option');
+            yearDefault.value = '';
+            yearDefault.textContent = 'All Years';
+            yearDropdown.appendChild(yearDefault);
+            
+            years.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearDropdown.appendChild(option);
+            });
+            
+            // Create filter button
+            const filterButton = document.createElement('button');
+            filterButton.className = 'filter-button';
+            filterButton.innerHTML = '<i class="fas fa-filter"></i> Apply';
+            filterButton.onclick = applyGridFilters;
+            
+            // Add elements to filter section
+            filterSection.appendChild(genreDropdown);
+            filterSection.appendChild(countryDropdown);
+            filterSection.appendChild(yearDropdown);
+            filterSection.appendChild(filterButton);
+            
+            return filterSection;
+        };
+        
+        // Function to apply grid filters
+        const applyGridFilters = () => {
+            const genreValue = document.getElementById('genre-filter').value;
+            const countryValue = document.getElementById('country-filter').value;
+            const yearValue = document.getElementById('year-filter').value;
+            
+            let filteredData = currentGridData;
+            
+            if (genreValue) {
+                filteredData = filteredData.filter(item => item.genre === genreValue);
+            }
+            
+            if (countryValue) {
+                filteredData = filteredData.filter(item => item.country === countryValue);
+            }
+            
+            if (yearValue) {
+                filteredData = filteredData.filter(item => item.year == yearValue);
+            }
+            
+            // Update the grid with filtered data
+            const gridContainer = document.getElementById('grid-container');
+            
+            // Remove existing frames but keep the filter section
+            const filterSection = gridContainer.querySelector('.filter-section');
+            gridContainer.innerHTML = '';
+            if (filterSection) {
+                gridContainer.appendChild(filterSection);
+            }
+            
+            if (filteredData.length > 0) {
+                filteredData.forEach(item => {
+                    const frame = createFrame(item);
+                    gridContainer.appendChild(frame);
+                });
+            } else {
+                showNotification('No movies found with the selected filters.', 'warning');
+            }
         };
         
         const createProfileItem = (item) => {
@@ -2246,7 +2583,6 @@
         // Track current movie in modal
         let currentMovieInModal = null;
         
-        // Modified openVideoNav function to handle YouTube autoplay with sound
         const openVideoNav = (videoUrl, videoId, item) => {
             // Display the video navigation modal
             document.getElementById('video-nav').style.display = 'flex';
@@ -2382,7 +2718,7 @@
             addToHistory(videoId);
         };
         
-        // Modified goToSeason function to handle YouTube URLs
+        // Function to go to a specific season
         const goToSeason = (seasonIndex) => {
             if (!currentMovieInModal || !currentMovieInModal.isSeries || !currentMovieInModal.seasons) return;
             
@@ -2577,6 +2913,8 @@
             history.pushState({ gridView: true }, '');
             
             const categoryData = data.filter(item => item.category === category);
+            currentGridData = categoryData; // Set current grid data for filtering
+            
             const gridContainer = document.getElementById('grid-container');
             gridContainer.innerHTML = '';
             gridContainer.scrollTop = 0; // Reset grid container scroll
@@ -2585,6 +2923,10 @@
             document.getElementById('discover-container').style.display = 'none';
             document.getElementById('categories-container').style.display = 'none';
             gridContainer.style.display = 'grid';
+            
+            // Add filter section
+            const filterSection = createFilterSection();
+            gridContainer.insertBefore(filterSection, gridContainer.firstChild);
             
             // Add videos to the grid
             categoryData.forEach(item => {
@@ -2603,6 +2945,8 @@
             
             const searchTerm = document.getElementById('search-bar').value.toLowerCase();
             const filteredData = data.filter(item => item.title.toLowerCase().includes(searchTerm));
+            currentGridData = filteredData; // Set current grid data for filtering
+            
             const gridContainer = document.getElementById('grid-container');
             gridContainer.innerHTML = '';
             gridContainer.scrollTop = 0; // Reset grid container scroll
@@ -2611,6 +2955,10 @@
             document.getElementById('discover-container').style.display = 'none';
             document.getElementById('categories-container').style.display = 'none';
             gridContainer.style.display = 'grid';
+            
+            // Add filter section
+            const filterSection = createFilterSection();
+            gridContainer.insertBefore(filterSection, gridContainer.firstChild);
             
             // Add search results to the grid
             if (filteredData.length > 0) {
