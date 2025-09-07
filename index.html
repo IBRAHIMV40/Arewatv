@@ -1712,23 +1712,23 @@
     </div>
     <!-- Bottom Navigation Bar -->
     <footer>
-        <div class="nav-icon" onclick="showHomeVideos()">
+        <div class="nav-icon" onclick="showHomeVideos(); updateBottomNavActive('Movies');">
             <i class="fas fa-film"></i>
             <span>Movies</span>
         </div>
-        <div class="nav-icon active" onclick="showDiscoverSection()">
+        <div class="nav-icon active" onclick="showDiscoverSection(); updateBottomNavActive('Discover');">
             <i class="fas fa-compass"></i>
             <span>Discover</span>
         </div>
-        <div class="nav-icon" onclick="showTrendingVideos()">
+        <div class="nav-icon" onclick="showTrendingVideos(); updateBottomNavActive('Trending');">
             <i class="fas fa-fire"></i>
             <span>Trending</span>
         </div>
-        <div class="nav-icon" onclick="showMyList()">
+        <div class="nav-icon" onclick="showMyList(); updateBottomNavActive('My List');">
             <i class="fas fa-list"></i>
             <span>My List</span>
         </div>
-        <div class="nav-icon" onclick="showProfileSection()">
+        <div class="nav-icon" onclick="showProfileSection(); updateBottomNavActive('Apps');">
             <i class="fab fa-app-store"></i>
             <span>Apps</span>
         </div>
@@ -2083,9 +2083,6 @@
             } else {
                 showNotification('No trending movies found.', 'warning');
             }
-            
-            // Update the active state of the bottom navigation bar
-            updateBottomNavActive('Trending');
         };
         
         const showProfileSection = () => {
@@ -2110,9 +2107,6 @@
                 const profileItem = createProfileItem(item);
                 gridContainer.appendChild(profileItem);
             });
-            
-            // Update the active state of the bottom navigation bar
-            updateBottomNavActive('Apps');
         };
         
         const showHomeVideos = () => {
@@ -2148,9 +2142,6 @@
             } else {
                 showNotification('No movies found.', 'warning');
             }
-            
-            // Update the active state of the bottom navigation bar
-            updateBottomNavActive('Movies');
         };
         
         const showMyList = () => {
@@ -2181,9 +2172,6 @@
             } else {
                 showNotification('No saved movies found. Save some movies to see them here.', 'warning');
             }
-            
-            // Update the active state of the bottom navigation bar
-            updateBottomNavActive('My List');
         };
         
         // Function to show the Discover section with carousel
@@ -2201,9 +2189,6 @@
             
             // Hide grid container
             document.getElementById('grid-container').style.display = 'none';
-            
-            // Update the active state of the bottom navigation bar
-            updateBottomNavActive('Discover');
         };
         
         // Function to create filter section
@@ -3272,6 +3257,9 @@
                 document.querySelectorAll('footer .nav-icon')[4].classList.add('active');
                 currentActiveNav = 'Apps';
             }
+            
+            // Push state to history when bottom nav is clicked
+            history.pushState({ bottomNav: activeSection }, '');
         };
         
         // Initialize all new features when the page loads
@@ -3339,6 +3327,17 @@
                 else if (inSidebarModal) {
                     document.getElementById('sidebar-modal').classList.remove('open');
                     inSidebarModal = false;
+                }
+                // Handle bottom navigation - if we have a bottomNav state, use it
+                else if (event.state && event.state.bottomNav) {
+                    // Show discover section when back is pressed
+                    showDiscoverSection();
+                    updateBottomNavActive('Discover');
+                }
+                // Default to discover if no specific state
+                else {
+                    showDiscoverSection();
+                    updateBottomNavActive('Discover');
                 }
             });
         });
