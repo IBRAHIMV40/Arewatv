@@ -20,6 +20,15 @@
             --gradient-1: linear-gradient(to right, #004d00, #00b300);
         }
         
+        /* Hide all scrollbars globally */
+        * {
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE and Edge */
+        }
+        *::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Edge */
+        }
+        
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -195,7 +204,7 @@
             background-color: #00b300;
         }
         
-        /* Carousel Styles */
+        /* Carousel Styles - Updated to match screenshot */
         .carousel-container {
             width: 100%;
             max-width: 600px;
@@ -203,7 +212,7 @@
             position: relative;
             border-radius: 10px;
             touch-action: pan-y;
-            height: 480px; /* Fixed height */
+            height: 320px; /* Fixed height */
             margin: 0 auto 15px; /* Centered with margin */
             z-index: 10;
         }
@@ -236,17 +245,24 @@
         }
         .video-title {
             position: absolute;
-            bottom: 30px;
+            bottom: 70px;
             left: 15px;
-            font-size: 18px;
+            font-size: 22px;
             font-weight: bold;
             color: white;
+        }
+        .video-info {
+            position: absolute;
+            bottom: 45px;
+            left: 15px;
+            font-size: 14px;
+            color: #ccc;
         }
         .download-btn {
             position: absolute;
             bottom: 20px;
             right: 15px;
-            background-color: rgba(30, 30, 30, 0.1);
+            background-color: #00b300;
             color: white;
             font-size: 14px;
             padding: 8px 12px;
@@ -259,7 +275,7 @@
         }
         .download-btn img {
             width: 20px;
-            height: 28px;
+            height: 20px;
         }
         .dots {
             position: absolute;
@@ -281,31 +297,52 @@
             background-color: white;
         }
         
+        /* Categories Section - New section based on screenshot */
+        .categories-section {
+            margin-top: 15px;
+            padding: 0 15px;
+        }
+        .categories-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .categories-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding-bottom: 10px;
+        }
+        .category-btn {
+            flex: 0 0 auto;
+            padding: 8px 16px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            color: var(--text-color);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .category-btn.active {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        .category-btn:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
         /* Discover Section */
         .discover-container {
             margin-top: 38px;
             padding: 8px;
-        }
-        .discover-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 15px;
         }
         .discover-scroll {
             display: flex;
             overflow-x: auto;
             gap: 8px;
             padding-bottom: 10px;
-        }
-        .discover-scroll::-webkit-scrollbar {
-            height: 0px;
-        }
-        .discover-scroll::-webkit-scrollbar-thumb {
-            background-color: #888;
-            border-radius: 4px;
-        }
-        .discover-scroll::-webkit-scrollbar-track {
-            background-color: #f1f1f1;
         }
         .discover-item {
             flex: 0 0 auto;
@@ -332,6 +369,10 @@
             font-size: 0.60rem;
             margin: 0;
             color: var(--text-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
         }
         .discover-item .content p {
             font-size: 0px;
@@ -372,16 +413,6 @@
             gap: 4px;
             padding-bottom: 10px;
         }
-        .category-scroll::-webkit-scrollbar {
-            height: 0px;
-        }
-        .category-scroll::-webkit-scrollbar-thumb {
-            background-color: #888;
-            border-radius: 4px;
-        }
-        .category-scroll::-webkit-scrollbar-track {
-            background-color: #f1f1f1;
-        }
         
         .frame {
             flex: 0 0 auto;
@@ -406,6 +437,10 @@
             color: var(--text-color);
             text-align: center;
             margin-top: 0px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
         }
         /* Grid Layout for View All and Search Results */
         .grid-container {
@@ -427,7 +462,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 91%;
+            height:  90%;
             background-color: rgba(0, 0, 0, 0.7);
             z-index: 2000;
             justify-content: center;
@@ -457,7 +492,7 @@
             background: none;
             border: none;
             color: #fff;
-            font-size: 20px;
+            font-size: 16px;
             border: 1px solid #333;
             border-radius: 50px;
             cursor: pointer;
@@ -465,7 +500,7 @@
             margin: 0 5px;
         }
         .nav-header button:hover {
-            color: #007bff;
+            color: #fff;
         }
         .save-btn {
             background-color: #00b300;
@@ -512,7 +547,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            color: var(--card-bg);
+            color: white;
         }
         .episode-count {
             font-size: 16px;
@@ -524,19 +559,6 @@
             overflow-x: auto;
             padding: 15px 20px;
             gap: 15px;
-            scrollbar-width: thin;
-            scrollbar-color: var(--primary-color) #f0f0f0;
-        }
-        .episode-scroller::-webkit-scrollbar {
-            height: 0px;
-        }
-        .episode-scroller::-webkit-scrollbar-track {
-            background: var(--card-bg);
-            border-radius: 3px;
-        }
-        .episode-scroller::-webkit-scrollbar-thumb {
-            background: var(--primary-color);
-            border-radius: 3px;
         }
         .episode-btn {
             flex: 0 0 auto;
@@ -845,16 +867,6 @@
             gap: 10px;
             padding-bottom: 10px;
         }
-        .logos-scroll::-webkit-scrollbar {
-            height: 8px;
-        }
-        .logos-scroll::-webkit-scrollbar-thumb {
-            background-color: #888;
-            border-radius: 4px;
-        }
-        .logos-scroll::-webkit-scrollbar-track {
-            background-color: #f1f1f1;
-        }
         .logo-item {
             flex: 0 0 auto;
             width: 100px;
@@ -948,62 +960,6 @@
         }
         .profile-item button:hover {
             background-color: #008000;
-        }
-        /* Partners Section */
-        .partners-container {
-            margin-top: 15px;
-            padding: 10px;
-        }
-        .partners-title {
-            font-size: 18px;
-            text-align: left;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-        .partners-scroll {
-            display: flex;
-            overflow-x: auto;
-            gap: 10px;
-            padding-bottom: 10px;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            white-space: nowrap;
-        }
-        .partners-scroll::-webkit-scrollbar {
-            height: 0px;
-        }
-        .partners-scroll::-webkit-scrollbar-thumb {
-            background-color: #ddd;
-            border-radius: 4px;
-        }
-        .partners-scroll::-webkit-scrollbar-track {
-            background-color: #f1f1f1;
-        }
-        .partner-item {
-            flex: 0 0 auto;
-            width: 120px;
-            text-align: center;
-            cursor: pointer;
-            scroll-snap-align: start;
-        }
-        .partner-item img {
-            width: 120px;
-            height: 160px;
-            object-fit: cover;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
-        }
-        .partner-item:hover img {
-            transform: scale(1.1);
-        }
-        .partner-title {
-            font-size: 14px;
-            margin-top: 5px;
-            color: #333;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
         
         /* New styles for added features */
@@ -1214,7 +1170,7 @@
         /* Video player controls */
         .player-controls {
             position: absolute;
-            bottom: 10px;
+            bottom: 0px;
             left: 0;
             right: 0;
             display: flex;
@@ -1226,8 +1182,8 @@
         .player-controls button {
             background: none;
             border: none;
-            color: white;
-            font-size: 18px;
+            color: #;
+            font-size: 0px;
             cursor: pointer;
         }
         .player-timeline {
@@ -1280,12 +1236,12 @@
         .edit-profile-header h3 {
             font-size: 18px;
             margin: 0;
-            color: #333;
+            color: #333';
         }
         .edit-profile-header button {
             background: none;
             border: none;
-            color: #333;
+            color: #333';
             font-size: 16px;
             cursor: pointer;
         }
@@ -1318,7 +1274,7 @@
             display: block;
             margin-bottom: 5px;
             font-size: 14px;
-            color: #333;
+            color: #333';
         }
         .form-group input {
             width: 100%;
@@ -1452,14 +1408,14 @@
             <button onclick="toggleFilterModal()">✖</button>
         </div>
         <div class="filter-section">
-            <h4>Category</h4>
+            <h4>Genre</h4>
             <div class="filter-options">
-                <div class="filter-option active" data-category="All">All</div>
-                <div class="filter-option" data-category="Action">Action</div>
-                <div class="filter-option" data-category="Drama">Drama</div>
-                <div class="filter-option" data-category="Comedy">Comedy</div>
-                <div class="filter-option" data-category="Romance">Romance</div>
-                <div class="filter-option" data-category="Thriller">Thriller</div>
+                <div class="filter-option active" data-genre="All">All</div>
+                <div class="filter-option" data-genre="Action">Action</div>
+                <div class="filter-option" data-genre="Drama">Drama</div>
+                <div class="filter-option" data-genre="Comedy">Comedy</div>
+                <div class="filter-option" data-genre="Romance">Romance</div>
+                <div class="filter-option" data-genre="Thriller">Thriller</div>
             </div>
         </div>
         <div class="filter-section">
@@ -1596,12 +1552,27 @@
     </div>
     <!-- Discover Section -->
     <div class="discover-container" id="discover-container">
-        <div class="discover-title"></div>
         <!-- Carousel Section - Now inside discover section -->
         <div class="carousel-container">
             <div class="carousel" id="carousel"></div>
             <div class="dots" id="dots"></div>
         </div>
+        
+        <!-- Categories Section - New section based on screenshot -->
+        <div class="categories-section">
+            <div class="categories-title">Categories</div>
+            <div class="categories-scroll" id="categories-scroll">
+                <div class="category-btn active" data-category="All">All</div>
+                <div class="category-btn" data-category="Hollywood">Hollywood</div>
+                <div class="category-btn" data-category="Nollywood">Nollywood</div>
+                <div class="category-btn" data-category="Bollywood">Bollywood</div>
+                <div class="category-btn" data-category="Kannywood">Kannywood</div>
+                <div class="category-btn" data-category="Action">Action</div>
+                <div class="category-btn" data-category="Drama">Drama</div>
+                <div class="category-btn" data-category="Comedy">Comedy</div>
+            </div>
+        </div>
+        
         <div class="discover-scroll" id="discover-scroll"></div>
     </div>        
     <!-- Categories Section -->
@@ -1616,7 +1587,7 @@
                 <div>
                     <button id="share-btn" onclick="shareMovie()"><i class="fas fa-share-alt"></i> Share</button>
                     <button id="download-btn" onclick="downloadMovie()"><i class="fas fa-download"></i></button>
-                    <button id="save-btn" class="save-btn" onclick="toggleSaveStatus()">Save</button>
+                    <button id="save-btn" class="save-btn" onclick="toggleSaveStatus()">Add to list</button>
                 </div>
             </div>
             <div class="nav-body">
@@ -1650,12 +1621,6 @@
     </div>
     <a href="#" id="installButton" class="install-button" target="_blank">Install</a>
   </div>
-    </div>
-    
-    <!-- Partners Section -->
-    <div class="partners-container">
-        <div class="partners-title">New Releases!</div>
-        <div class="partners-scroll" id="partners-scroll"></div>
     </div>
     
     <!-- Social Media Descriptions -->
@@ -1692,7 +1657,7 @@
             <i class="fas fa-film"></i>
             <span>Movies</span>
         </div>
-        <div class="nav-icon" onclick="showDiscoverAndCategories()">
+        <div class="nav-icon active" onclick="showDiscoverSection()">
             <i class="fas fa-compass"></i>
             <span>Discover</span>
         </div>
@@ -1709,7 +1674,6 @@
             <span>Apps</span>
         </div>
     </footer>
-
     <!-- External JavaScript files -->
     <script src="videos-data.js"></script>
     <script src="series-data.js"></script>
@@ -1725,8 +1689,9 @@
             avatar: null
         };
         
-        // Combine videos and series data
-        const data = [...videosData, ...seriesData];
+        // Combine videos and series data and shuffle
+        const combinedData = [...videosData, ...seriesData];
+        const data = shuffleArray(combinedData);
         
         // Track if we're currently in the video modal
         let inVideoModal = false;
@@ -1742,6 +1707,9 @@
         
         // Track if we're currently in the sidebar modal
         let inSidebarModal = false;
+        
+        // Track current active navigation item
+        let currentActiveNav = 'Discover';
         
         const logosData = [
             { imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIlQrAhJwP4oyweBiy8rHJngSeN7E2_gNWQjtqKDOiRQ&s", videoUrl: "https://darulfikr.com/" },
@@ -1900,7 +1868,7 @@
             return shuffled;
         }
         
-        // Create carousel using the data array
+        // Create carousel using the data array - Updated to match screenshot
         const createCarousel = () => {
             const carousel = document.getElementById("carousel");
             const dotsContainer = document.getElementById("dots");
@@ -1908,16 +1876,23 @@
             dotsContainer.innerHTML = '';
             
             // Shuffle the data array and take first 5 items for carousel
-            const shuffledData = shuffleArray(data);
-            const carouselData = shuffledData.slice(0, 5);
+            const carouselData = data.slice(0, 5);
             
             carouselData.forEach((item, index) => {
                 const slide = document.createElement("div");
                 slide.className = "slide";
+                
+                // Format tags for display
+                const tagsDisplay = item.tags ? item.tags.join(" • ") : "";
+                
                 slide.innerHTML = `
-                    <img src="${item.imgUrl}" alt="${item.title}">
+                    <img src="${item.carouselCover || item.imgUrl}" alt="${item.title}">
                     <div class="overlay"></div>
                     <div class="video-title">${item.title}</div>
+                    <div class="video-info">${item.type || 'Movie'} | ${item.year || '2025'} | ${tagsDisplay}</div>
+                    <button class="download-btn">
+                        <i class="fas fa-download"></i> Download
+                    </button>
                 `;
                 
                 // Add click event to open modal
@@ -1938,15 +1913,12 @@
             discoverScroll.innerHTML = '';
             
             // Shuffle the data array for discover section
-            const shuffledData = shuffleArray(data);
-            
-            // Select the first 500000 videos for the Discover section
-            const discoverData = shuffledData.slice(0, 500000);
+            const discoverData = data.slice(0, 20);
             discoverData.forEach(item => {
                 const discoverItem = document.createElement('div');
                 discoverItem.className = 'discover-item';
                 const img = document.createElement('img');
-                img.src = item.imgUrl;
+                img.src = item.imgUrl; // Use movie cover for discover section
                 img.alt = item.title;
                 const content = document.createElement('div');
                 content.className = 'content';
@@ -1994,16 +1966,32 @@
                 container.appendChild(categoryContainer);
             });
         };
-        const showDiscoverAndCategories = () => {
+        
+        // Function to show all videos in grid layout
+        const showAllVideosGrid = () => {
             // Reset scroll position
             window.scrollTo(0, 0);
             
+            // Set flag and push state for grid view
+            inGridView = true;
+            history.pushState({ gridView: true }, '');
+            
             const gridContainer = document.getElementById('grid-container');
-            gridContainer.style.display = 'none'; // Hide grid layout
-            // Show Discover and Categories sections
-            document.getElementById('discover-container').style.display = 'block';
-            document.getElementById('categories-container').style.display = 'block';
+            gridContainer.innerHTML = '';
+            gridContainer.scrollTop = 0; // Reset grid container scroll
+            
+            // Hide other sections
+            document.getElementById('discover-container').style.display = 'none';
+            document.getElementById('categories-container').style.display = 'none';
+            gridContainer.style.display = 'grid';
+            
+            // Add all videos to the grid
+            data.forEach(item => {
+                const frame = createFrame(item);
+                gridContainer.appendChild(frame);
+            });
         };
+        
         const showTrendingVideos = () => {
             // Reset scroll position
             window.scrollTo(0, 0);
@@ -2022,19 +2010,6 @@
             document.getElementById('categories-container').style.display = 'none';
             gridContainer.style.display = 'grid';
             
-            // Add a back button
-            const backButton = document.createElement('button');
-            backButton.textContent = 'Back to Categories';
-            backButton.style.marginBottom = '10px';
-            backButton.style.padding = '10px';
-            backButton.style.backgroundColor = '#ddd';
-            backButton.style.color = '#333';
-            backButton.style.border = 'none';
-            backButton.style.borderRadius = '5px';
-            backButton.style.cursor = 'pointer';
-            backButton.onclick = () => history.back();
-            gridContainer.appendChild(backButton);
-            
             // Add trending videos to the grid
             if (trendingData.length > 0) {
                 trendingData.forEach(item => {
@@ -2044,7 +2019,11 @@
             } else {
                 showNotification('No trending movies found.', 'warning');
             }
+            
+            // Update the active state of the bottom navigation bar
+            updateBottomNavActive('Trending');
         };
+        
         const showProfileSection = () => {
             // Reset scroll position
             window.scrollTo(0, 0);
@@ -2062,25 +2041,16 @@
             document.getElementById('categories-container').style.display = 'none';
             gridContainer.style.display = 'block'; // Use block for list layout
             
-            // Add a back button
-            const backButton = document.createElement('button');
-            backButton.textContent = 'Back to Categories';
-            backButton.style.marginBottom = '10px';
-            backButton.style.padding = '10px';
-            backButton.style.backgroundColor = '#ddd';
-            backButton.style.color = '#333';
-            backButton.style.border = 'none';
-            backButton.style.borderRadius = '5px';
-            backButton.style.cursor = 'pointer';
-            backButton.onclick = () => history.back();
-            gridContainer.appendChild(backButton);
-            
             // Add profile content using profileApps data
             profileApps.forEach(item => {
                 const profileItem = createProfileItem(item);
                 gridContainer.appendChild(profileItem);
             });
+            
+            // Update the active state of the bottom navigation bar
+            updateBottomNavActive('Apps');
         };
+        
         const showHomeVideos = () => {
             // Reset scroll position
             window.scrollTo(0, 0);
@@ -2099,19 +2069,6 @@
             document.getElementById('categories-container').style.display = 'none';
             gridContainer.style.display = 'grid';
             
-            // Add a back button
-            const backButton = document.createElement('button');
-            backButton.textContent = 'Back to Categories';
-            backButton.style.marginBottom = '10px';
-            backButton.style.padding = '10px';
-            backButton.style.backgroundColor = '#ddd';
-            backButton.style.color = '#333';
-            backButton.style.border = 'none';
-            backButton.style.borderRadius = '5px';
-            backButton.style.cursor = 'pointer';
-            backButton.onclick = () => history.back();
-            gridContainer.appendChild(backButton);
-            
             // Add home videos to the grid
             if (homeData.length > 0) {
                 homeData.forEach(item => {
@@ -2121,7 +2078,11 @@
             } else {
                 showNotification('No movies found.', 'warning');
             }
+            
+            // Update the active state of the bottom navigation bar
+            updateBottomNavActive('Movies');
         };
+        
         const showMyList = () => {
             // Reset scroll position
             window.scrollTo(0, 0);
@@ -2139,19 +2100,6 @@
             document.getElementById('categories-container').style.display = 'none';
             gridContainer.style.display = 'block'; // Use block for list layout
             
-            // Add a back button
-            const backButton = document.createElement('button');
-            backButton.textContent = 'Back to Categories';
-            backButton.style.marginBottom = '10px';
-            backButton.style.padding = '10px';
-            backButton.style.backgroundColor = '#ddd';
-            backButton.style.color = '#333';
-            backButton.style.border = 'none';
-            backButton.style.borderRadius = '5px';
-            backButton.style.cursor = 'pointer';
-            backButton.onclick = () => history.back();
-            gridContainer.appendChild(backButton);
-            
             // Get saved movies from localStorage
             const savedMoviesData = data.filter(item => savedMovies.includes(item.title));
             
@@ -2163,7 +2111,31 @@
             } else {
                 showNotification('No saved movies found. Save some movies to see them here.', 'warning');
             }
+            
+            // Update the active state of the bottom navigation bar
+            updateBottomNavActive('My List');
         };
+        
+        // Function to show the Discover section with carousel
+        const showDiscoverSection = () => {
+            // Reset scroll position
+            window.scrollTo(0, 0);
+            
+            // Set flag and push state for discover view
+            inGridView = false;
+            history.pushState({ gridView: false, discoverView: true }, '');
+            
+            // Show discover and categories containers
+            document.getElementById('discover-container').style.display = 'block';
+            document.getElementById('categories-container').style.display = 'block';
+            
+            // Hide grid container
+            document.getElementById('grid-container').style.display = 'none';
+            
+            // Update the active state of the bottom navigation bar
+            updateBottomNavActive('Discover');
+        };
+        
         const createProfileItem = (item) => {
             const profileItem = document.createElement('div');
             profileItem.className = 'profile-item';
@@ -2207,11 +2179,12 @@
             profileItem.appendChild(openButton);
             return profileItem;
         };
+        
         const createFrame = (item) => {
             const frame = document.createElement('div');
             frame.className = 'frame';
             const img = document.createElement('img');
-            img.src = item.imgUrl;
+            img.src = item.imgUrl; // Use movie cover for frame
             img.alt = item.title;
             const content = document.createElement('div');
             content.className = 'content';
@@ -2226,6 +2199,7 @@
             frame.appendChild(content);
             return frame;
         };
+        
         const createUnlockedListItem = (item) => {
             const listItem = document.createElement('div');
             listItem.className = 'unlocked-item';
@@ -2237,7 +2211,7 @@
             listItem.style.cursor = 'pointer';
             
             const img = document.createElement('img');
-            img.src = item.imgUrl;
+            img.src = item.imgUrl; // Use movie cover for list item
             img.alt = item.title;
             img.style.width = '80px';
             img.style.height = '115px';
@@ -2473,10 +2447,10 @@
         const updateSaveButton = () => {
             const saveBtn = document.getElementById('save-btn');
             if (currentMovieInModal && savedMovies.includes(currentMovieInModal.title)) {
-                saveBtn.textContent = 'Unsave';
+                saveBtn.textContent = 'Added';
                 saveBtn.style.backgroundColor = '#ff0000';
             } else {
-                saveBtn.textContent = 'Save';
+                saveBtn.textContent = 'Add to list';
                 saveBtn.style.backgroundColor = '#00b300';
             }
         };
@@ -2491,13 +2465,13 @@
             if (savedMovies.includes(movieTitle)) {
                 // Remove from saved list
                 savedMovies = savedMovies.filter(title => title !== movieTitle);
-                saveBtn.textContent = 'Save';
+                saveBtn.textContent = 'Add to list';
                 saveBtn.style.backgroundColor = '#00b300';
                 showNotification('Removed from My List', 'success');
             } else {
                 // Add to saved list
                 savedMovies.push(movieTitle);
-                saveBtn.textContent = 'Unsave';
+                saveBtn.textContent = 'Added';
                 saveBtn.style.backgroundColor = '#ff0000';
                 showNotification('Added to My List', 'success');
             }
@@ -2520,6 +2494,7 @@
                 updateHistoryList();
             }
         };
+        
         const updateHistoryList = () => {
             const history = JSON.parse(localStorage.getItem('videoHistory')) || [];
             const historyList = document.getElementById('history-list');
@@ -2549,11 +2524,13 @@
                 historyList.appendChild(historyItem);
             });
         };
+        
         const clearHistory = () => {
             localStorage.removeItem('videoHistory');
             updateHistoryList();
             showNotification('All history has been cleared.', 'success');
         };
+        
         const showAllVideos = (category) => {
             // Reset scroll position
             window.scrollTo(0, 0);
@@ -2572,25 +2549,13 @@
             document.getElementById('categories-container').style.display = 'none';
             gridContainer.style.display = 'grid';
             
-            // Add a back button
-            const backButton = document.createElement('button');
-            backButton.textContent = 'Back to Categories';
-            backButton.style.marginBottom = '10px';
-            backButton.style.padding = '10px';
-            backButton.style.backgroundColor = '#ddd';
-            backButton.style.color = '#333';
-            backButton.style.border = 'none';
-            backButton.style.borderRadius = '5px';
-            backButton.style.cursor = 'pointer';
-            backButton.onclick = () => history.back();
-            gridContainer.appendChild(backButton);
-            
             // Add videos to the grid
             categoryData.forEach(item => {
                 const frame = createFrame(item);
                 gridContainer.appendChild(frame);
             });
         };
+        
         const handleSearch = () => {
             // Reset scroll position
             window.scrollTo(0, 0);
@@ -2610,19 +2575,6 @@
             document.getElementById('categories-container').style.display = 'none';
             gridContainer.style.display = 'grid';
             
-            // Add a back button
-            const backButton = document.createElement('button');
-            backButton.textContent = 'Back to Categories';
-            backButton.style.marginBottom = '10px';
-            backButton.style.padding = '10px';
-            backButton.style.backgroundColor = '#ddd';
-            backButton.style.color = '#333';
-            backButton.style.border = 'none';
-            backButton.style.borderRadius = '5px';
-            backButton.style.cursor = 'pointer';
-            backButton.onclick = () => history.back();
-            gridContainer.appendChild(backButton);
-            
             // Add search results to the grid
             if (filteredData.length > 0) {
                 filteredData.forEach(item => {
@@ -2633,6 +2585,7 @@
                 showNotification('No movies found.', 'warning');
             }
         };
+        
         const showNotification = (message, type) => {
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
@@ -2757,6 +2710,68 @@
         updateHistoryList();
         initCarousel();
         
+        // Add category button click handlers
+        document.addEventListener('DOMContentLoaded', () => {
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Filter content based on selected category
+                    const selectedCategory = this.dataset.category;
+                    if (selectedCategory === 'All') {
+                        createDiscoverSection();
+                    } else {
+                        filterContentByCategory(selectedCategory);
+                    }
+                });
+            });
+        });
+        
+        // Function to filter content by category
+        const filterContentByCategory = (category) => {
+            const discoverScroll = document.getElementById('discover-scroll');
+            discoverScroll.innerHTML = '';
+            
+            // Filter data by category
+            const filteredData = data.filter(item => {
+                // Check if item matches the selected category
+                if (category === 'Hollywood') return item.category === 'Hollywood';
+                if (category === 'Nollywood') return item.category === 'Nollywood';
+                if (category === 'Bollywood') return item.category === 'Bollywood';
+                if (category === 'Kannywood') return item.category === 'Kannywood';
+                if (category === 'Action') return item.genre === 'Action';
+                if (category === 'Drama') return item.genre === 'Drama';
+                if (category === 'Comedy') return item.genre === 'Comedy';
+                return true;
+            });
+            
+            // Add filtered items to discover section
+            filteredData.forEach(item => {
+                const discoverItem = document.createElement('div');
+                discoverItem.className = 'discover-item';
+                const img = document.createElement('img');
+                img.src = item.imgUrl;
+                img.alt = item.title;
+                const content = document.createElement('div');
+                content.className = 'content';
+                content.innerHTML = `
+                    <h2>${item.title}</h2>
+                    <p>${item.description}</p>
+                `;
+                
+                // Add click event to the entire discover item
+                discoverItem.onclick = () => openVideoNav(item.videoUrl, item.title, item);
+                
+                discoverItem.appendChild(img);
+                discoverItem.appendChild(content);
+                discoverScroll.appendChild(discoverItem);
+            });
+        };
+        
         let lastScrollTop = 0;
         window.addEventListener('scroll', () => {
             const footer = document.querySelector('footer');
@@ -2774,12 +2789,14 @@
             }
             lastScrollTop = currentScrollTop;
         });
+        
         // Fixed: Changed timeout value to something more reasonable (40 seconds)
         setTimeout(() => {
             const bar = document.getElementById('notification-bar');
             bar.style.opacity = '1';
             bar.style.pointerEvents = 'auto'; // Enable interaction once visible
         }, 40000); // Show after 40 seconds
+        
         function closeNotification() {
             const bar = document.getElementById('notification-bar');
             bar.style.opacity = '0';
@@ -2788,64 +2805,6 @@
                 bar.remove(); // Fully remove from DOM
             }, 500); // Allow fade-out to complete
         }
-        
-        const partnersData = [
-            { imgUrl: "https://short-link.me/QSiT", videoUrl: "https://youtube.com/embed/3_i60BLtN_s", title: "NEW RELEASE" },
-            { imgUrl: "https://short-link.me/TsCr", videoUrl: "https://youtube.com/embed/CumW3IY1mMg", title: "BLOCKBUSTER" },
-            { imgUrl: "https://short-link.me/TsDp", videoUrl: "https://youtube.com/embed/SFtKVKoscqA", title: "PREMIERE" },
-            { imgUrl: "https://short-link.me/TsEy", videoUrl: "https://youtube.com/embed/hJzZRl1C8X0", title: "EXCLUSIVE" },
-            { imgUrl: "https://short-link.me/TsFN", videoUrl: "https://youtube.com/embed/BjkncLAZu80", title: "HOT MOVIE" },
-        ];
-        const partnersScroll = document.getElementById('partners-scroll');
-        // Function to create the partner items
-        const createPartnersSection = () => {
-            partnersScroll.innerHTML = '';
-            partnersData.forEach(partner => {
-                const partnerItem = document.createElement('div');
-                partnerItem.className = 'partner-item';
-                const img = document.createElement('img');
-                img.src = partner.imgUrl;
-                img.alt = 'Partner Logo';
-                img.loading = 'lazy';
-                const title = document.createElement('div');
-                title.className = 'partner-title';
-                title.textContent = partner.title;
-                partnerItem.appendChild(img);
-                partnerItem.appendChild(title);
-                partnersScroll.appendChild(partnerItem);
-                // Open video in a new tab when clicked
-                partnerItem.addEventListener('click', () => {
-                    window.open(partner.videoUrl, '_blank');
-                });
-            });
-        };
-        // Auto-scroll function
-        let scrollIndex = 0;
-        let autoScrollActive = true;
-        let scrollTimeout;
-        const autoScroll = () => {
-            if (!autoScrollActive) return;
-            const items = document.querySelectorAll('.partner-item');
-            if (items.length === 0) return;
-            scrollIndex = (scrollIndex + 1) % items.length;
-            const nextItem = items[scrollIndex];
-            partnersScroll.scrollTo({
-                left: nextItem.offsetLeft,
-                behavior: 'smooth'
-            });
-        };
-        // Detect manual scroll and pause auto-scrolling for 5 seconds
-        partnersScroll.addEventListener('scroll', () => {
-            autoScrollActive = false;
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                autoScrollActive = true;
-            }, 4000);
-        });
-        // Initialize the section
-        createPartnersSection();
-        // Start auto-scrolling every 10 seconds
-        setInterval(autoScroll, 1000);
         
         // New functions for added features
         
@@ -2859,23 +2818,23 @@
             history.pushState({ gridView: true }, '');
             
             // Get selected filters
-            const selectedCategory = document.querySelector('.filter-option[data-category].active')?.dataset.category || 'All';
+            const selectedGenre = document.querySelector('.filter-option[data-genre].active')?.dataset.genre || 'All';
             const selectedSort = document.querySelector('.filter-option[data-sort].active')?.dataset.sort || 'Newest';
             
             // Apply filters to data
             let filteredData = data;
             
-            if (selectedCategory !== 'All') {
-                filteredData = filteredData.filter(item => item.category === selectedCategory);
+            if (selectedGenre !== 'All') {
+                filteredData = filteredData.filter(item => item.genre === selectedGenre);
             }
             
             // Sort data
             if (selectedSort === 'Newest') {
                 filteredData.sort((a, b) => b.id - a.id);
             } else if (selectedSort === 'Popular') {
-                filteredData.sort((a, b) => b.views - a.views);
+                filteredData.sort((a, b) => (b.views || 0) - (a.views || 0));
             } else if (selectedSort === 'Rating') {
-                filteredData.sort((a, b) => b.rating - a.rating);
+                filteredData.sort((a, b) => (b.rating || 0) - (a.rating || 0));
             } else if (selectedSort === 'A-Z') {
                 filteredData.sort((a, b) => a.title.localeCompare(b.title));
             }
@@ -2888,19 +2847,6 @@
             document.getElementById('discover-container').style.display = 'none';
             document.getElementById('categories-container').style.display = 'none';
             gridContainer.style.display = 'grid';
-            
-            // Add a back button
-            const backButton = document.createElement('button');
-            backButton.textContent = 'Back to Categories';
-            backButton.style.marginBottom = '10px';
-            backButton.style.padding = '10px';
-            backButton.style.backgroundColor = '#ddd';
-            backButton.style.color = '#333';
-            backButton.style.border = 'none';
-            backButton.style.borderRadius = '5px';
-            backButton.style.cursor = 'pointer';
-            backButton.onclick = () => history.back();
-            gridContainer.appendChild(backButton);
             
             filteredData.forEach(item => {
                 const frame = createFrame(item);
@@ -2938,29 +2884,10 @@
             }
         };
         
-        // Download movie function
+        // Download movie function - updated to visit arewa.com
         const downloadMovie = () => {
-            const downloadProgress = document.getElementById('download-progress');
-            downloadProgress.classList.add('open');
-            
-            // Simulate download progress
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += 5;
-                const progressBar = downloadProgress.querySelector('.progress-fill');
-                const percentageText = downloadProgress.querySelector('.download-percentage');
-                
-                progressBar.style.width = `${progress}%`;
-                percentageText.textContent = `${progress}%`;
-                
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        downloadProgress.classList.remove('open');
-                        showNotification('Download completed!', 'success');
-                    }, 1000);
-                }
-            }, 200);
+            // Open the arewa.com link in a new tab
+            window.open('http://arewa.com', '_blank');
         };
         
         // Open Edit Profile Modal
@@ -3062,6 +2989,32 @@
             }
         };
         
+        // Function to update the active state of the bottom navigation bar
+        const updateBottomNavActive = (activeSection) => {
+            // Remove active class from all nav icons
+            document.querySelectorAll('footer .nav-icon').forEach(icon => {
+                icon.classList.remove('active');
+            });
+            
+            // Add active class to the clicked nav icon
+            if (activeSection === 'Movies') {
+                document.querySelectorAll('footer .nav-icon')[0].classList.add('active');
+                currentActiveNav = 'Movies';
+            } else if (activeSection === 'Discover') {
+                document.querySelectorAll('footer .nav-icon')[1].classList.add('active');
+                currentActiveNav = 'Discover';
+            } else if (activeSection === 'Trending') {
+                document.querySelectorAll('footer .nav-icon')[2].classList.add('active');
+                currentActiveNav = 'Trending';
+            } else if (activeSection === 'My List') {
+                document.querySelectorAll('footer .nav-icon')[3].classList.add('active');
+                currentActiveNav = 'My List';
+            } else if (activeSection === 'Apps') {
+                document.querySelectorAll('footer .nav-icon')[4].classList.add('active');
+                currentActiveNav = 'Apps';
+            }
+        };
+        
         // Initialize all new features when the page loads
         window.addEventListener('load', () => {
             // Initialize filter options
@@ -3093,6 +3046,9 @@
             // Check for video ID in URL
             checkVideoIdInUrl();
             
+            // Set Discover as active on app load
+            updateBottomNavActive('Discover');
+            
             // Add history state handling
             window.addEventListener('popstate', (event) => {
                 // Handle video modal
@@ -3102,7 +3058,13 @@
                 // Handle grid view
                 else if (inGridView) {
                     inGridView = false;
-                    showDiscoverAndCategories();
+                    // Show both discover container and categories container
+                    document.getElementById('discover-container').style.display = 'block';
+                    document.getElementById('categories-container').style.display = 'block';
+                    document.getElementById('grid-container').style.display = 'none';
+                    
+                    // Update the active state of the bottom navigation bar
+                    updateBottomNavActive(currentActiveNav);
                 }
                 // Handle filter modal
                 else if (inFilterModal) {
