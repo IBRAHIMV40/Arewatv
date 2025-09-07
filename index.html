@@ -2246,12 +2246,28 @@
         // Track current movie in modal
         let currentMovieInModal = null;
         
+        // Modified openVideoNav function to handle YouTube autoplay with sound
         const openVideoNav = (videoUrl, videoId, item) => {
             // Display the video navigation modal
             document.getElementById('video-nav').style.display = 'flex';
             
-            // Set the video URL in the iframe
-            document.getElementById('video-player').src = videoUrl;
+            // Process the video URL based on its source
+            let processedUrl = videoUrl;
+            
+            // Check if it's a YouTube embed URL
+            if (videoUrl.includes('youtube.com/embed/')) {
+                // Add autoplay=1 parameter for YouTube to autoplay with sound
+                const separator = videoUrl.includes('?') ? '&' : '?';
+                processedUrl = videoUrl + separator + 'autoplay=1&mute=0';
+            } 
+            // For Google Drive preview, ensure no autoplay parameters
+            else if (videoUrl.includes('drive.google.com/file/d/')) {
+                // Google Drive preview doesn't autoplay by default, so no changes needed
+                processedUrl = videoUrl;
+            }
+            
+            // Set the processed video URL in the iframe
+            document.getElementById('video-player').src = processedUrl;
             
             // Track current movie
             currentMovieInModal = item;
@@ -2328,8 +2344,15 @@
                         // Add active class to clicked button
                         episodeBtn.classList.add('active');
                         
+                        // Process episode URL if it's a YouTube video
+                        let episodeUrl = episode.url;
+                        if (episodeUrl.includes('youtube.com/embed/')) {
+                            const separator = episodeUrl.includes('?') ? '&' : '?';
+                            episodeUrl = episodeUrl + separator + 'autoplay=1&mute=0';
+                        }
+                        
                         // Load episode in iframe
-                        document.getElementById('video-player').src = episode.url;
+                        document.getElementById('video-player').src = episodeUrl;
                     };
                     
                     episodeScroller.appendChild(episodeBtn);
@@ -2359,7 +2382,7 @@
             addToHistory(videoId);
         };
         
-        // Function to go to a specific season
+        // Modified goToSeason function to handle YouTube URLs
         const goToSeason = (seasonIndex) => {
             if (!currentMovieInModal || !currentMovieInModal.isSeries || !currentMovieInModal.seasons) return;
             
@@ -2412,7 +2435,15 @@
                         btn.classList.remove('active');
                     });
                     episodeBtn.classList.add('active');
-                    document.getElementById('video-player').src = episode.url;
+                    
+                    // Process episode URL if it's a YouTube video
+                    let episodeUrl = episode.url;
+                    if (episodeUrl.includes('youtube.com/embed/')) {
+                        const separator = episodeUrl.includes('?') ? '&' : '?';
+                        episodeUrl = episodeUrl + separator + 'autoplay=1&mute=0';
+                    }
+                    
+                    document.getElementById('video-player').src = episodeUrl;
                 };
                 
                 episodeScroller.appendChild(episodeBtn);
@@ -2436,7 +2467,13 @@
             
             // Load the first episode of the new season
             if (currentSeason.episodes.length > 0) {
-                document.getElementById('video-player').src = currentSeason.episodes[0].url;
+                let firstEpisodeUrl = currentSeason.episodes[0].url;
+                // Process URL if it's a YouTube video
+                if (firstEpisodeUrl.includes('youtube.com/embed/')) {
+                    const separator = firstEpisodeUrl.includes('?') ? '&' : '?';
+                    firstEpisodeUrl = firstEpisodeUrl + separator + 'autoplay=1&mute=0';
+                }
+                document.getElementById('video-player').src = firstEpisodeUrl;
             }
             
             // Scroll to the beginning of the episode scroller
