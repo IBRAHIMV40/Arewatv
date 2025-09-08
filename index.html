@@ -1952,7 +1952,7 @@
                     </button>
                 `;
                 
-                // Add click event to open in localhost
+                // Add click event to open in localhost using video ID
                 slide.onclick = () => {
                     window.open(`http://localhost/video/${item.id}`, '_blank');
                 };
@@ -1986,7 +1986,7 @@
                     <p>${item.description}</p>
                 `;
                 
-                // Add click event to open in localhost
+                // Add click event to open in localhost using video ID
                 discoverItem.onclick = () => {
                     window.open(`http://localhost/video/${item.id}`, '_blank');
                 };
@@ -2345,7 +2345,7 @@
             openButton.style.border = 'none';
             openButton.style.padding = '6px 12px';
             openButton.style.borderRadius = '5px';
-            openButton.style.cursor = pointer;
+            openButton.style.cursor = 'pointer';
             openButton.style.fontSize = '14px';
             openButton.onclick = () => window.open(item.link, '_blank');
             content.appendChild(name);
@@ -2367,7 +2367,7 @@
             const title = document.createElement('h2');
             title.textContent = item.title;
             
-            // Add click event to open in localhost
+            // Add click event to open in localhost using video ID
             frame.onclick = () => {
                 window.open(`http://localhost/video/${item.id}`, '_blank');
             };
@@ -2411,7 +2411,7 @@
             description.style.fontSize = '12px';
             description.style.color = '#777';
             
-            // Add click event to open in localhost
+            // Add click event to open in localhost using video ID
             listItem.onclick = () => {
                 window.open(`http://localhost/video/${item.id}`, '_blank');
             };
@@ -2427,7 +2427,7 @@
         let currentMovieInModal = null;
         
         const openVideoNav = (videoUrl, videoId, item) => {
-            // Open the video URL in localhost
+            // Open the video URL in localhost using video ID
             window.open(`http://localhost/video/${item.id}`, '_blank');
             
             // Add the video to the history
@@ -2605,7 +2605,7 @@
                     <p>${item.description}</p>
                 `;
                 
-                // Add click event to open in localhost
+                // Add click event to open in localhost using video ID
                 historyItem.onclick = () => {
                     window.open(`http://localhost/video/${item.id}`, '_blank');
                 };
@@ -2891,7 +2891,7 @@
                     <p>${item.description}</p>
                 `;
                 
-                // Add click event to open in localhost
+                // Add click event to open in localhost using video ID
                 discoverItem.onclick = () => {
                     window.open(`http://localhost/video/${item.id}`, '_blank');
                 };
