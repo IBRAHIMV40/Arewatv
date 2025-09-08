@@ -1350,7 +1350,7 @@
     .ad-container {
         position: fixed;
         bottom: 0;
-        width: 95%;
+        width: 100%;
         background: var(--card-bg);
         border: 1px solid var(--border-color);
         box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
@@ -1597,7 +1597,7 @@
     <div class="notification-bar" id="notification-bar">
         <img src="https://bit.ly/434z6xR" alt="App Logo">
         <div class="notification-text">Enjoy more movies download Hausa Movies app.</div>
-        <button class="notification-button" onclick="window.open('http://localhost/app', '_blank')">OPEN</button>
+        <button class="notification-button" onclick="window.open('https://www.appcreator24.com/app3501058-ks4rfa', '_blank')">OPEN</button>
         <button class="close-button" onclick="closeNotification()">✖</button>
     </div>
     <!-- History Modal -->
@@ -1688,47 +1688,47 @@
     </div>
     <!-- Social Media Icons -->
     <div id="social-media">
-        <a href="http://localhost/social/facebook" target="_blank" class="social-icon">
+        <a href="https://www.facebook.com/share/1AQXgVMP49/" target="_blank" class="social-icon">
             <i class="fab fa-facebook-f"></i>
         </a>
-        <a href="http://localhost/social/twitter" target="_blank" class="social-icon">
+        <a href="#" target="_blank" class="social-icon">
             <i class="fab fa-twitter"></i>
         </a>
-        <a href="http://localhost/social/telegram" target="_blank" class="social-icon">
+        <a href="#" target="_blank" class="social-icon">
             <i class="fab fa-telegram"></i>
         </a>
-        <a href="http://localhost/social/instagram" target="_blank" class="social-icon">
+        <a href="#" target="_blank" class="social-icon">
             <i class="fab fa-instagram"></i>
         </a>
-        <a href="http://localhost/social/youtube" target="_blank" class="social-icon">
+        <a href="#" target="_blank" class="social-icon">
             <i class="fab fa-youtube"></i>
         </a>
-        <a href="http://localhost/social/whatsapp" target="_blank" class="social-icon">
+        <a href="#" target="_blank" class="social-icon">
             <i class="fab fa-whatsapp"></i>
         </a>
-        <a href="http://localhost/social/tiktok" target="_blank" class="social-icon">
+        <a href="#" target="_blank" class="social-icon">
             <i class="fab fa-tiktok"></i>
         </a>
     </div>
     <!-- Bottom Navigation Bar -->
     <footer>
-        <div class="nav-icon" onclick="window.open('http://localhost/movies', '_blank');">
+        <div class="nav-icon" onclick="showHomeVideos(); updateBottomNavActive('Movies');">
             <i class="fas fa-film"></i>
             <span>Movies</span>
         </div>
-        <div class="nav-icon active" onclick="window.open('http://localhost/discover', '_blank');">
+        <div class="nav-icon active" onclick="showDiscoverSection(); updateBottomNavActive('Discover');">
             <i class="fas fa-compass"></i>
             <span>Discover</span>
         </div>
-        <div class="nav-icon" onclick="window.open('http://localhost/trending', '_blank');">
+        <div class="nav-icon" onclick="showTrendingVideos(); updateBottomNavActive('Trending');">
             <i class="fas fa-fire"></i>
             <span>Trending</span>
         </div>
-        <div class="nav-icon" onclick="window.open('http://localhost/mylist', '_blank');">
+        <div class="nav-icon" onclick="showMyList(); updateBottomNavActive('My List');">
             <i class="fas fa-list"></i>
             <span>My List</span>
         </div>
-        <div class="nav-icon" onclick="window.open('http://localhost/apps', '_blank');">
+        <div class="nav-icon" onclick="showProfileSection(); updateBottomNavActive('Apps');">
             <i class="fab fa-app-store"></i>
             <span>Apps</span>
         </div>
@@ -1793,7 +1793,8 @@
                 logosScroll.appendChild(logoItem);
                 // Add click event to open video
                 logoItem.onclick = () => {
-                    window.open(`http://localhost/logo/${logo.imgUrl.split('/').pop()}`, '_blank');
+                    document.getElementById('video-nav').style.display = 'flex';
+                    document.getElementById('video-player').src = logo.videoUrl;
                 };
             });
         };
@@ -1890,13 +1891,13 @@
             sidebarList.innerHTML = '';
             // Example list of URL logos (replace with your own data)
             const urlLogos = [
-                { logoUrl: "https://cdn-icons-png.flaticon.com/128/18831/18831648.png", name: "Director Center", url: "http://localhost/director" },
-                { logoUrl: "https://cdn-icons-png.flaticon.com/128/5303/5303479.png", name: "Earn Rewards", url: "http://localhost/rewards" },
-                { logoUrl: "https://cdn-icons-png.flaticon.com/128/9592/9592247.png", name: "Viewer Gift", url: "http://localhost/gift" },
-                { logoUrl: "https://cdn-icons-png.flaticon.com/128/18392/18392966.png", name: "Online Service", url: "http://localhost/service" },
-                { logoUrl: "https://cdn-icons-png.flaticon.com/128/2312/2312342.png", name: "Privacy Policy", url: "http://localhost/privacy" },
-                { logoUrl: "https://cdn-icons-png.flaticon.com/128/3405/3405247.png", name: "Settings", url: "http://localhost/settings" },
-                { logoUrl: "https://cdn-icons-png.flaticon.com/128/2838/2838694.png", name: "Help & Support", url: "http://localhost/help" },
+                { logoUrl: "https://cdn-icons-png.flaticon.com/128/18831/18831648.png", name: "Director Center", url: "#" },
+                { logoUrl: "https://cdn-icons-png.flaticon.com/128/5303/5303479.png", name: "Earn Rewards", url: "#" },
+                { logoUrl: "https://cdn-icons-png.flaticon.com/128/9592/9592247.png", name: "Viewer Gift", url: "#" },
+                { logoUrl: "https://cdn-icons-png.flaticon.com/128/18392/18392966.png", name: "Online Service", url: "#" },
+                { logoUrl: "https://cdn-icons-png.flaticon.com/128/2312/2312342.png", name: "Privacy Policy", url: "#" },
+                { logoUrl: "https://cdn-icons-png.flaticon.com/128/3405/3405247.png", name: "Settings", url: "#" },
+                { logoUrl: "https://cdn-icons-png.flaticon.com/128/2838/2838694.png", name: "Help & Support", url: "#" },
             ];
             urlLogos.forEach(item => {
                 const sidebarItem = document.createElement('div');
@@ -1952,10 +1953,8 @@
                     </button>
                 `;
                 
-                // Add click event to open in localhost using video ID
-                slide.onclick = () => {
-                    window.open(`http://localhost/video/${item.id}`, '_blank');
-                };
+                // Add click event to open modal
+                slide.onclick = () => openVideoNav(item.videoUrl, item.title, item);
                 
                 carousel.appendChild(slide);
                 
@@ -1986,10 +1985,8 @@
                     <p>${item.description}</p>
                 `;
                 
-                // Add click event to open in localhost using video ID
-                discoverItem.onclick = () => {
-                    window.open(`http://localhost/video/${item.id}`, '_blank');
-                };
+                // Add click event to the entire discover item
+                discoverItem.onclick = () => openVideoNav(item.videoUrl, item.title, item);
                 
                 discoverItem.appendChild(img);
                 discoverItem.appendChild(content);
@@ -2011,12 +2008,10 @@
                         ${category}
                         <i class="fas fa-chevron-right"></i> <!-- Right arrow icon -->
                     </span>
-                    <button onclick="window.open('http://localhost/category/${category}', '_blank')">All <i class="fas fa-chevron-right"></i></button>
+                    <button onclick="showAllVideos('${category}')">All <i class="fas fa-chevron-right"></i></button>
                 `;
                 // Make the entire title clickable
-                categoryTitle.onclick = () => {
-                    window.open(`http://localhost/category/${category}`, '_blank');
-                };
+                categoryTitle.onclick = () => showAllVideos(category);
                 const categoryScroll = document.createElement('div');
                 categoryScroll.className = 'category-scroll';
                 // Display all videos in the category (no slice limit)
@@ -2367,10 +2362,8 @@
             const title = document.createElement('h2');
             title.textContent = item.title;
             
-            // Add click event to open in localhost using video ID
-            frame.onclick = () => {
-                window.open(`http://localhost/video/${item.id}`, '_blank');
-            };
+            // Add click event to the entire frame
+            frame.onclick = () => openVideoNav(item.videoUrl, item.title, item);
             
             content.appendChild(title);
             frame.appendChild(img);
@@ -2411,10 +2404,8 @@
             description.style.fontSize = '12px';
             description.style.color = '#777';
             
-            // Add click event to open in localhost using video ID
-            listItem.onclick = () => {
-                window.open(`http://localhost/video/${item.id}`, '_blank');
-            };
+            // Add click event to the entire list item
+            listItem.onclick = () => openVideoNav(item.videoUrl, item.title, item);
             
             content.appendChild(title);
             content.appendChild(description);
@@ -2427,8 +2418,135 @@
         let currentMovieInModal = null;
         
         const openVideoNav = (videoUrl, videoId, item) => {
-            // Open the video URL in localhost using video ID
-            window.open(`http://localhost/video/${item.id}`, '_blank');
+            // Display the video navigation modal
+            document.getElementById('video-nav').style.display = 'flex';
+            
+            // Process the video URL based on its source
+            let processedUrl = videoUrl;
+            
+            // Check if it's a YouTube embed URL
+            if (videoUrl.includes('youtube.com/embed/')) {
+                // Add autoplay=1 parameter for YouTube to autoplay with sound
+                const separator = videoUrl.includes('?') ? '&' : '?';
+                processedUrl = videoUrl + separator + 'autoplay=1&mute=0';
+            } 
+            // For Google Drive preview, ensure no autoplay parameters
+            else if (videoUrl.includes('drive.google.com/file/d/')) {
+                // Google Drive preview doesn't autoplay by default, so no changes needed
+                processedUrl = videoUrl;
+            }
+            
+            // Set the processed video URL in the iframe
+            document.getElementById('video-player').src = processedUrl;
+            
+            // Track current movie
+            currentMovieInModal = item;
+            
+            // Update save button state
+            updateSaveButton();
+            
+            // Only push state if we're not already in the modal
+            if (!inVideoModal) {
+                history.pushState({ videoOpen: true }, '');
+                inVideoModal = true;
+            }
+            
+            // Check if this is a series with episodes
+            const episodeFooter = document.getElementById('episode-footer');
+            if (item && item.isSeries && item.seasons) {
+                // Show episode footer
+                episodeFooter.style.display = 'block';
+                
+                // Set current season index (if not set, default to 0)
+                if (typeof item.currentSeason === 'undefined') {
+                    item.currentSeason = 0;
+                }
+                
+                // Update episode title to include season
+                document.getElementById('episode-title').textContent = `${item.title} - Season ${item.seasons[item.currentSeason].seasonNumber}`;
+                
+                // Update episode count for the current season
+                document.getElementById('episode-count').textContent = `${item.seasons[item.currentSeason].episodes.length} Episodes`;
+                
+                // Clear existing episodes
+                const episodeScroller = document.getElementById('episode-scroller');
+                episodeScroller.innerHTML = '';
+                
+                // Add Previous Season button if not the first season
+                if (item.currentSeason > 0) {
+                    const prevSeasonBtn = document.createElement('div');
+                    prevSeasonBtn.className = 'season-nav-btn prev-season';
+                    prevSeasonBtn.innerHTML = `
+                        <span class="season-nav-text">Prev</span>
+                        <span class="season-number">S${item.seasons[item.currentSeason - 1].seasonNumber}</span>
+                    `;
+                    
+                    prevSeasonBtn.onclick = () => {
+                        goToSeason(item.currentSeason - 1);
+                    };
+                    
+                    episodeScroller.appendChild(prevSeasonBtn);
+                }
+                
+                // Add episode buttons for the current season
+                item.seasons[item.currentSeason].episodes.forEach((episode, index) => {
+                    const episodeBtn = document.createElement('div');
+                    episodeBtn.className = 'episode-btn';
+                    if (index === 0) episodeBtn.classList.add('active');
+                    
+                    const epNum = document.createElement('div');
+                    epNum.className = 'ep-num';
+                    epNum.textContent = `EP`;
+                    
+                    const epNumber = document.createElement('div');
+                    epNumber.textContent = episode.number;
+                    
+                    episodeBtn.appendChild(epNum);
+                    episodeBtn.appendChild(epNumber);
+                    
+                    // Add click event
+                    episodeBtn.onclick = () => {
+                        // Remove active class from all buttons
+                        document.querySelectorAll('.episode-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        
+                        // Add active class to clicked button
+                        episodeBtn.classList.add('active');
+                        
+                        // Process episode URL if it's a YouTube video
+                        let episodeUrl = episode.url;
+                        if (episodeUrl.includes('youtube.com/embed/')) {
+                            const separator = episodeUrl.includes('?') ? '&' : '?';
+                            episodeUrl = episodeUrl + separator + 'autoplay=1&mute=0';
+                        }
+                        
+                        // Load episode in iframe
+                        document.getElementById('video-player').src = episodeUrl;
+                    };
+                    
+                    episodeScroller.appendChild(episodeBtn);
+                });
+                
+                // Add Next Season button if not the last season
+                if (item.currentSeason < item.seasons.length - 1) {
+                    const nextSeasonBtn = document.createElement('div');
+                    nextSeasonBtn.className = 'season-nav-btn next-season';
+                    nextSeasonBtn.innerHTML = `
+                        <span class="season-nav-text">Next</span>
+                        <span class="season-number">S${item.seasons[item.currentSeason + 1].seasonNumber}</span>
+                    `;
+                    
+                    nextSeasonBtn.onclick = () => {
+                        goToSeason(item.currentSeason + 1);
+                    };
+                    
+                    episodeScroller.appendChild(nextSeasonBtn);
+                }
+            } else {
+                // Hide episode footer for non-series content
+                episodeFooter.style.display = 'none';
+            }
             
             // Add the video to the history
             addToHistory(videoId);
@@ -2605,10 +2723,8 @@
                     <p>${item.description}</p>
                 `;
                 
-                // Add click event to open in localhost using video ID
-                historyItem.onclick = () => {
-                    window.open(`http://localhost/video/${item.id}`, '_blank');
-                };
+                // Add click event to the entire history item
+                historyItem.onclick = () => openVideoNav(item.videoUrl, item.title, item);
                 
                 historyItem.appendChild(img);
                 historyItem.appendChild(content);
@@ -2891,10 +3007,8 @@
                     <p>${item.description}</p>
                 `;
                 
-                // Add click event to open in localhost using video ID
-                discoverItem.onclick = () => {
-                    window.open(`http://localhost/video/${item.id}`, '_blank');
-                };
+                // Add click event to the entire discover item
+                discoverItem.onclick = () => openVideoNav(item.videoUrl, item.title, item);
                 
                 discoverItem.appendChild(img);
                 discoverItem.appendChild(content);
