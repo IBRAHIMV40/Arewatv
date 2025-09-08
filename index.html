@@ -306,6 +306,7 @@
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 15px;
+            cursor: pointer;
         }
         .categories-scroll {
             display: flex;
@@ -1626,7 +1627,7 @@
         
         <!-- Categories Section - New section based on screenshot -->
         <div class="categories-section">
-            <div class="categories-title">Categories</div>
+            <div class="categories-title" id="categories-title" onclick="showAllCategory()">Categories</div>
             <div class="categories-scroll" id="categories-scroll">
                 <div class="category-btn active" data-category="All">All</div>
                 <div class="category-btn" data-category="Hollywood">Hollywood</div>
@@ -2196,6 +2197,31 @@
             document.getElementById('grid-container').style.display = 'none';
         };
         
+        // Function to show all categories (when clicking on "Categories" title)
+        const showAllCategory = () => {
+            // Reset scroll position
+            window.scrollTo(0, 0);
+            
+            // Set flag and push state for grid view
+            inGridView = true;
+            history.pushState({ gridView: true }, '');
+            
+            const gridContainer = document.getElementById('grid-container');
+            gridContainer.innerHTML = '';
+            gridContainer.scrollTop = 0; // Reset grid container scroll
+            
+            // Hide other sections
+            document.getElementById('discover-container').style.display = 'none';
+            document.getElementById('categories-container').style.display = 'none';
+            gridContainer.style.display = 'grid';
+            
+            // Add all videos to the grid (same as showAllVideosGrid)
+            data.forEach(item => {
+                const frame = createFrame(item);
+                gridContainer.appendChild(frame);
+            });
+        };
+        
         // Function to create filter section
         const createFilterSection = () => {
             const filterSection = document.createElement('div');
@@ -2345,7 +2371,7 @@
             openButton.style.border = 'none';
             openButton.style.padding = '6px 12px';
             openButton.style.borderRadius = '5px';
-            openButton.style.cursor = pointer;
+            openButton.style.cursor = 'pointer';
             openButton.style.fontSize = '14px';
             openButton.onclick = () => window.open(item.link, '_blank');
             content.appendChild(name);
@@ -2422,55 +2448,6 @@
         // Track current movie in modal
         let currentMovieInModal = null;
         
-        // Modified closeModal function to ensure immediate video stopping
-        const closeModal = () => {
-            // Stop the video immediately
-            const videoPlayer = document.getElementById('video-player');
-            const currentSrc = videoPlayer.src;
-            
-            // Clear the src to stop playback
-            videoPlayer.src = '';
-            
-            // For YouTube videos, we need additional handling
-            if (currentSrc && currentSrc.includes('youtube.com/embed/')) {
-                // Create a temporary iframe to properly unload YouTube content
-                const tempIframe = document.createElement('iframe');
-                tempIframe.style.display = 'none';
-                document.body.appendChild(tempIframe);
-                tempIframe.src = 'about:blank';
-                setTimeout(() => document.body.removeChild(tempIframe), 100);
-            }
-            
-            // Hide the modal immediately
-            document.getElementById('video-nav').style.display = 'none';
-            
-            // Reset state immediately
-            currentMovieInModal = null;
-            inVideoModal = false;
-            
-            // Clear any episode/season data
-            const episodeFooter = document.getElementById('episode-footer');
-            episodeFooter.style.display = 'none';
-        };
-        
-        // Modified closeNav function for immediate closing
-        const closeNav = () => {
-            if (inVideoModal) {
-                // Close modal immediately without any delay
-                closeModal();
-                
-                // Only use history.back() if we actually pushed a state
-                if (window.history.state && window.history.state.videoOpen) {
-                    // Use a small timeout to ensure the modal is fully closed before navigating back
-                    setTimeout(() => {
-                        window.history.back();
-                    }, 10);
-                }
-            } else {
-                closeModal();
-            }
-        };
-        
         const openVideoNav = (videoUrl, videoId, item) => {
             // Display the video navigation modal
             document.getElementById('video-nav').style.display = 'flex';
@@ -2535,8 +2512,7 @@
                         <span class="season-number">S${item.seasons[item.currentSeason - 1].seasonNumber}</span>
                     `;
                     
-                    prevSeasonBtn.onclick = (e) => {
-                        e.stopPropagation(); // Prevent event bubbling
+                    prevSeasonBtn.onclick = () => {
                         goToSeason(item.currentSeason - 1);
                     };
                     
@@ -2560,8 +2536,7 @@
                     episodeBtn.appendChild(epNumber);
                     
                     // Add click event
-                    episodeBtn.onclick = (e) => {
-                        e.stopPropagation(); // Prevent event bubbling
+                    episodeBtn.onclick = () => {
                         // Remove active class from all buttons
                         document.querySelectorAll('.episode-btn').forEach(btn => {
                             btn.classList.remove('active');
@@ -2593,8 +2568,7 @@
                         <span class="season-number">S${item.seasons[item.currentSeason + 1].seasonNumber}</span>
                     `;
                     
-                    nextSeasonBtn.onclick = (e) => {
-                        e.stopPropagation(); // Prevent event bubbling
+                    nextSeasonBtn.onclick = () => {
                         goToSeason(item.currentSeason + 1);
                     };
                     
@@ -2634,8 +2608,7 @@
                     <span class="season-number">S${currentMovieInModal.seasons[seasonIndex - 1].seasonNumber}</span>
                 `;
                 
-                prevSeasonBtn.onclick = (e) => {
-                    e.stopPropagation(); // Prevent event bubbling
+                prevSeasonBtn.onclick = () => {
                     goToSeason(seasonIndex - 1);
                 };
                 
@@ -2658,8 +2631,7 @@
                 episodeBtn.appendChild(epNum);
                 episodeBtn.appendChild(epNumber);
                 
-                episodeBtn.onclick = (e) => {
-                    e.stopPropagation(); // Prevent event bubbling
+                episodeBtn.onclick = () => {
                     document.querySelectorAll('.episode-btn').forEach(btn => {
                         btn.classList.remove('active');
                     });
@@ -2687,8 +2659,7 @@
                     <span class="season-number">S${currentMovieInModal.seasons[seasonIndex + 1].seasonNumber}</span>
                 `;
                 
-                nextSeasonBtn.onclick = (e) => {
-                    e.stopPropagation(); // Prevent event bubbling
+                nextSeasonBtn.onclick = () => {
                     goToSeason(seasonIndex + 1);
                 };
                 
@@ -2878,6 +2849,54 @@
             setTimeout(() => {
                 notification.remove();
             }, 3000);
+        };
+        
+        // Function to close the modal - optimized for immediate closing
+        const closeModal = () => {
+            // Stop the video immediately
+            const videoPlayer = document.getElementById('video-player');
+            const currentSrc = videoPlayer.src;
+            
+            // Clear the src to stop playback
+            videoPlayer.src = '';
+            
+            // For YouTube videos, we need additional handling
+            if (currentSrc && currentSrc.includes('youtube.com/embed/')) {
+                // Create a temporary iframe to properly unload YouTube content
+                const tempIframe = document.createElement('iframe');
+                tempIframe.style.display = 'none';
+                document.body.appendChild(tempIframe);
+                tempIframe.src = 'about:blank';
+                setTimeout(() => document.body.removeChild(tempIframe), 100);
+            }
+            
+            // Hide the modal immediately
+            document.getElementById('video-nav').style.display = 'none';
+            
+            // Reset state immediately
+            currentMovieInModal = null;
+            inVideoModal = false;
+            
+            // Clear any episode/season data
+            const episodeFooter = document.getElementById('episode-footer');
+            episodeFooter.style.display = 'none';
+        };
+        // Modified closeNav function for immediate closing
+        const closeNav = () => {
+            if (inVideoModal) {
+                // Close modal immediately without any delay
+                closeModal();
+                
+                // Only use history.back() if we actually pushed a state
+                if (window.history.state && window.history.state.videoOpen) {
+                    // Use a small timeout to ensure the modal is fully closed before navigating back
+                    setTimeout(() => {
+                        window.history.back();
+                    }, 10);
+                }
+            } else {
+                closeModal();
+            }
         };
         
         // Carousel functionality
