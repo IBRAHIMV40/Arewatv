@@ -1933,7 +1933,7 @@
             carousel.innerHTML = '';
             dotsContainer.innerHTML = '';
             
-            // Shuffle the data array and take first 5 items for carousel
+            // Use the first 5 items for carousel
             const carouselData = data.slice(0, 5);
             
             carouselData.forEach((item, index) => {
@@ -1970,8 +1970,9 @@
             const discoverScroll = document.getElementById('discover-scroll');
             discoverScroll.innerHTML = '';
             
-            // Shuffle the data array for discover section
-            const discoverData = data.slice(0, 20);
+            // Use items from index 5 to 24 (20 items) for discover section
+            const discoverData = data.slice(5, 25);
+            
             discoverData.forEach(item => {
                 const discoverItem = document.createElement('div');
                 discoverItem.className = 'discover-item';
