@@ -967,27 +967,14 @@
             font-size: 21px;
             transition: 0.3s;
         }
-        /* CSS-only active state control */
-        .nav-radio {
-            display: none;
-        }
-        
-        #nav-discover:checked ~ footer .nav-icon[for="nav-discover"],
-        #nav-movies:checked ~ footer .nav-icon[for="nav-movies"],
-        #nav-trending:checked ~ footer .nav-icon[for="nav-trending"],
-        #nav-mylist:checked ~ footer .nav-icon[for="nav-mylist"],
-        #nav-apps:checked ~ footer .nav-icon[for="nav-apps"] {
+        footer .nav-icon.active,
+        footer .nav-icon:hover {
             color: #00b300;
         }
-        
-        #nav-discover:checked ~ footer .nav-icon[for="nav-discover"] i,
-        #nav-movies:checked ~ footer .nav-icon[for="nav-movies"] i,
-        #nav-trending:checked ~ footer .nav-icon[for="nav-trending"] i,
-        #nav-mylist:checked ~ footer .nav-icon[for="nav-mylist"] i,
-        #nav-apps:checked ~ footer .nav-icon[for="nav-apps"] i {
+        footer .nav-icon.active i,
+        footer .nav-icon:hover i {
             transform: scale(1.2);
         }
-        
         /* Hide Footer */
         footer.hide {
             transform: translateY(100%);
