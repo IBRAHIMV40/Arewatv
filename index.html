@@ -2821,7 +2821,7 @@
             }, 3000);
         };
         
-        // Function to close the modal
+        // Function to close the modal - optimized for immediate closing
         const closeModal = () => {
             // Stop the video immediately
             const videoPlayer = document.getElementById('video-player');
@@ -2840,10 +2840,10 @@
                 setTimeout(() => document.body.removeChild(tempIframe), 100);
             }
             
-            // Hide the modal
+            // Hide the modal immediately
             document.getElementById('video-nav').style.display = 'none';
             
-            // Reset state
+            // Reset state immediately
             currentMovieInModal = null;
             inVideoModal = false;
             
@@ -2851,13 +2851,19 @@
             const episodeFooter = document.getElementById('episode-footer');
             episodeFooter.style.display = 'none';
         };
-        
+
+        // Modified closeNav function for immediate closing
         const closeNav = () => {
             if (inVideoModal) {
+                // Close modal immediately without any delay
                 closeModal();
+                
                 // Only use history.back() if we actually pushed a state
                 if (window.history.state && window.history.state.videoOpen) {
-                    window.history.back();
+                    // Use a small timeout to ensure the modal is fully closed before navigating back
+                    setTimeout(() => {
+                        window.history.back();
+                    }, 10);
                 }
             } else {
                 closeModal();
@@ -3295,11 +3301,12 @@
             // Set Discover as active on app load
             updateBottomNavActive('Discover');
             
-            // Add history state handling
+            // Add history state handling with immediate response
             window.addEventListener('popstate', (event) => {
-                // Handle video modal
+                // Handle video modal - close immediately
                 if (inVideoModal) {
                     closeModal();
+                    return; // Exit early to prevent any delays
                 } 
                 // Handle grid view
                 else if (inGridView) {
