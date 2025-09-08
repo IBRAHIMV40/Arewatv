@@ -2199,27 +2199,11 @@
         
         // Function to show all categories (when clicking on "Categories" title)
         const showAllCategory = () => {
-            // Reset scroll position
-            window.scrollTo(0, 0);
-            
-            // Set flag and push state for grid view
-            inGridView = true;
-            history.pushState({ gridView: true }, '');
-            
-            const gridContainer = document.getElementById('grid-container');
-            gridContainer.innerHTML = '';
-            gridContainer.scrollTop = 0; // Reset grid container scroll
-            
-            // Hide other sections
-            document.getElementById('discover-container').style.display = 'none';
-            document.getElementById('categories-container').style.display = 'none';
-            gridContainer.style.display = 'grid';
-            
-            // Add all videos to the grid (same as showAllVideosGrid)
-            data.forEach(item => {
-                const frame = createFrame(item);
-                gridContainer.appendChild(frame);
-            });
+            // Find and click the "All" button
+            const allButton = document.querySelector('.category-btn[data-category="All"]');
+            if (allButton) {
+                allButton.click();
+            }
         };
         
         // Function to create filter section
@@ -2371,7 +2355,7 @@
             openButton.style.border = 'none';
             openButton.style.padding = '6px 12px';
             openButton.style.borderRadius = '5px';
-            openButton.style.cursor = 'pointer';
+            openButton.style.cursor = pointer;
             openButton.style.fontSize = '14px';
             openButton.onclick = () => window.open(item.link, '_blank');
             content.appendChild(name);
