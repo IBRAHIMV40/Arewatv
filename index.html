@@ -943,7 +943,7 @@
             padding: 10px 0;
             border-radius: 0px;
             background-color: #141414;
-            border-bottom: 1px solid #;
+            border-bottom: 1px solid #ddd;
             position: fixed;
             bottom: 0;
             left: 0;
@@ -967,14 +967,27 @@
             font-size: 21px;
             transition: 0.3s;
         }
-        footer .nav-icon.active,
-        footer .nav-icon:hover {
+        /* CSS-only active state control */
+        .nav-radio {
+            display: none;
+        }
+        
+        #nav-discover:checked ~ footer .nav-icon[for="nav-discover"],
+        #nav-movies:checked ~ footer .nav-icon[for="nav-movies"],
+        #nav-trending:checked ~ footer .nav-icon[for="nav-trending"],
+        #nav-mylist:checked ~ footer .nav-icon[for="nav-mylist"],
+        #nav-apps:checked ~ footer .nav-icon[for="nav-apps"] {
             color: #00b300;
         }
-        footer .nav-icon.active i,
-        footer .nav-icon:hover i {
+        
+        #nav-discover:checked ~ footer .nav-icon[for="nav-discover"] i,
+        #nav-movies:checked ~ footer .nav-icon[for="nav-movies"] i,
+        #nav-trending:checked ~ footer .nav-icon[for="nav-trending"] i,
+        #nav-mylist:checked ~ footer .nav-icon[for="nav-mylist"] i,
+        #nav-apps:checked ~ footer .nav-icon[for="nav-apps"] i {
             transform: scale(1.2);
         }
+        
         /* Hide Footer */
         footer.hide {
             transform: translateY(100%);
@@ -1436,6 +1449,13 @@
     <script src="ads-data.js"></script>
 </head>
 <body>
+    <!-- Hidden radio buttons for navigation -->
+    <input type="radio" name="nav" id="nav-discover" class="nav-radio" checked>
+    <input type="radio" name="nav" id="nav-movies" class="nav-radio">
+    <input type="radio" name="nav" id="nav-trending" class="nav-radio">
+    <input type="radio" name="nav" id="nav-mylist" class="nav-radio">
+    <input type="radio" name="nav" id="nav-apps" class="nav-radio">
+    
     <header>
         <div class="header-top">
             <!-- Bars Icon -->
@@ -1712,26 +1732,26 @@
     </div>
     <!-- Bottom Navigation Bar -->
     <footer>
-        <div class="nav-icon" onclick="showHomeVideos(); updateBottomNavActive('Movies');">
-            <i class="fas fa-film"></i>
-            <span>Movies</span>
-        </div>
-        <div class="nav-icon active" onclick="showDiscoverSection(); updateBottomNavActive('Discover');">
+        <label for="nav-discover" class="nav-icon" onclick="showDiscoverSection();">
             <i class="fas fa-compass"></i>
             <span>Discover</span>
-        </div>
-        <div class="nav-icon" onclick="showTrendingVideos(); updateBottomNavActive('Trending');">
+        </label>
+        <label for="nav-movies" class="nav-icon" onclick="showHomeVideos();">
+            <i class="fas fa-film"></i>
+            <span>Movies</span>
+        </label>
+        <label for="nav-trending" class="nav-icon" onclick="showTrendingVideos();">
             <i class="fas fa-fire"></i>
             <span>Trending</span>
-        </div>
-        <div class="nav-icon" onclick="showMyList(); updateBottomNavActive('My List');">
+        </label>
+        <label for="nav-mylist" class="nav-icon" onclick="showMyList();">
             <i class="fas fa-list"></i>
             <span>My List</span>
-        </div>
-        <div class="nav-icon" onclick="showProfileSection(); updateBottomNavActive('Apps');">
+        </label>
+        <label for="nav-apps" class="nav-icon" onclick="showProfileSection();">
             <i class="fab fa-app-store"></i>
             <span>Apps</span>
-        </div>
+        </label>
     </footer>
     
     <script>
@@ -1762,9 +1782,6 @@
         
         // Track if we're currently in the sidebar modal
         let inSidebarModal = false;
-        
-        // Track current active navigation item
-        let currentActiveNav = 'Discover';
         
         // Track current grid data for filtering
         let currentGridData = [];
@@ -3238,35 +3255,6 @@
             }
         };
         
-        // Function to update the active state of the bottom navigation bar
-        const updateBottomNavActive = (activeSection) => {
-            // Remove active class from all nav icons
-            document.querySelectorAll('footer .nav-icon').forEach(icon => {
-                icon.classList.remove('active');
-            });
-            
-            // Add active class to the clicked nav icon
-            if (activeSection === 'Movies') {
-                document.querySelectorAll('footer .nav-icon')[0].classList.add('active');
-                currentActiveNav = 'Movies';
-            } else if (activeSection === 'Discover') {
-                document.querySelectorAll('footer .nav-icon')[1].classList.add('active');
-                currentActiveNav = 'Discover';
-            } else if (activeSection === 'Trending') {
-                document.querySelectorAll('footer .nav-icon')[2].classList.add('active');
-                currentActiveNav = 'Trending';
-            } else if (activeSection === 'My List') {
-                document.querySelectorAll('footer .nav-icon')[3].classList.add('active');
-                currentActiveNav = 'My List';
-            } else if (activeSection === 'Apps') {
-                document.querySelectorAll('footer .nav-icon')[4].classList.add('active');
-                currentActiveNav = 'Apps';
-            }
-            
-            // Push state to history when bottom nav is clicked
-            history.pushState({ bottomNav: activeSection }, '');
-        };
-        
         // Initialize all new features when the page loads
         window.addEventListener('load', () => {
             // Initialize filter options
@@ -3298,9 +3286,6 @@
             // Check for video ID in URL immediately
             checkVideoIdInUrl();
             
-            // Set Discover as active on app load
-            updateBottomNavActive('Discover');
-            
             // Add history state handling with immediate response
             window.addEventListener('popstate', (event) => {
                 // Handle video modal - close immediately
@@ -3315,9 +3300,6 @@
                     document.getElementById('discover-container').style.display = 'block';
                     document.getElementById('categories-container').style.display = 'block';
                     document.getElementById('grid-container').style.display = 'none';
-                    
-                    // Update the active state of the bottom navigation bar
-                    updateBottomNavActive(currentActiveNav);
                 }
                 // Handle filter modal
                 else if (inFilterModal) {
@@ -3334,16 +3316,9 @@
                     document.getElementById('sidebar-modal').classList.remove('open');
                     inSidebarModal = false;
                 }
-                // Handle bottom navigation - if we have a bottomNav state, use it
-                else if (event.state && event.state.bottomNav) {
-                    // Show discover section when back is pressed
-                    showDiscoverSection();
-                    updateBottomNavActive('Discover');
-                }
                 // Default to discover if no specific state
                 else {
                     showDiscoverSection();
-                    updateBottomNavActive('Discover');
                 }
             });
         });
