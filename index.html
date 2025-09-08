@@ -3218,7 +3218,7 @@
             return avatars[avatarId] || avatars['1'];
         };
         
-        // Function to check for video ID in URL and open video modal
+        // Function to check for video ID in URL and open video modal immediately
         const checkVideoIdInUrl = () => {
             const urlParams = new URLSearchParams(window.location.search);
             const videoId = urlParams.get('videoId');
@@ -3226,10 +3226,8 @@
             if (videoId) {
                 const video = data.find(item => item.id == videoId);
                 if (video) {
-                    // Wait a bit to ensure the page is fully loaded
-                    setTimeout(() => {
-                        openVideoNav(video.videoUrl, video.title, video);
-                    }, 500);
+                    // Open video modal immediately without delay
+                    openVideoNav(video.videoUrl, video.title, video);
                 }
             }
         };
@@ -3291,7 +3289,7 @@
             // Update user profile UI
             updateUserProfile();
             
-            // Check for video ID in URL
+            // Check for video ID in URL immediately
             checkVideoIdInUrl();
             
             // Set Discover as active on app load
