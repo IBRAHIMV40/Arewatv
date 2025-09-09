@@ -2827,33 +2827,21 @@
         
         // Function to close the modal - optimized for immediate closing
         const closeModal = () => {
-            // Get the video player iframe
+            // Stop the video immediately
             const videoPlayer = document.getElementById('video-player');
+            const currentSrc = videoPlayer.src;
             
-            // Stop the video immediately by removing the iframe completely
-            if (videoPlayer) {
-                // Get the parent element and next sibling
-                const parent = videoPlayer.parentNode;
-                const nextSibling = videoPlayer.nextSibling;
-                
-                // Remove the iframe from the DOM
-                parent.removeChild(videoPlayer);
-                
-                // Create a new iframe element
-                const newIframe = document.createElement('iframe');
-                newIframe.id = 'video-player';
-                newIframe.frameBorder = '0';
-                newIframe.allowFullscreen = true;
-                newIframe.style.width = '100%';
-                newIframe.style.height = '100%';
-                newIframe.style.display = 'none'; // Initially hide it
-                
-                // Insert the new iframe in the same position
-                if (nextSibling) {
-                    parent.insertBefore(newIframe, nextSibling);
-                } else {
-                    parent.appendChild(newIframe);
-                }
+            // Clear the src to stop playback
+            videoPlayer.src = '';
+            
+            // For YouTube videos, we need additional handling
+            if (currentSrc && currentSrc.includes('youtube.com/embed/')) {
+                // Create a temporary iframe to properly unload YouTube content
+                const tempIframe = document.createElement('iframe');
+                tempIframe.style.display = 'none';
+                document.body.appendChild(tempIframe);
+                tempIframe.src = 'about:blank';
+                setTimeout(() => document.body.removeChild(tempIframe), 100);
             }
             
             // Hide the modal immediately
@@ -2867,6 +2855,7 @@
             const episodeFooter = document.getElementById('episode-footer');
             episodeFooter.style.display = 'none';
         };
+
         // Modified closeNav function for immediate closing
         const closeNav = () => {
             if (inVideoModal) {
