@@ -2429,6 +2429,22 @@
             // Display the video navigation modal
             document.getElementById('video-nav').style.display = 'flex';
             
+            // Check if the iframe exists, if not create it
+            const navBody = document.querySelector('.nav-body');
+            const iframeContainer = navBody.querySelector('div[style*="position: relative"]');
+            let videoPlayer = document.getElementById('video-player');
+            
+            if (!videoPlayer) {
+                // Create a new iframe
+                videoPlayer = document.createElement('iframe');
+                videoPlayer.id = 'video-player';
+                videoPlayer.setAttribute('frameborder', '0');
+                videoPlayer.setAttribute('allowfullscreen', '');
+                videoPlayer.style.width = '100%';
+                videoPlayer.style.height = '100%';
+                iframeContainer.appendChild(videoPlayer);
+            }
+            
             // Process the video URL based on its source
             let processedUrl = videoUrl;
             
@@ -2445,7 +2461,7 @@
             }
             
             // Set the processed video URL in the iframe
-            document.getElementById('video-player').src = processedUrl;
+            videoPlayer.src = processedUrl;
             
             // Track current movie
             currentMovieInModal = item;
@@ -2533,7 +2549,7 @@
                         }
                         
                         // Load episode in iframe
-                        document.getElementById('video-player').src = episodeUrl;
+                        videoPlayer.src = episodeUrl;
                         
                         // Reset flag after a short delay
                         setTimeout(() => {
@@ -2859,7 +2875,7 @@
             const currentSrc = videoPlayer.src;
             
             // Clear the src to stop playback
-            videoPlayer.src = '';
+            videoPlayer.src = 'about:blank'; // Use about:blank to unload
             
             // For YouTube videos, we need additional handling
             if (currentSrc && currentSrc.includes('youtube.com/embed/')) {
@@ -2868,7 +2884,9 @@
                 tempIframe.style.display = 'none';
                 document.body.appendChild(tempIframe);
                 tempIframe.src = 'about:blank';
-                setTimeout(() => document.body.removeChild(tempIframe), 100);
+                setTimeout(() => {
+                    document.body.removeChild(tempIframe);
+                }, 100);
             }
             
             // Hide the modal immediately
@@ -2882,6 +2900,16 @@
             // Clear any episode/season data
             const episodeFooter = document.getElementById('episode-footer');
             episodeFooter.style.display = 'none';
+            
+            // Remove the iframe from the DOM to completely stop the video
+            const navBody = document.querySelector('.nav-body');
+            const iframeContainer = navBody.querySelector('div[style*="position: relative"]');
+            if (iframeContainer) {
+                const oldIframe = iframeContainer.querySelector('iframe');
+                if (oldIframe) {
+                    oldIframe.remove();
+                }
+            }
         };
         // Modified closeNav function for immediate closing
         const closeNav = () => {
