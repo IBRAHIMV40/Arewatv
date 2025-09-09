@@ -1472,6 +1472,40 @@
     .network-warning-retry:hover {
         background-color: #009900;
     }
+    
+    /* Search Suggestions */
+    .search-suggestions {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: #333;
+        border-radius: 0 0 10px 10px;
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 100;
+        display: none;
+    }
+    .search-suggestions.show {
+        display: block;
+    }
+    .search-suggestion-item {
+        padding: 10px 15px;
+        cursor: pointer;
+        color: #fff;
+        border-bottom: 1px solid #444;
+    }
+    .search-suggestion-item:last-child {
+        border-bottom: none;
+    }
+    .search-suggestion-item:hover {
+        background-color: #444;
+    }
+    .search-suggestion-item .suggestion-type {
+        font-size: 12px;
+        color: #aaa;
+        margin-left: 5px;
+    }
     </style>
     <!-- External JavaScript files -->
     <script src="videos-data.js"></script>
@@ -1511,10 +1545,12 @@
                 <span class="notification-badge">3</span>
             </div>
             <!-- Search Bar Container -->
-            <div class="search-container">
+            <div class="search-container" style="position: relative;">
                 <i class="fas fa-search"></i>
-                <input type="text" id="search-bar" placeholder="Search movies..." oninput="handleSearch()" />
+                <input type="text" id="search-bar" placeholder="Search movies..." oninput="handleSearch()" onfocus="showSearchSuggestions()" onblur="hideSearchSuggestions()" />
                 <i class="fas fa-filter" onclick="toggleFilterModal()" style="margin-left: 10px; cursor: pointer;"></i>
+                <!-- Search Suggestions -->
+                <div class="search-suggestions" id="search-suggestions"></div>
             </div>
         </div>
     </header>
@@ -1827,6 +1863,10 @@
         
         // Track if we're navigating episodes/seasons
         let isEpisodeNavigation = false;
+        
+        // Track search suggestions
+        let searchTimeout;
+        let currentSearchTerm = '';
         
         const logosData = [
             { imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIlQrAhJwP4oyweBiy8rHJngSeN7E2_gNWQjtqKDOiRQ&s", videoUrl: "https://darulfikr.com/" },
@@ -2880,40 +2920,185 @@
             });
         };
         
+        // Enhanced search function to search by title, genre, tags, and keywords
         const handleSearch = () => {
-            // Reset scroll position
-            window.scrollTo(0, 0);
-            
-            // Set flag and push state for grid view
-            inGridView = true;
-            history.pushState({ gridView: true }, '');
-            
             const searchTerm = document.getElementById('search-bar').value.toLowerCase();
-            const filteredData = data.filter(item => item.title.toLowerCase().includes(searchTerm));
-            currentGridData = filteredData; // Set current grid data for filtering
+            currentSearchTerm = searchTerm;
             
-            const gridContainer = document.getElementById('grid-container');
-            gridContainer.innerHTML = '';
-            gridContainer.scrollTop = 0; // Reset grid container scroll
+            // Clear any existing timeout
+            clearTimeout(searchTimeout);
             
-            // Hide other sections
-            document.getElementById('discover-container').style.display = 'none';
-            document.getElementById('categories-container').style.display = 'none';
-            gridContainer.style.display = 'grid';
-            
-            // Add filter section
-            const filterSection = createFilterSection();
-            gridContainer.insertBefore(filterSection, gridContainer.firstChild);
-            
-            // Add search results to the grid
-            if (filteredData.length > 0) {
-                filteredData.forEach(item => {
-                    const frame = createFrame(item);
-                    gridContainer.appendChild(frame);
+            // Set a new timeout to delay the search
+            searchTimeout = setTimeout(() => {
+                // Reset scroll position
+                window.scrollTo(0, 0);
+                
+                // Set flag and push state for grid view
+                inGridView = true;
+                history.pushState({ gridView: true }, '');
+                
+                // Filter data based on search term across multiple fields
+                const filteredData = data.filter(item => {
+                    // Search in title
+                    if (item.title && item.title.toLowerCase().includes(searchTerm)) {
+                        return true;
+                    }
+                    
+                    // Search in genre
+                    if (item.genre && item.genre.toLowerCase().includes(searchTerm)) {
+                        return true;
+                    }
+                    
+                    // Search in tags
+                    if (item.tags && Array.isArray(item.tags)) {
+                        for (const tag of item.tags) {
+                            if (tag.toLowerCase().includes(searchTerm)) {
+                                return true;
+                            }
+                        }
+                    }
+                    
+                    // Search in description (keywords)
+                    if (item.description && item.description.toLowerCase().includes(searchTerm)) {
+                        return true;
+                    }
+                    
+                    // Search in category
+                    if (item.category && item.category.toLowerCase().includes(searchTerm)) {
+                        return true;
+                    }
+                    
+                    // Search in year
+                    if (item.year && item.year.toString().includes(searchTerm)) {
+                        return true;
+                    }
+                    
+                    // Search in type (Movie, Series, etc.)
+                    if (item.type && item.type.toLowerCase().includes(searchTerm)) {
+                        return true;
+                    }
+                    
+                    return false;
                 });
-            } else {
-                showNotification('No movies found.', 'warning');
+                
+                currentGridData = filteredData; // Set current grid data for filtering
+                
+                const gridContainer = document.getElementById('grid-container');
+                gridContainer.innerHTML = '';
+                gridContainer.scrollTop = 0; // Reset grid container scroll
+                
+                // Hide other sections
+                document.getElementById('discover-container').style.display = 'none';
+                document.getElementById('categories-container').style.display = 'none';
+                gridContainer.style.display = 'grid';
+                
+                // Add filter section
+                const filterSection = createFilterSection();
+                gridContainer.insertBefore(filterSection, gridContainer.firstChild);
+                
+                // Add search results to the grid
+                if (filteredData.length > 0) {
+                    filteredData.forEach(item => {
+                        const frame = createFrame(item);
+                        gridContainer.appendChild(frame);
+                    });
+                } else {
+                    showNotification('No movies found matching your search.', 'warning');
+                }
+            }, 300); // 300ms delay for better performance
+        };
+        
+        // Function to show search suggestions
+        const showSearchSuggestions = () => {
+            const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+            const suggestionsContainer = document.getElementById('search-suggestions');
+            
+            if (searchTerm.length < 2) {
+                suggestionsContainer.innerHTML = '';
+                suggestionsContainer.classList.remove('show');
+                return;
             }
+            
+            // Get unique suggestions from various fields
+            const suggestions = new Set();
+            
+            data.forEach(item => {
+                // Title suggestions
+                if (item.title && item.title.toLowerCase().includes(searchTerm)) {
+                    suggestions.add({
+                        text: item.title,
+                        type: 'Title',
+                        item: item
+                    });
+                }
+                
+                // Genre suggestions
+                if (item.genre && item.genre.toLowerCase().includes(searchTerm)) {
+                    suggestions.add({
+                        text: item.genre,
+                        type: 'Genre',
+                        item: item
+                    });
+                }
+                
+                // Tag suggestions
+                if (item.tags && Array.isArray(item.tags)) {
+                    item.tags.forEach(tag => {
+                        if (tag.toLowerCase().includes(searchTerm)) {
+                            suggestions.add({
+                                text: tag,
+                                type: 'Tag',
+                                item: item
+                            });
+                        }
+                    });
+                }
+                
+                // Category suggestions
+                if (item.category && item.category.toLowerCase().includes(searchTerm)) {
+                    suggestions.add({
+                        text: item.category,
+                        type: 'Category',
+                        item: item
+                    });
+                }
+            });
+            
+            // Convert to array and limit to 5 suggestions
+            const suggestionsArray = Array.from(suggestions).slice(0, 5);
+            
+            // Clear and populate suggestions container
+            suggestionsContainer.innerHTML = '';
+            
+            if (suggestionsArray.length > 0) {
+                suggestionsArray.forEach(suggestion => {
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.className = 'search-suggestion-item';
+                    suggestionItem.innerHTML = `
+                        ${suggestion.text}
+                        <span class="suggestion-type">${suggestion.type}</span>
+                    `;
+                    
+                    suggestionItem.onclick = () => {
+                        document.getElementById('search-bar').value = suggestion.text;
+                        handleSearch();
+                        suggestionsContainer.classList.remove('show');
+                    };
+                    
+                    suggestionsContainer.appendChild(suggestionItem);
+                });
+                
+                suggestionsContainer.classList.add('show');
+            } else {
+                suggestionsContainer.classList.remove('show');
+            }
+        };
+        
+        // Function to hide search suggestions with delay
+        const hideSearchSuggestions = () => {
+            setTimeout(() => {
+                document.getElementById('search-suggestions').classList.remove('show');
+            }, 200);
         };
         
         const showNotification = (message, type) => {
