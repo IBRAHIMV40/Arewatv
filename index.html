@@ -1428,51 +1428,49 @@
         overflow: hidden;
     }
     
-    /* Network Warning Styles - Updated to match screenshot */
+    /* Network Warning Styles - Updated to match image */
     .network-warning {
         position: fixed;
-        top: 60px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 90%;
-        max-width: 400px;
-        background-color: #000000; /* Changed to pure black like screenshot */
-        color: #ffffff; /* White text */
-        padding: 20px 15px;
-        border-radius: 8px;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000;
         display: flex;
-        align-items: center;
+        flex-direction: column;
         justify-content: center;
-        flex-direction: column; /* Changed to column for vertical layout */
-        z-index: 1000;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        align-items: center;
+        z-index: 9999;
         transition: opacity 0.3s ease;
-        border: 1px solid #333333; /* Added subtle border like screenshot */
     }
     .network-warning.hidden {
         opacity: 0;
         pointer-events: none;
     }
     .network-warning-icon {
-        font-size: 48px; /* Larger icon size like screenshot */
-        color: #ff0000; /* Red color for the WiFi icon */
-        margin-bottom: 15px; /* Space between icon and text */
+        font-size: 80px;
+        color: #ff0000;
+        margin-bottom: 20px;
     }
     .network-warning-text {
-        font-size: 16px; /* Larger text size like screenshot */
-        text-align: center;
-        font-weight: 500;
-    }
-    .network-warning-close {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: none;
-        border: none;
         color: #ffffff;
-        font-size: 18px;
+        font-size: 20px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    .network-warning-retry {
+        background-color: #00b300;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 30px;
+        font-size: 16px;
         cursor: pointer;
-        padding: 5px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+    .network-warning-retry:hover {
+        background-color: #009900;
     }
     </style>
     <!-- External JavaScript files -->
@@ -1490,11 +1488,11 @@
     <input type="radio" name="nav" id="nav-mylist" class="nav-radio">
     <input type="radio" name="nav" id="nav-apps" class="nav-radio">
     
-    <!-- Network Warning -->
+    <!-- Network Warning - Updated to match image -->
     <div class="network-warning hidden" id="network-warning">
         <i class="fas fa-wifi-slash network-warning-icon"></i>
         <div class="network-warning-text">No network connection found</div>
-        <button class="network-warning-close" onclick="hideNetworkWarning()">✖</button>
+        <button class="network-warning-retry" onclick="checkNetworkConnection()">Try Again</button>
     </div>
     
     <header>
@@ -3362,28 +3360,45 @@
             }
         };
         
-        // Network connection warning functions
+        // Network connection warning functions - Updated to match image
         const showNetworkWarning = () => {
             const networkWarning = document.getElementById('network-warning');
             networkWarning.classList.remove('hidden');
             
-            // Auto-hide after 5 seconds
-            setTimeout(() => {
-                hideNetworkWarning();
-            }, 5000);
+            // Hide app content when network warning is shown
+            document.querySelector('header').style.display = 'none';
+            document.getElementById('discover-container').style.display = 'none';
+            document.getElementById('categories-container').style.display = 'none';
+            document.getElementById('grid-container').style.display = 'none';
+            document.querySelector('footer').style.display = 'none';
         };
         
         const hideNetworkWarning = () => {
             const networkWarning = document.getElementById('network-warning');
             networkWarning.classList.add('hidden');
+            
+            // Restore app content when network warning is hidden
+            document.querySelector('header').style.display = 'flex';
+            
+            // Restore the appropriate section based on current state
+            if (inGridView) {
+                document.getElementById('grid-container').style.display = 'grid';
+            } else {
+                document.getElementById('discover-container').style.display = 'block';
+                document.getElementById('categories-container').style.display = 'block';
+            }
+            
+            document.querySelector('footer').style.display = 'flex';
         };
         
         // Check network connection status
         const checkNetworkConnection = () => {
-            if (!navigator.onLine) {
-                showNetworkWarning();
-            } else {
+            if (navigator.onLine) {
                 hideNetworkWarning();
+                showNotification('Network connection restored', 'success');
+            } else {
+                // Still offline, keep showing the warning
+                showNetworkWarning();
             }
         };
         
