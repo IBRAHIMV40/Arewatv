@@ -1427,6 +1427,45 @@
         flex: 1;
         overflow: hidden;
     }
+    
+    /* Network Warning Styles */
+    .network-warning {
+        position: fixed;
+        top: 60px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 400px;
+        background-color: #ff9800;
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        z-index: 1000;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: opacity 0.3s ease;
+    }
+    .network-warning.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+    .network-warning-icon {
+        margin-right: 10px;
+        font-size: 20px;
+    }
+    .network-warning-text {
+        flex: 1;
+        font-size: 14px;
+    }
+    .network-warning-close {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
     </style>
     <!-- External JavaScript files -->
     <script src="videos-data.js"></script>
@@ -1442,6 +1481,13 @@
     <input type="radio" name="nav" id="nav-trending" class="nav-radio">
     <input type="radio" name="nav" id="nav-mylist" class="nav-radio">
     <input type="radio" name="nav" id="nav-apps" class="nav-radio">
+    
+    <!-- Network Warning -->
+    <div class="network-warning hidden" id="network-warning">
+        <i class="fas fa-wifi-slash network-warning-icon"></i>
+        <div class="network-warning-text">No internet connection. Please check your network settings.</div>
+        <button class="network-warning-close" onclick="hideNetworkWarning()">✖</button>
+    </div>
     
     <header>
         <div class="header-top">
@@ -2426,6 +2472,12 @@
         let currentMovieInModal = null;
         
         const openVideoNav = (videoUrl, videoId, item) => {
+            // Check network connection before opening video
+            if (!navigator.onLine) {
+                showNetworkWarning();
+                return;
+            }
+            
             // Display the video navigation modal
             document.getElementById('video-nav').style.display = 'flex';
             
@@ -2771,8 +2823,13 @@
                     <p>${item.description}</p>
                 `;
                 
-                // Add click event to the entire history item
-                historyItem.onclick = () => openVideoNav(item.videoUrl, item.title, item);
+                // Add click event to the entire history item that closes the history modal
+                historyItem.onclick = () => {
+                    // Close the history modal first
+                    toggleHistoryModal();
+                    // Then open the video
+                    openVideoNav(item.videoUrl, item.title, item);
+                };
                 
                 historyItem.appendChild(img);
                 historyItem.appendChild(content);
@@ -3297,6 +3354,31 @@
             }
         };
         
+        // Network connection warning functions
+        const showNetworkWarning = () => {
+            const networkWarning = document.getElementById('network-warning');
+            networkWarning.classList.remove('hidden');
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                hideNetworkWarning();
+            }, 5000);
+        };
+        
+        const hideNetworkWarning = () => {
+            const networkWarning = document.getElementById('network-warning');
+            networkWarning.classList.add('hidden');
+        };
+        
+        // Check network connection status
+        const checkNetworkConnection = () => {
+            if (!navigator.onLine) {
+                showNetworkWarning();
+            } else {
+                hideNetworkWarning();
+            }
+        };
+        
         // Initialize all new features when the page loads
         window.addEventListener('load', () => {
             // Initialize filter options
@@ -3327,6 +3409,19 @@
             
             // Check for video ID in URL immediately
             checkVideoIdInUrl();
+            
+            // Check network connection on load
+            checkNetworkConnection();
+            
+            // Add event listeners for online/offline events
+            window.addEventListener('online', () => {
+                hideNetworkWarning();
+                showNotification('Network connection restored', 'success');
+            });
+            
+            window.addEventListener('offline', () => {
+                showNetworkWarning();
+            });
             
             // Add history state handling with immediate response
             window.addEventListener('popstate', (event) => {
