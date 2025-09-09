@@ -1773,6 +1773,9 @@
         // Track current grid data for filtering
         let currentGridData = [];
         
+        // Track if we're navigating episodes/seasons
+        let isEpisodeNavigation = false;
+        
         const logosData = [
             { imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIlQrAhJwP4oyweBiy8rHJngSeN7E2_gNWQjtqKDOiRQ&s", videoUrl: "https://darulfikr.com/" },
             { imgUrl: "https://via.placeholder.com/100", videoUrl: "https://youtube.com/embed/CumW3IY1mMg" },
@@ -2511,6 +2514,9 @@
                     
                     // Add click event
                     episodeBtn.onclick = () => {
+                        // Set flag to indicate we're navigating episodes
+                        isEpisodeNavigation = true;
+                        
                         // Remove active class from all buttons
                         document.querySelectorAll('.episode-btn').forEach(btn => {
                             btn.classList.remove('active');
@@ -2528,6 +2534,11 @@
                         
                         // Load episode in iframe
                         document.getElementById('video-player').src = episodeUrl;
+                        
+                        // Reset flag after a short delay
+                        setTimeout(() => {
+                            isEpisodeNavigation = false;
+                        }, 100);
                     };
                     
                     episodeScroller.appendChild(episodeBtn);
@@ -2560,6 +2571,9 @@
         // Function to go to a specific season
         const goToSeason = (seasonIndex) => {
             if (!currentMovieInModal || !currentMovieInModal.isSeries || !currentMovieInModal.seasons) return;
+            
+            // Set flag to indicate we're navigating episodes
+            isEpisodeNavigation = true;
             
             // Update current season
             currentMovieInModal.currentSeason = seasonIndex;
@@ -2606,6 +2620,9 @@
                 episodeBtn.appendChild(epNumber);
                 
                 episodeBtn.onclick = () => {
+                    // Set flag to indicate we're navigating episodes
+                    isEpisodeNavigation = true;
+                    
                     document.querySelectorAll('.episode-btn').forEach(btn => {
                         btn.classList.remove('active');
                     });
@@ -2619,6 +2636,11 @@
                     }
                     
                     document.getElementById('video-player').src = episodeUrl;
+                    
+                    // Reset flag after a short delay
+                    setTimeout(() => {
+                        isEpisodeNavigation = false;
+                    }, 100);
                 };
                 
                 episodeScroller.appendChild(episodeBtn);
@@ -2653,6 +2675,11 @@
             
             // Scroll to the beginning of the episode scroller
             episodeScroller.scrollLeft = 0;
+            
+            // Reset flag after a short delay
+            setTimeout(() => {
+                isEpisodeNavigation = false;
+            }, 100);
         };
         
         // Function to update save button state
@@ -2850,12 +2877,12 @@
             // Reset state immediately
             currentMovieInModal = null;
             inVideoModal = false;
+            isEpisodeNavigation = false; // Reset the flag
             
             // Clear any episode/season data
             const episodeFooter = document.getElementById('episode-footer');
             episodeFooter.style.display = 'none';
         };
-
         // Modified closeNav function for immediate closing
         const closeNav = () => {
             if (inVideoModal) {
@@ -3275,6 +3302,13 @@
             
             // Add history state handling with immediate response
             window.addEventListener('popstate', (event) => {
+                // If we're navigating episodes, ignore the back button
+                if (isEpisodeNavigation) {
+                    // Push state again to prevent closing the modal
+                    history.pushState({ videoOpen: true }, '');
+                    return;
+                }
+                
                 // Handle video modal - close immediately
                 if (inVideoModal) {
                     closeModal();
