@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hausa Movies</title>
+    <title>Movie Nest</title>
     <!-- Add Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
     <style>
         /* CSS remains the same as before */
         :root {
@@ -904,37 +908,7 @@
         .bars-icon:hover {
             color: #00b300;
         }
-        /* Logos Section */
-        .logos-container {
-            margin-top: 20px;
-            padding: 10px;
-        }
-        .logos-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .logos-scroll {
-            display: flex;
-            overflow-x: auto;
-            gap: 10px;
-            padding-bottom: 10px;
-        }
-        .logo-item {
-            flex: 0 0 auto;
-            width: 100px;
-            height: 100px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            cursor: pointer;
-        }
-        .logo-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        
         /* Bottom Navigation Bar */
         footer {
             display: flex;
@@ -979,40 +953,6 @@
         footer.hide {
             transform: translateY(100%);
             transition: transform 0.3s ease-in-out;
-        }
-        .profile-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        .profile-item img {
-            width: 100px;
-            height: 100px;
-            border-radius: 8px;
-        }
-        .profile-item h4 {
-            margin: 0;
-            font-size: 8px;
-            color: #333;
-        }
-        .profile-item p {
-            margin: 0;
-            font-size: 6px;
-            color: #777;
-        }
-        .profile-item button {
-            background-color: #00b300;
-            color: #fff;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 12px;
-        }
-        .profile-item button:hover {
-            background-color: #008000;
         }
         
         /* New styles for added features */
@@ -1346,166 +1286,283 @@
             cursor: pointer;
             font-size: 14px;
         }
-        /* Ad container styles */
-    .ad-container {
-        position: fixed;
-        bottom: 0;
-        width: 95%;
-        background: var(--card-bg);
-        border: 1px solid var(--border-color);
-        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
-        padding: 5px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        z-index: 1000;
-    }
-    .ad-content {
-        display: flex;
-        align-items: center;
-        flex-grow: 1;
-        overflow: hidden;
-    }
-    .app-icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 15px;
-        overflow: hidden;
-        margin-right: 15px;
-        flex-shrink: 0;
-    }
-    .app-icon img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    .ad-info {
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-    }
-    .app-name {
-        font-weight: bold;
-        font-size: 18px;
-        color: var(--text-primary);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 200px;
-        margin-bottom: 6px;
-    }
-    .ad-meta {
-        font-size: 14px;
-        color: var(--text-secondary);
-        white-space: nowrap;
-    }
-    .install-button {
-        background: var(--gradient-1);
-        color: white;
-        padding: 12px 20px;
-        border: none;
-        border-radius: 30px;
-        font-weight: bold;
-        cursor: pointer;
-        text-decoration: none;
-        margin-left: 15px;
-        flex-shrink: 0;
-        transition: all 0.3s ease;
-    }
-    .install-button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 16px rgba(255, 77, 77, 0.4);
-    }
-    .sponsored {
-        font-size: 12px;
-        color: var(--text-muted);
-        margin-right: 5px;
-    }
-    .ad-wrapper {
-        display: flex;
-        align-items: center;
-        flex: 1;
-        overflow: hidden;
-    }
-    
-    /* Network Warning Styles - Updated to match image */
-    .network-warning {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: #000;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-        transition: opacity 0.3s ease;
-    }
-    .network-warning.hidden {
-        opacity: 0;
-        pointer-events: none;
-    }
-    .network-warning-icon {
-        font-size: 80px;
-        color: #ff0000;
-        margin-bottom: 20px;
-    }
-    .network-warning-text {
-        color: #ffffff;
-        font-size: 20px;
-        margin-bottom: 30px;
-        text-align: center;
-    }
-    .network-warning-retry {
-        background-color: #00b300;
-        color: white;
-        border: none;
-        padding: 12px 30px;
-        border-radius: 30px;
-        font-size: 16px;
-        cursor: pointer;
-        font-weight: bold;
-        transition: background-color 0.3s ease;
-    }
-    .network-warning-retry:hover {
-        background-color: #009900;
-    }
-    
-    /* Search Suggestions */
-    .search-suggestions {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background-color: #333;
-        border-radius: 0 0 10px 10px;
-        max-height: 200px;
-        overflow-y: auto;
-        z-index: 100;
-        display: none;
-    }
-    .search-suggestions.show {
-        display: block;
-    }
-    .search-suggestion-item {
-        padding: 10px 15px;
-        cursor: pointer;
-        color: #fff;
-        border-bottom: 1px solid #444;
-    }
-    .search-suggestion-item:last-child {
-        border-bottom: none;
-    }
-    .search-suggestion-item:hover {
-        background-color: #444;
-    }
-    .search-suggestion-item .suggestion-type {
-        font-size: 12px;
-        color: #aaa;
-        margin-left: 5px;
-    }
+        
+        /* Upload Modal Styles - Updated for scrolling */
+        .upload-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto; /* Enable scrolling for the modal background */
+            padding: 20px 0; /* Add padding for better scrolling */
+        }
+        .upload-modal.open {
+            display: flex;
+        }
+        .upload-content {
+            background-color: #fff;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-height: 90vh; /* Limit height to 90% of viewport */
+            overflow-y: auto; /* Enable scrolling for content */
+            margin: auto; /* Center the modal */
+        }
+        .upload-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            position: sticky; /* Make header stick to top */
+            top: 0;
+            background-color: #fff;
+            z-index: 10; /* Ensure header stays above content */
+            padding-bottom: 10px;
+        }
+        .upload-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #00b300;
+            box-shadow: 0 0 0 2px rgba(0, 179, 0, 0.2);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+            max-height: 150px; /* Limit textarea height */
+        }
+        .upload-btn {
+            background: linear-gradient(to right, #004d00, #00b300);
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        .upload-btn:hover {
+            background: linear-gradient(to right, #003d00, #009900);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .upload-btn:active {
+            transform: translateY(0);
+        }
+        .upload-example {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            font-size: 12px;
+            border-left: 4px solid #00b300;
+        }
+        .upload-example h4 {
+            margin: 0 0 8px;
+            color: #333;
+            font-size: 14px;
+        }
+        .upload-example p {
+            margin: 0 0 5px;
+            color: #666;
+            line-height: 1.4;
+        }
+        
+        /* Add smooth scrolling */
+        .upload-content {
+            scroll-behavior: smooth;
+        }
+        
+        /* Style for scrollbar in Webkit browsers */
+        .upload-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .upload-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        .upload-content::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        .upload-content::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        
+        /* Network Warning Styles - Updated to match image */
+        .network-warning {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+        .network-warning.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .network-warning-icon {
+            font-size: 80px;
+            color: #ff0000;
+            margin-bottom: 20px;
+        }
+        .network-warning-text {
+            color: #ffffff;
+            font-size: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .network-warning-retry {
+            background-color: #00b300;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .network-warning-retry:hover {
+            background-color: #009900;
+        }
+        
+        /* Search Suggestions */
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            border-radius: 0 0 10px 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+        }
+        .search-suggestions.show {
+            display: block;
+        }
+        .search-suggestion-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            color: #fff;
+            border-bottom: 1px solid #444;
+        }
+        .search-suggestion-item:last-child {
+            border-bottom: none;
+        }
+        .search-suggestion-item:hover {
+            background-color: #444;
+        }
+        .search-suggestion-item .suggestion-type {
+            font-size: 12px;
+            color: #aaa;
+            margin-left: 5px;
+        }
+        
+        /* Loading Spinner */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #00b300;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Improved Notifications */
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 10000;
+            font-weight: 500;
+            transition: opacity 0.5s ease;
+        }
+
+        .notification.success {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .notification.warning {
+            background-color: #FF9800;
+            color: white;
+        }
+
+        .notification.error {
+            background-color: #F44336;
+            color: white;
+        }
+
+        .notification.info {
+            background-color: #2196F3;
+            color: white;
+        }
     </style>
     <!-- External JavaScript files -->
     <script src="videos-data.js"></script>
@@ -1515,6 +1572,11 @@
     <script src="ads-data.js"></script>
 </head>
 <body>
+    <!-- Loading Spinner -->
+    <div id="loading" class="loading" style="display: none;">
+        <div class="loading-spinner"></div>
+    </div>
+
     <!-- Hidden radio buttons for navigation -->
     <input type="radio" name="nav" id="nav-discover" class="nav-radio" checked>
     <input type="radio" name="nav" id="nav-movies" class="nav-radio">
@@ -1537,7 +1599,7 @@
             </div>
             <!-- Logo as Image -->
             <div class="logo">
-                <img src="https://ucarecdn.com/cee71935-3e43-44cb-a532-f962e8a311d1/-/preview/1000x1000/" alt="Hausa Movies Logo" />
+                <img src="https://ucarecdn.com/cee71935-3e43-44cb-a532-f962e8a311d1/-/preview/1000x1000/" alt="Movie Nest Logo" />
             </div>
             <!-- History Icon -->
             <div class="history-icon" onclick="toggleHistoryModal()">
@@ -1612,7 +1674,7 @@
                 <i class="fas fa-user" style="font-size: 36px;"></i>
             </div>
             <div class="user-info">
-                <h3 id="user-name">Hausa Movies User</h3>
+                <h3 id="user-name">Movie Nest User</h3>
                 <p>Free Account</p>
             </div>
             <button class="edit-profile-btn" onclick="openEditProfileModal()">
@@ -1620,15 +1682,9 @@
             </button>
         </div>
         
-        <!-- Logos Section -->
-        <div class="logos-container">
-            <div class="logos-title">Our Partners</div>
-            <div class="logos-scroll" id="logos-scroll"></div>
-        </div>
-        
         <div class="sidebar-list" id="sidebar-list">
-            <!-- Previous sidebar items -->
-            <div class="sidebar-item">
+            <!-- Director Center - Now with upload functionality -->
+            <div class="sidebar-item" onclick="openUploadModal()">
                 <img src="https://cdn-icons-png.flaticon.com/128/18831/18831648.png" alt="Director Center">
                 <span>Director Center</span>
             </div>
@@ -1657,6 +1713,71 @@
                 <img src="https://cdn-icons-png.flaticon.com/128/2838/2838694.png" alt="Help">
                 <span>Help & Support</span>
             </div>
+        </div>
+    </div>
+    
+    <!-- Upload Modal -->
+    <div class="upload-modal" id="upload-modal">
+        <div class="upload-content">
+            <div class="upload-header">
+                <h3>Upload Video</h3>
+                <button onclick="closeUploadModal()">✖</button>
+            </div>
+            <form class="upload-form" id="upload-form">
+                <div class="form-group">
+                    <label for="video-title">Video Title</label>
+                    <input type="text" id="video-title" placeholder="Enter video title" required>
+                </div>
+                <div class="form-group">
+                    <label for="video-description">Description</label>
+                    <textarea id="video-description" placeholder="Enter video description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="video-type">Video Type</label>
+                    <select id="video-type" required>
+                        <option value="movie">Movie</option>
+                        <option value="series">Series</option>
+                        <option value="anime">Anime</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="video-category">Category</label>
+                    <select id="video-category" required>
+                        <option value="Hollywood">Hollywood</option>
+                        <option value="Nollywood">Nollywood</option>
+                        <option value="Bollywood">Bollywood</option>
+                        <option value="Kannywood">Kannywood</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="video-genre">Genre</label>
+                    <select id="video-genre" required>
+                        <option value="Action">Action</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Comedy">Comedy</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Thriller">Thriller</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="video-year">Year</label>
+                    <input type="number" id="video-year" min="1900" max="2030" placeholder="2023" required>
+                </div>
+                <div class="form-group">
+                    <label for="video-url">Video URL (YouTube embed or Google Drive preview)</label>
+                    <input type="url" id="video-url" placeholder="https://www.youtube.com/embed/VIDEO_ID or https://drive.google.com/file/d/FILE_ID/preview" required>
+                </div>
+                <div class="form-group">
+                    <label for="video-thumbnail">Thumbnail URL</label>
+                    <input type="url" id="video-thumbnail" placeholder="https://example.com/thumbnail.jpg">
+                </div>
+                <button type="submit" class="upload-btn">Upload Video</button>
+                <div class="upload-example">
+                    <h4>Example URLs:</h4>
+                    <p>YouTube: https://www.youtube.com/embed/MN4hHqWWpwU</p>
+                    <p>Google Drive: https://drive.google.com/file/d/1CWOELtePqeDDI-t07aWB0NAWQXlvH-ul/preview</p>
+                </div>
+            </form>
         </div>
     </div>
     
@@ -1691,7 +1812,7 @@
     
     <div class="notification-bar" id="notification-bar">
         <img src="https://bit.ly/434z6xR" alt="App Logo">
-        <div class="notification-text">Enjoy more movies download Hausa Movies app.</div>
+        <div class="notification-text">Enjoy more movies download movie nest app.</div>
         <button class="notification-button" onclick="window.open('https://www.appcreator24.com/app3501058-ks4rfa', '_blank')">OPEN</button>
         <button class="close-button" onclick="closeNotification()">✖</button>
     </div>
@@ -1768,13 +1889,6 @@
                 </div>
             </div>
         </div>
-        <!-- Ad container below popular videos -->
-  <div class="ad-container" id="adContainer" style="display: none;">
-    <div class="ad-wrapper">
-      <div class="ad-content" id="adContent"></div>
-    </div>
-    <a href="#" id="installButton" class="install-button" target="_blank">Install</a>
-  </div>
     </div>
     
     <!-- Social Media Descriptions -->
@@ -1830,18 +1944,88 @@
     </footer>
     
     <script>
+        // Initialize Firebase with error handling
+        let firebaseApp, db, storage;
+        
+        try {
+            const firebaseConfig = {
+                apiKey: "AIzaSyA9JK8BX2pAXpmW_d6GpXRZjFpTLkso1KI",
+                authDomain: "movie-nest-77e6b.firebaseapp.com",
+                projectId: "movie-nest-77e6b",
+                storageBucket: "movie-nest-77e6b.firebasestorage.app",
+                messagingSenderId: "513317696448",
+                appId: "1:513317696448:web:c70c566151226ef55bce25"
+            };
+            
+            firebaseApp = firebase.initializeApp(firebaseConfig);
+            db = firebase.firestore();
+            storage = firebase.storage();
+            
+            console.log("Firebase initialized successfully");
+        } catch (error) {
+            console.error("Firebase initialization error:", error);
+            showNotification("Failed to initialize app. Please refresh.", "warning");
+        }
+        
         // Initialize saved movies from localStorage
         let savedMovies = JSON.parse(localStorage.getItem('savedMovies')) || [];
         
         // Initialize user profile from localStorage
         let userProfile = JSON.parse(localStorage.getItem('userProfile')) || {
-            name: 'Hausa Movies User',
+            name: 'Movie Nest User',
             avatar: null
         };
         
+        // Fallback data in case external files fail to load
+        const fallbackData = [
+            {
+                id: 1,
+                title: "Sample Movie",
+                description: "A sample movie for testing",
+                imgUrl: "https://picsum.photos/seed/movie1/300/450.jpg",
+                videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
+                category: "Hollywood",
+                genre: "Action",
+                year: 2023,
+                type: "Movie"
+            }
+        ];
+        
+        // Data validation
+        let videosData, seriesData, animeData, profileApps, adsData;
+        
+        function validateData() {
+            if (!videosData || !Array.isArray(videosData)) {
+                console.error("videosData is missing or invalid");
+                return false;
+            }
+            if (!seriesData || !Array.isArray(seriesData)) {
+                console.error("seriesData is missing or invalid");
+                return false;
+            }
+            if (!animeData || !Array.isArray(animeData)) {
+                console.error("animeData is missing or invalid");
+                return false;
+            }
+            return true;
+        }
+        
         // Combine videos, series, and anime data and shuffle
-        const combinedData = [...videosData, ...seriesData, ...animeData];
-        const data = shuffleArray(combinedData);
+        let combinedData;
+        let data;
+        
+        try {
+            if (validateData()) {
+                combinedData = [...videosData, ...seriesData, ...animeData];
+            } else {
+                combinedData = fallbackData;
+                console.warn("Using fallback data due to validation errors");
+            }
+            data = shuffleArray(combinedData);
+        } catch (error) {
+            console.error("Error combining data:", error);
+            data = fallbackData;
+        }
         
         // Track if we're currently in the video modal
         let inVideoModal = false;
@@ -1858,6 +2042,9 @@
         // Track if we're currently in the sidebar modal
         let inSidebarModal = false;
         
+        // Track if we're currently in the upload modal
+        let inUploadModal = false;
+        
         // Track current grid data for filtering
         let currentGridData = [];
         
@@ -1868,37 +2055,131 @@
         let searchTimeout;
         let currentSearchTerm = '';
         
-        const logosData = [
-            { imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIlQrAhJwP4oyweBiy8rHJngSeN7E2_gNWQjtqKDOiRQ&s", videoUrl: "https://darulfikr.com/" },
-            { imgUrl: "https://via.placeholder.com/100", videoUrl: "https://youtube.com/embed/CumW3IY1mMg" },
-            { imgUrl: "https://via.placeholder.com/100", videoUrl: "https://youtube.com/embed/SFtKVKoscqA" },
-            { imgUrl: "https://via.placeholder.com/100", videoUrl: "https://youtube.com/embed/hJzZRl1C8X0" },
-            { imgUrl: "https://via.placeholder.com/100", videoUrl: "https://youtube.com/embed/BjkncLAZu80" },
-            { imgUrl: "https://via.placeholder.com/100", videoUrl: "https://youtube.com/embed/UPjyNg1mKAM" },
-            { imgUrl: "https://via.placeholder.com/100", videoUrl: "https://youtube.com/embed/iTNyJse9fdk" },
-            { imgUrl: "https://via.placeholder.com/100", videoUrl: "https://youtube.com/embed/siFLpeqOWDQ" },
-            { imgUrl: "https://via.placeholder.com/100", videoUrl: "https://youtube.com/embed/Ma9xquhYyT0" },
-        ];
-        const createLogosSection = () => {
-            const logosScroll = document.getElementById('logos-scroll');
-            logosScroll.innerHTML = '';
-            logosData.forEach(logo => {
-                const logoItem = document.createElement('div');
-                logoItem.className = 'logo-item';
-                const img = document.createElement('img');
-                img.src = logo.imgUrl;
-                img.alt = 'Logo';
-                logoItem.appendChild(img);
-                logosScroll.appendChild(logoItem);
-                // Add click event to open video
-                logoItem.onclick = () => {
-                    document.getElementById('video-nav').style.display = 'flex';
-                    document.getElementById('video-player').src = logo.videoUrl;
-                };
-            });
+        // Function to show/hide loading spinner
+        function showLoading() {
+            document.getElementById('loading').style.display = 'flex';
+        }
+        
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+        }
+        
+        // Function to validate video URLs
+        function isValidVideoUrl(url) {
+            try {
+                const urlObj = new URL(url);
+                return (
+                    urlObj.hostname.includes('youtube.com') || 
+                    urlObj.hostname.includes('drive.google.com')
+                );
+            } catch (e) {
+                return false;
+            }
+        }
+        
+        // Function to toggle the upload modal
+        const openUploadModal = () => {
+            const uploadModal = document.getElementById('upload-modal');
+            const sidebarModal = document.getElementById('sidebar-modal');
+            
+            // Close sidebar modal first
+            if (sidebarModal.classList.contains('open')) {
+                sidebarModal.classList.remove('open');
+                inSidebarModal = false;
+            }
+            
+            // Open upload modal
+            uploadModal.classList.add('open');
+            inUploadModal = true;
+            
+            // Push state to history
+            history.pushState({ uploadOpen: true }, '');
+            
+            // Reset form
+            document.getElementById('upload-form').reset();
+            
+            // Scroll to top of modal content
+            setTimeout(() => {
+                const uploadContent = document.querySelector('.upload-content');
+                if (uploadContent) {
+                    uploadContent.scrollTop = 0;
+                }
+            }, 100);
         };
-        // Call the function to create the logos section
-        createLogosSection();
+        
+        const closeUploadModal = () => {
+            const uploadModal = document.getElementById('upload-modal');
+            uploadModal.classList.remove('open');
+            inUploadModal = false;
+            
+            // Reset form
+            document.getElementById('upload-form').reset();
+        };
+        
+        // Handle form submission for video upload - NO LOGIN REQUIRED
+        document.getElementById('upload-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const title = document.getElementById('video-title').value;
+            const description = document.getElementById('video-description').value;
+            const type = document.getElementById('video-type').value;
+            const category = document.getElementById('video-category').value;
+            const genre = document.getElementById('video-genre').value;
+            const year = document.getElementById('video-year').value;
+            const videoUrl = document.getElementById('video-url').value;
+            const thumbnail = document.getElementById('video-thumbnail').value || `https://picsum.photos/seed/${Math.random().toString(36).substring(7)}/300/450.jpg`;
+            
+            // Validate URL format
+            if (!isValidVideoUrl(videoUrl)) {
+                showNotification('Please enter a valid YouTube embed or Google Drive preview URL', 'warning');
+                return;
+            }
+            
+            try {
+                showLoading();
+                
+                // Create video object without requiring login
+                const videoData = {
+                    title,
+                    description,
+                    type,
+                    category,
+                    genre,
+                    year: parseInt(year),
+                    videoUrl,
+                    imgUrl: thumbnail,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    uploadedBy: 'anonymous' // Use 'anonymous' instead of user ID
+                };
+                
+                // Add to Firestore
+                const docRef = await db.collection('videos').add(videoData);
+                
+                // Show success message
+                showNotification('Video uploaded successfully!', 'success');
+                
+                // Close modal
+                closeUploadModal();
+                
+                // Add the new video to the local data array
+                const newVideo = {
+                    id: docRef.id,
+                    ...videoData
+                };
+                data.unshift(newVideo);
+                
+                // Refresh the UI
+                createDiscoverSection();
+                createCategories();
+                
+            } catch (error) {
+                console.error('Error uploading video:', error);
+                showNotification('Error uploading video. Please try again.', 'warning');
+            } finally {
+                hideLoading();
+            }
+        });
         
         // Function to toggle the sidebar modal
         const toggleSidebarModal = () => {
@@ -1990,7 +2271,7 @@
             sidebarList.innerHTML = '';
             // Example list of URL logos (replace with your own data)
             const urlLogos = [
-                { logoUrl: "https://cdn-icons-png.flaticon.com/128/18831/18831648.png", name: "Director Center", url: "#" },
+                { logoUrl: "https://cdn-icons-png.flaticon.com/128/18831/18831648.png", name: "Director Center", url: "#", isUpload: true },
                 { logoUrl: "https://cdn-icons-png.flaticon.com/128/5303/5303479.png", name: "Earn Rewards", url: "#" },
                 { logoUrl: "https://cdn-icons-png.flaticon.com/128/9592/9592247.png", name: "Viewer Gift", url: "#" },
                 { logoUrl: "https://cdn-icons-png.flaticon.com/128/18392/18392966.png", name: "Online Service", url: "#" },
@@ -2001,7 +2282,14 @@
             urlLogos.forEach(item => {
                 const sidebarItem = document.createElement('div');
                 sidebarItem.className = 'sidebar-item';
-                sidebarItem.onclick = () => window.open(item.url, '_blank');
+                
+                if (item.isUpload) {
+                    // Director Center with upload functionality
+                    sidebarItem.onclick = openUploadModal;
+                } else {
+                    sidebarItem.onclick = () => window.open(item.url, '_blank');
+                }
+                
                 const img = document.createElement('img');
                 img.src = item.logoUrl;
                 img.alt = item.name;
@@ -2203,10 +2491,14 @@
             gridContainer.style.display = 'block'; // Use block for list layout
             
             // Add profile content using profileApps data
-            profileApps.forEach(item => {
-                const profileItem = createProfileItem(item);
-                gridContainer.appendChild(profileItem);
-            });
+            if (profileApps && Array.isArray(profileApps)) {
+                profileApps.forEach(item => {
+                    const profileItem = createProfileItem(item);
+                    gridContainer.appendChild(profileItem);
+                });
+            } else {
+                showNotification('Profile apps data not available', 'warning');
+            }
         };
         
         const showHomeVideos = () => {
@@ -2521,6 +2813,12 @@
             // Check network connection before opening video
             if (!navigator.onLine) {
                 showNetworkWarning();
+                return;
+            }
+            
+            // Validate video URL
+            if (!isValidVideoUrl(videoUrl)) {
+                showNotification('Invalid video URL', 'warning');
                 return;
             }
             
@@ -3101,20 +3399,52 @@
             }, 200);
         };
         
-        const showNotification = (message, type) => {
+        // Improved notification system
+        function showNotification(message, type = 'info') {
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
             notification.textContent = message;
-            document.body.appendChild(notification);
+            
+            // Position fixed at top center
             notification.style.position = 'fixed';
-            notification.style.top = '50%';
+            notification.style.top = '20px';
             notification.style.left = '50%';
-            notification.style.transform = 'translate(-50%, -50%)';
-            notification.style.zIndex = '9999';
+            notification.style.transform = 'translateX(-50%)';
+            notification.style.zIndex = '10000';
+            notification.style.padding = '15px 25px';
+            notification.style.borderRadius = '8px';
+            notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+            
+            // Style based on type
+            switch(type) {
+                case 'success':
+                    notification.style.backgroundColor = '#4CAF50';
+                    notification.style.color = 'white';
+                    break;
+                case 'warning':
+                    notification.style.backgroundColor = '#FF9800';
+                    notification.style.color = 'white';
+                    break;
+                case 'error':
+                    notification.style.backgroundColor = '#F44336';
+                    notification.style.color = 'white';
+                    break;
+                default:
+                    notification.style.backgroundColor = '#2196F3';
+                    notification.style.color = 'white';
+            }
+            
+            document.body.appendChild(notification);
+            
+            // Auto remove after 3 seconds
             setTimeout(() => {
-                notification.remove();
+                notification.style.opacity = '0';
+                notification.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 500);
             }, 3000);
-        };
+        }
         
         // Function to close the modal - optimized for immediate closing
         const closeModal = () => {
@@ -3262,11 +3592,19 @@
         }
         
         // Initialize the page
-        createCarousel();
-        createDiscoverSection();
-        createCategories();
-        updateHistoryList();
-        initCarousel();
+        function initializeApp() {
+            try {
+                createCarousel();
+                createDiscoverSection();
+                createCategories();
+                updateHistoryList();
+                initCarousel();
+                console.log("App initialized successfully");
+            } catch (error) {
+                console.error("App initialization failed:", error);
+                showNotification("Failed to load content. Please check your connection.", "warning");
+            }
+        }
         
         // Add category button click handlers
         document.addEventListener('DOMContentLoaded', () => {
@@ -3425,7 +3763,7 @@
             if (navigator.share) {
                 navigator.share({
                     title: currentMovieInModal.title,
-                    text: 'Check out this movie on Hausa Movies!',
+                    text: 'Check out this movie on Movie Nest!',
                     url: shareUrl
                 })
                 .then(() => console.log('Shared successfully'))
@@ -3581,11 +3919,54 @@
             if (navigator.onLine) {
                 hideNetworkWarning();
                 showNotification('Network connection restored', 'success');
+                // Attempt to reload data
+                initializeApp();
             } else {
                 // Still offline, keep showing the warning
                 showNetworkWarning();
             }
         };
+        
+        // Ad logic
+        const adContainer = document.getElementById('adContainer');
+        const adContent = document.getElementById('adContent');
+        const installButton = document.getElementById('installButton');
+        let currentAdIndex = parseInt(localStorage.getItem('currentAdIndex')) || 0;
+        function showAd(index) {
+            if (!adsData || !Array.isArray(adsData) || adsData.length === 0) {
+                console.warn("Ads data not available");
+                return;
+            }
+            
+            const app = adsData[index];
+            adContent.innerHTML = `
+                <div class="app-icon">
+                    <img src="${app.icon}" alt="App Icon" />
+                </div>
+                <div class="ad-info">
+                    <div class="app-name">${app.name}</div>
+                    <div class="ad-meta">
+                        <span class="sponsored">Sponsored ·</span>
+                        <span>${app.rating} ★ FREE</span>
+                    </div>
+                </div>
+            `;
+            installButton.href = app.link;
+            adContainer.style.display = 'flex';
+            localStorage.setItem('currentAdIndex', index);
+        }
+        function rotateAds() {
+            if (!adsData || !Array.isArray(adsData) || adsData.length === 0) {
+                console.warn("Ads data not available, skipping rotation");
+                return;
+            }
+            
+            showAd(currentAdIndex);
+            currentAdIndex = (currentAdIndex + 1) % adsData.length;
+        }
+        // Show first ad immediately and rotate
+        rotateAds();
+        setInterval(rotateAds, 15000);
         
         // Initialize all new features when the page loads
         window.addEventListener('load', () => {
@@ -3631,6 +4012,20 @@
                 showNetworkWarning();
             });
             
+            // Add event listener to close modal when clicking outside
+            document.getElementById('upload-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeUploadModal();
+                }
+            });
+            
+            // Add keyboard event to close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && inUploadModal) {
+                    closeUploadModal();
+                }
+            });
+            
             // Add history state handling with immediate response
             window.addEventListener('popstate', (event) => {
                 // If we're navigating episodes, ignore the back button
@@ -3668,43 +4063,20 @@
                     document.getElementById('sidebar-modal').classList.remove('open');
                     inSidebarModal = false;
                 }
+                // Handle upload modal
+                else if (inUploadModal) {
+                    document.getElementById('upload-modal').classList.remove('open');
+                    inUploadModal = false;
+                }
                 // Default to discover if no specific state
                 else {
                     showDiscoverSection();
                 }
             });
+            
+            // Initialize the app
+            initializeApp();
         });
-        
-        // Ad logic
-      const adContainer = document.getElementById('adContainer');
-      const adContent = document.getElementById('adContent');
-      const installButton = document.getElementById('installButton');
-      let currentAdIndex = parseInt(localStorage.getItem('currentAdIndex')) || 0;
-      function showAd(index) {
-        const app = adsData[index];
-        adContent.innerHTML = `
-          <div class="app-icon">
-            <img src="${app.icon}" alt="App Icon" />
-          </div>
-          <div class="ad-info">
-            <div class="app-name">${app.name}</div>
-            <div class="ad-meta">
-              <span class="sponsored">Sponsored ·</span>
-              <span>${app.rating} ★ FREE</span>
-            </div>
-          </div>
-        `;
-        installButton.href = app.link;
-        adContainer.style.display = 'flex';
-        localStorage.setItem('currentAdIndex', index);
-      }
-      function rotateAds() {
-        showAd(currentAdIndex);
-        currentAdIndex = (currentAdIndex + 1) % adsData.length;
-      }
-      // Show first ad immediately and rotate
-      rotateAds();
-      setInterval(rotateAds, 15000);
     </script>
 </body>
 </html>
