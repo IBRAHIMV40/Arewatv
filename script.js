@@ -2968,7 +2968,7 @@ const shareMovie = () => {
     if (navigator.share) {
         navigator.share({
             title: currentMovieInModal.title,
-            text: 'Check out this movie on Arewatv!',
+            text: 'Check out this movie on Movie Nest!',
             url: shareUrl
         })
         .then(() => console.log('Shared successfully'))
