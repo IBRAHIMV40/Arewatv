@@ -87,7 +87,6 @@ const fallbackData = [
 
 // Data validation
 let videosData, seriesData, animeData, profileApps, adsData;
-
 function validateData() {
     if (!videosData || !Array.isArray(videosData)) {
         console.error("videosData is missing or invalid");
@@ -107,7 +106,6 @@ function validateData() {
 // Combine videos, series, and anime data and shuffle
 let combinedData;
 let data;
-
 try {
     if (validateData()) {
         combinedData = [...videosData, ...seriesData, ...animeData];
@@ -1410,6 +1408,7 @@ const populateSidebar = () => {
         sidebarList.appendChild(sidebarItem);
     });
 };
+
 // Call the function to populate the sidebar on page load
 populateSidebar();
 
@@ -1494,6 +1493,7 @@ const createDiscoverSection = () => {
         discoverScroll.appendChild(discoverItem);
     });
 };
+
 const createCategories = () => {
     const categories = [...new Set(data.map(item => item.category))]; // Get unique categories
     const container = document.getElementById('categories-container');
@@ -2113,6 +2113,11 @@ const checkVideoIdInUrl = async () => {
         openingDirectLink = true;
         
         try {
+            // Wait for Firebase to initialize
+            if (!firebase.apps.length) {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+            
             // Fetch videos from Firestore
             const fetchedVideos = await fetchVideosFromFirestore();
             if (fetchedVideos.length > 0) {
@@ -2907,7 +2912,6 @@ function showNotification(message, type = 'info') {
 }
 
 // New functions for added features
-
 // Apply filters
 const applyFilters = () => {
     // Reset scroll position
@@ -3117,6 +3121,7 @@ const adContainer = document.getElementById('adContainer');
 const adContent = document.getElementById('adContent');
 const installButton = document.getElementById('installButton');
 let currentAdIndex = parseInt(localStorage.getItem('currentAdIndex')) || 0;
+
 function showAd(index) {
     if (!adsData || !Array.isArray(adsData) || adsData.length === 0) {
         console.warn("Ads data not available");
@@ -3140,6 +3145,7 @@ function showAd(index) {
     adContainer.style.display = 'flex';
     localStorage.setItem('currentAdIndex', index);
 }
+
 function rotateAds() {
     if (!adsData || !Array.isArray(adsData) || adsData.length === 0) {
         console.warn("Ads data not available, skipping rotation");
@@ -3149,6 +3155,7 @@ function rotateAds() {
     showAd(currentAdIndex);
     currentAdIndex = (currentAdIndex + 1) % adsData.length;
 }
+
 // Show first ad immediately and rotate
 rotateAds();
 setInterval(rotateAds, 15000);
@@ -3380,18 +3387,28 @@ async function initializeApp() {
     try {
         showLoading();
         
-        // Fetch videos from Firestore
-        const fetchedVideos = await fetchVideosFromFirestore();
-        if (fetchedVideos.length > 0) {
-            data = shuffleArray(fetchedVideos);
-            combinedData = data;
-            createCarousel();
-            createDiscoverSection();
-            createCategories();
-            updateHistoryList();
-            initCarousel();
+        // Check if we need to open a direct video link
+        const urlParams = new URLSearchParams(window.location.search);
+        const videoId = urlParams.get('videoId');
+        
+        if (videoId) {
+            // If there's a video ID, we'll handle it in checkVideoIdInUrl
+            await checkVideoIdInUrl();
         } else {
-            showNotification('No videos available. Please check back later.', 'warning');
+            // Otherwise, proceed with normal initialization
+            // Fetch videos from Firestore
+            const fetchedVideos = await fetchVideosFromFirestore();
+            if (fetchedVideos.length > 0) {
+                data = shuffleArray(fetchedVideos);
+                combinedData = data;
+                createCarousel();
+                createDiscoverSection();
+                createCategories();
+                updateHistoryList();
+                initCarousel();
+            } else {
+                showNotification('No videos available. Please check back later.', 'warning');
+            }
         }
         
         // Fetch ads from Firestore
@@ -3625,6 +3642,7 @@ const closeModal = () => {
         }
     }
 };
+
 // Modified closeNav function for immediate closing
 const closeNav = () => {
     if (inVideoModal) {
