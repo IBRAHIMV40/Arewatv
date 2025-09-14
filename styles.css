@@ -1845,7 +1845,7 @@ footer.hide {
 .ad-container {
     position: fixed;
     bottom: 0;
-    width: 100%;
+    width: 96.5%;
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
