@@ -10,7 +10,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
-    <!-- Link to CSS file -->
+    <!-- External CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -45,7 +45,7 @@
             </div>
             <!-- Logo as Image -->
             <div class="logo">
-                <img src="https://ucarecdn.com/25f57ae2-d57d-485f-ab75-d1d2917395b0/-/preview/1000x1000/" alt="Arewatv Logo" />
+                <img src="https://ucarecdn.com/cee71935-3e43-44cb-a532-f962e8a311d1/-/preview/1000x1000/" alt="Movie Nest Logo" />
             </div>
             <!-- History Icon -->
             <div class="history-icon" onclick="toggleHistoryModal()">
@@ -419,6 +419,12 @@
         </div>
     </div>
     
+    <div class="notification-bar" id="notification-bar">
+        <img src="https://bit.ly/434z6xR" alt="App Logo">
+        <div class="notification-text">Enjoy more movies download movie nest app.</div>
+        <button class="notification-button" onclick="window.open('https://www.appcreator24.com/app3501058-ks4rfa', '_blank')">OPEN</button>
+        <button class="close-button" onclick="closeNotification()">✖</button>
+    </div>
     <!-- History Modal -->
     <div class="history-modal" id="history-modal">
         <div class="history-modal-header">
@@ -428,7 +434,6 @@
         <div class="history-list" id="history-list"></div>
         <button class="clear-history-button" onclick="clearHistory()">Clear All History</button>
     </div>
-    
     <!-- Discover Section -->
     <div class="discover-container" id="discover-container">
         <!-- Carousel Section - Now inside discover section -->
@@ -560,7 +565,7 @@
         </label>
     </footer>
     
-    <!-- Link to JavaScript file -->
+    <!-- External JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
