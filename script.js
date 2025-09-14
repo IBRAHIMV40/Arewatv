@@ -77,7 +77,7 @@ const fallbackData = [
         title: "Sample Movie",
         description: "A sample movie for testing",
         imgUrl: "https://picsum.photos/seed/movie1/300/450.jpg",
-        videoUrl: "https://www.youtube.com/embed/MN4hHWpwU",
+        videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
         category: "Algaita Dub-Studio",
         genre: "Action",
         year: 2023,
@@ -193,6 +193,108 @@ function isValidVideoUrl(url) {
     }
 }
 
+// Save form data to localStorage
+function saveUploadFormData() {
+    const formData = {
+        title: document.getElementById('video-title').value,
+        description: document.getElementById('video-description').value,
+        type: document.getElementById('video-type').value,
+        category: document.getElementById('video-category').value,
+        genre: document.getElementById('video-genre').value,
+        country: document.getElementById('video-country').value,
+        year: document.getElementById('video-year').value,
+        trending: document.getElementById('video-trending').checked,
+        videoUrl: document.getElementById('video-url').value,
+        downloadUrl: document.getElementById('video-download-url').value,
+        thumbnail: document.getElementById('video-thumbnail').value,
+        carouselThumbnail: document.getElementById('video-carousel-thumbnail').value,
+        seasons: seasons.map(season => ({
+            seasonNumber: season.seasonNumber,
+            episodes: season.episodes.map(episode => ({
+                number: episode.number,
+                title: episode.title,
+                url: episode.url,
+                downloadUrl: episode.downloadUrl || ''
+            }))
+        }))
+    };
+    
+    localStorage.setItem('uploadFormData', JSON.stringify(formData));
+}
+
+// Load form data from localStorage
+function loadUploadFormData() {
+    const savedData = localStorage.getItem('uploadFormData');
+    if (!savedData) return;
+    
+    try {
+        const formData = JSON.parse(savedData);
+        
+        // Populate basic fields
+        document.getElementById('video-title').value = formData.title || '';
+        document.getElementById('video-description').value = formData.description || '';
+        document.getElementById('video-type').value = formData.type || 'movie';
+        document.getElementById('video-category').value = formData.category || 'Algaita Dub-Studio';
+        document.getElementById('video-genre').value = formData.genre || 'Action';
+        document.getElementById('video-country').value = formData.country || 'USA';
+        document.getElementById('video-year').value = formData.year || '';
+        document.getElementById('video-trending').checked = formData.trending || false;
+        document.getElementById('video-url').value = formData.videoUrl || '';
+        document.getElementById('video-download-url').value = formData.downloadUrl || '';
+        document.getElementById('video-thumbnail').value = formData.thumbnail || '';
+        document.getElementById('video-carousel-thumbnail').value = formData.carouselThumbnail || '';
+        
+        // Handle series data if present
+        if ((formData.type === 'series' || formData.type === 'anime') && formData.seasons && formData.seasons.length > 0) {
+            toggleSeriesFields();
+            
+            // Clear existing seasons
+            seasons = [];
+            seasonCounter = 0;
+            document.getElementById('seasons-list').innerHTML = '';
+            
+            // Recreate seasons
+            formData.seasons.forEach(seasonData => {
+                addSeason();
+                const currentSeason = seasons[seasons.length - 1];
+                
+                // Update season number
+                currentSeason.seasonNumber = seasonData.seasonNumber;
+                document.querySelector(`#${currentSeason.id} .season-title`).textContent = `Season ${seasonData.seasonNumber}`;
+                
+                // Clear default episode and add saved episodes
+                currentSeason.episodes = [];
+                const episodesContainer = document.getElementById(`${currentSeason.id}-episodes`);
+                episodesContainer.innerHTML = '';
+                
+                seasonData.episodes.forEach(episodeData => {
+                    addEpisode(currentSeason.id);
+                    const currentEpisode = currentSeason.episodes[currentSeason.episodes.length - 1];
+                    
+                    // Update episode data
+                    currentEpisode.number = episodeData.number;
+                    currentEpisode.title = episodeData.title;
+                    currentEpisode.url = episodeData.url;
+                    currentEpisode.downloadUrl = episodeData.downloadUrl || '';
+                    
+                    // Update DOM
+                    const episodeElement = document.getElementById(currentEpisode.id);
+                    episodeElement.querySelector('.episode-title input').value = episodeData.title;
+                    episodeElement.querySelector('.episode-url-input').value = episodeData.url;
+                    episodeElement.querySelector('.episode-download-url-input').value = episodeData.downloadUrl || '';
+                });
+            });
+        }
+    } catch (error) {
+        console.error('Error loading saved form data:', error);
+    }
+}
+
+// Clear saved form data
+function clearUploadFormData() {
+    localStorage.removeItem('uploadFormData');
+}
+
 // Function to toggle the upload modal
 const openUploadModal = () => {
     const uploadModal = document.getElementById('upload-modal');
@@ -211,13 +313,8 @@ const openUploadModal = () => {
     // Push state to history
     history.pushState({ uploadOpen: true }, '');
     
-    // Reset form
-    document.getElementById('upload-form').reset();
-    
-    // Reset seasons data
-    seasons = [];
-    seasonCounter = 0;
-    document.getElementById('seasons-list').innerHTML = '';
+    // Load saved form data
+    loadUploadFormData();
     
     // Scroll to top of modal content
     setTimeout(() => {
@@ -233,8 +330,8 @@ const closeUploadModal = () => {
     uploadModal.classList.remove('open');
     inUploadModal = false;
     
-    // Reset form
-    document.getElementById('upload-form').reset();
+    // Save form data before closing
+    saveUploadFormData();
 };
 
 // Function to toggle the ad upload modal
@@ -473,7 +570,7 @@ const viewApps = async () => {
     // Create apps content container
     const appsContent = document.createElement('div');
     appsContent.className = 'view-section';
-    appsContent.id = 'apps-content';
+    appsContent.id = 'apps-section-content';
     
     // Add elements to grid container
     gridContainer.appendChild(searchContainer);
@@ -691,7 +788,7 @@ const createAdViewItem = (ad) => {
 // Function to search apps
 const searchApps = () => {
     const searchTerm = document.getElementById('apps-search-bar').value.toLowerCase();
-    const appsContent = document.getElementById('apps-content');
+    const appsContent = document.getElementById('apps-section-content');
     appsContent.innerHTML = '';
     
     if (!profileApps || profileApps.length === 0) {
@@ -792,6 +889,9 @@ const addSeason = () => {
     
     // Add at least one episode to the new season
     addEpisode(seasonId);
+    
+    // Save form data after adding season
+    saveUploadFormData();
 };
 
 // Function to remove a season
@@ -806,6 +906,9 @@ const removeSeason = (seasonId) => {
     if (seasons.length === 0) {
         seasonCounter = 0;
     }
+    
+    // Save form data after removing season
+    saveUploadFormData();
 };
 
 // Function to add a new episode to a season
@@ -820,7 +923,8 @@ const addEpisode = (seasonId) => {
         id: episodeId,
         number: episodeNumber,
         title: `Episode ${episodeNumber}`,
-        url: ''
+        url: '',
+        downloadUrl: ''
     };
     
     season.episodes.push(episodeData);
@@ -836,7 +940,10 @@ const addEpisode = (seasonId) => {
             </div>
         </div>
         <div class="episode-actions">
-            <input type="url" placeholder="Episode URL" style="width: 200px; padding: 5px; margin-right: 10px;" onchange="updateEpisodeUrl('${episodeId}', this.value)">
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+                <input type="url" class="episode-input episode-url-input" placeholder="Episode URL" value="${episodeData.url}" onchange="updateEpisodeUrl('${episodeId}', this.value)">
+                <input type="url" class="episode-input episode-download-url-input" placeholder="Download URL (Google Drive only)" value="${episodeData.downloadUrl || ''}" onchange="updateEpisodeDownloadUrl('${episodeId}', this.value)">
+            </div>
             <button type="button" class="episode-btn remove" onclick="removeEpisode('${seasonId}', '${episodeId}')">
                 <i class="fas fa-trash"></i>
             </button>
@@ -844,6 +951,9 @@ const addEpisode = (seasonId) => {
     `;
     
     document.getElementById(`${seasonId}-episodes`).appendChild(episodeElement);
+    
+    // Save form data after adding episode
+    saveUploadFormData();
 };
 
 // Function to remove an episode
@@ -869,6 +979,9 @@ const removeEpisode = (seasonId, episodeId) => {
             episodeElement.querySelector('.episode-title input').value = episode.title;
         }
     });
+    
+    // Save form data after removing episode
+    saveUploadFormData();
 };
 
 // Function to update episode title
@@ -880,6 +993,9 @@ const updateEpisodeTitle = (episodeId, title) => {
             break;
         }
     }
+    
+    // Save form data after updating episode title
+    saveUploadFormData();
 };
 
 // Function to update episode URL
@@ -891,6 +1007,23 @@ const updateEpisodeUrl = (episodeId, url) => {
             break;
         }
     }
+    
+    // Save form data after updating episode URL
+    saveUploadFormData();
+};
+
+// Function to update episode download URL
+const updateEpisodeDownloadUrl = (episodeId, downloadUrl) => {
+    for (const season of seasons) {
+        const episode = season.episodes.find(e => e.id === episodeId);
+        if (episode) {
+            episode.downloadUrl = downloadUrl;
+            break;
+        }
+    }
+    
+    // Save form data after updating episode download URL
+    saveUploadFormData();
 };
 
 // Handle form submission for video upload - Enhanced for series
@@ -952,7 +1085,8 @@ document.getElementById('upload-form').addEventListener('submit', async function
                 episodes: season.episodes.map(episode => ({
                     number: episode.number,
                     title: episode.title,
-                    url: episode.url
+                    url: episode.url,
+                    downloadUrl: episode.downloadUrl || ''
                 }))
             }));
             
@@ -980,6 +1114,9 @@ document.getElementById('upload-form').addEventListener('submit', async function
         
         // Show success message
         showNotification('Video uploaded successfully!', 'success');
+        
+        // Clear saved form data
+        clearUploadFormData();
         
         // Close modal
         closeUploadModal();
@@ -1117,18 +1254,6 @@ document.getElementById('app-upload-form').addEventListener('submit', async func
         hideLoading();
     }
 });
-
-// Function to update ad display
-const updateAdDisplay = () => {
-    // Update notification bar ad
-    const notificationBar = document.getElementById('notification-bar');
-    if (adsData && adsData.length > 0) {
-        const ad = adsData[0];
-        notificationBar.querySelector('img').src = ad.image;
-        notificationBar.querySelector('.notification-text').textContent = ad.title;
-        notificationBar.querySelector('.notification-button').onclick = () => window.open(ad.link, '_blank');
-    }
-};
 
 // Function to update app display
 const updateAppDisplay = () => {
@@ -2238,6 +2363,15 @@ const openVideoNav = async (videoUrl, videoId, item) => {
                 // Load episode in iframe
                 videoPlayer.src = episodeUrl;
                 
+                // Update download button for this episode
+                const downloadBtn = document.getElementById('video-download-btn');
+                if (episode.downloadUrl && episode.downloadUrl.trim() !== '') {
+                    downloadBtn.style.display = 'flex';
+                    downloadBtn.onclick = () => downloadVideo(episode.downloadUrl);
+                } else {
+                    downloadBtn.style.display = 'none';
+                }
+                
                 // Reset flag after a short delay
                 setTimeout(() => {
                     isEpisodeNavigation = false;
@@ -2354,6 +2488,15 @@ const goToSeason = (seasonIndex) => {
             
             document.getElementById('video-player').src = episodeUrl;
             
+            // Update download button for this episode
+            const downloadBtn = document.getElementById('video-download-btn');
+            if (episode.downloadUrl && episode.downloadUrl.trim() !== '') {
+                downloadBtn.style.display = 'flex';
+                downloadBtn.onclick = () => downloadVideo(episode.downloadUrl);
+            } else {
+                downloadBtn.style.display = 'none';
+            }
+            
             // Reset flag after a short delay
             setTimeout(() => {
                 isEpisodeNavigation = false;
@@ -2388,6 +2531,16 @@ const goToSeason = (seasonIndex) => {
             firstEpisodeUrl = firstEpisodeUrl + separator + 'autoplay=1&mute=0';
         }
         document.getElementById('video-player').src = firstEpisodeUrl;
+        
+        // Update download button for first episode
+        const firstEpisode = currentSeason.episodes[0];
+        const downloadBtn = document.getElementById('video-download-btn');
+        if (firstEpisode.downloadUrl && firstEpisode.downloadUrl.trim() !== '') {
+            downloadBtn.style.display = 'flex';
+            downloadBtn.onclick = () => downloadVideo(firstEpisode.downloadUrl);
+        } else {
+            downloadBtn.style.display = 'none';
+        }
     }
     
     // Scroll to the beginning of the episode scroller
@@ -2704,21 +2857,23 @@ const hideSearchSuggestions = () => {
     }, 200);
 };
 
-// Improved notification system
+// Improved notification system - Updated to center
 function showNotification(message, type = 'info') {
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
     notification.textContent = message;
     
-    // Position fixed at top center
+    // Position fixed at center
     notification.style.position = 'fixed';
-    notification.style.top = '20px';
+    notification.style.top = '50%';
     notification.style.left = '50%';
-    notification.style.transform = 'translateX(-50%)';
+    notification.style.transform = 'translate(-50%, -50%)';
     notification.style.zIndex = '10000';
     notification.style.padding = '15px 25px';
     notification.style.borderRadius = '8px';
     notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+    notification.style.maxWidth = '80%';
+    notification.style.textAlign = 'center';
     
     // Style based on type
     switch(type) {
@@ -2813,7 +2968,7 @@ const shareMovie = () => {
     if (navigator.share) {
         navigator.share({
             title: currentMovieInModal.title,
-            text: 'Check out this movie on Movie Nest!',
+            text: 'Check out this movie on Arewatv!',
             url: shareUrl
         })
         .then(() => console.log('Shared successfully'))
@@ -3083,79 +3238,6 @@ window.addEventListener('load', () => {
         }
     });
     
-    // Add history state handling with immediate response
-    window.addEventListener('popstate', (event) => {
-        // If we're navigating episodes, ignore the back button
-        if (isEpisodeNavigation) {
-            // Push state again to prevent closing the modal
-            history.pushState({ videoOpen: true }, '');
-            return;
-        }
-        
-        // Handle video modal - close immediately
-        if (inVideoModal) {
-            closeModal();
-            return; // Exit early to prevent any delays
-        } 
-        // Handle grid view
-        else if (inGridView) {
-            inGridView = false;
-            // Show both discover container and categories container
-            document.getElementById('discover-container').style.display = 'block';
-            document.getElementById('categories-container').style.display = 'block';
-            document.getElementById('grid-container').style.display = 'none';
-        }
-        // Handle filter modal
-        else if (inFilterModal) {
-            document.getElementById('filter-modal').classList.remove('open');
-            inFilterModal = false;
-        }
-        // Handle history modal
-        else if (inHistoryModal) {
-            document.getElementById('history-modal').classList.remove('open');
-            inHistoryModal = false;
-        }
-        // Handle sidebar modal
-        else if (inSidebarModal) {
-            document.getElementById('sidebar-modal').classList.remove('open');
-            inSidebarModal = false;
-        }
-        // Handle upload modal
-        else if (inUploadModal) {
-            document.getElementById('upload-modal').classList.remove('open');
-            inUploadModal = false;
-        }
-        // Handle ad upload modal
-        else if (inAdUploadModal) {
-            document.getElementById('ad-upload-modal').classList.remove('open');
-            inAdUploadModal = false;
-        }
-        // Handle app upload modal
-        else if (inAppUploadModal) {
-            document.getElementById('app-upload-modal').classList.remove('open');
-            inAppUploadModal = false;
-        }
-        // Handle password modal
-        else if (inPasswordModal) {
-            document.getElementById('password-modal').classList.remove('open');
-            inPasswordModal = false;
-        }
-        // Handle ads submenu
-        else if (inAdsSubmenu) {
-            document.getElementById('ads-submenu').classList.remove('open');
-            inAdsSubmenu = false;
-        }
-        // Handle apps submenu
-        else if (inAppsSubmenu) {
-            document.getElementById('apps-submenu').classList.remove('open');
-            inAppsSubmenu = false;
-        }
-        // Default to discover if no specific state
-        else {
-            showDiscoverSection();
-        }
-    });
-    
     // Initialize the app
     initializeApp();
     
@@ -3178,6 +3260,20 @@ window.addEventListener('load', () => {
             }
         });
     });
+    
+    // Add event listeners to form inputs to save data on change
+    const uploadForm = document.getElementById('upload-form');
+    if (uploadForm) {
+        // Save data on input change
+        uploadForm.addEventListener('input', () => {
+            saveUploadFormData();
+        });
+        
+        // Save data on select change
+        uploadForm.addEventListener('change', () => {
+            saveUploadFormData();
+        });
+    }
 });
 
 // Function to initialize ad rotation in the video modal
@@ -3314,7 +3410,7 @@ async function initializeApp() {
         hideLoading();
     } catch (error) {
         console.error("App initialization failed:", error);
-        showNotification("Failed to load content. Please check your connection.", "warning");
+        showNotification("Failed to load content. Please check your connection.", 'warning');
         hideLoading();
     }
 }
@@ -3398,22 +3494,6 @@ window.addEventListener('scroll', () => {
     }
     lastScrollTop = currentScrollTop;
 });
-
-// Fixed: Changed timeout value to something more reasonable (40 seconds)
-setTimeout(() => {
-    const bar = document.getElementById('notification-bar');
-    bar.style.opacity = '1';
-    bar.style.pointerEvents = 'auto'; // Enable interaction once visible
-}, 40000); // Show after 40 seconds
-
-function closeNotification() {
-    const bar = document.getElementById('notification-bar');
-    bar.style.opacity = '0';
-    bar.style.pointerEvents = 'none'; // Disable interaction immediately
-    setTimeout(() => {
-        bar.remove(); // Fully remove from DOM
-    }, 500); // Allow fade-out to complete
-}
 
 // Carousel functionality
 let currentIndex = 0;
