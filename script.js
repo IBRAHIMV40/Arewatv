@@ -78,7 +78,7 @@ const fallbackData = [
         description: "A sample movie for testing",
         imgUrl: "https://picsum.photos/seed/movie1/300/450.jpg",
         videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
-        category: "Hollywood",
+        category: "Algaita Dub-Studio",
         genre: "Action",
         year: 2023,
         type: "Movie"
@@ -958,7 +958,7 @@ function loadFormDataFromLocalStorage() {
         document.getElementById('video-title').value = formData.title || '';
         document.getElementById('video-description').value = formData.description || '';
         document.getElementById('video-type').value = formData.type || 'movie';
-        document.getElementById('video-category').value = formData.category || 'Hollywood';
+        document.getElementById('video-category').value = formData.category || 'Algaita Dub-Studio';
         document.getElementById('video-genre').value = formData.genre || 'Action';
         document.getElementById('video-country').value = formData.country || 'USA';
         document.getElementById('video-year').value = formData.year || '';
@@ -2976,7 +2976,7 @@ const shareMovie = () => {
     if (navigator.share) {
         navigator.share({
             title: currentMovieInModal.title,
-            text: 'Check out this movie on Arewatv!',
+            text: 'Check out this movie on Movie Nest!',
             url: shareUrl
         })
         .then(() => console.log('Shared successfully'))
@@ -3441,8 +3441,8 @@ const filterContentByCategory = (category) => {
     // Filter data by category
     const filteredData = data.filter(item => {
         // Check if item matches the selected category
-        if (category === 'Hollywood') return item.category === 'Hollywood';
-        if (category === 'Nollywood') return item.category === 'Nollywood';
+        if (category === 'Algaita Dub-Studio') return item.category === 'Algaita Dub-Studio';
+        if (category === 'Sultan Record') return item.category === 'Sultan Record';
         if (category === 'Bollywood') return item.category === 'Bollywood';
         if (category === 'Kannywood') return item.category === 'Kannywood';
         if (category === 'Action') return item.genre === 'Action';
