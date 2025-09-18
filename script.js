@@ -1,11 +1,11 @@
 // Initialize Firebase with your configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyA9JK8BX2pAXpmW_d6GpXRZjFpTLkso1KI",
-    authDomain: "movie-nest-77e6b.firebaseapp.com",
-    projectId: "movie-nest-77e6b",
-    storageBucket: "movie-nest-77e6b.firebasestorage.app",
-    messagingSenderId: "513317696448",
-    appId: "1:513317696448:web:c70c566151226ef55bce25"
+    apiKey: "AIzaSyARFUQJo32JwHMzPmlgz-1pOOINzkdZTH8",
+    authDomain: "arewatv-d151b.firebaseapp.com",
+    projectId: "arewatv-d151b",
+    storageBucket: "arewatv-d151b.firebasestorage.app",
+    messagingSenderId: "1051914778796",
+    appId: "1:1051914778796:web:173a5e42dc3dc4da1a0709"
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -78,7 +78,7 @@ const fallbackData = [
         description: "A sample movie for testing",
         imgUrl: "https://picsum.photos/seed/movie1/300/450.jpg",
         videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
-        category: "Hollywood",
+        category: "Algaita Dub-Studio",
         genre: "Action",
         year: 2023,
         type: "Movie"
@@ -170,9 +170,6 @@ let seasonCounter = 0;
 
 // Track if we're opening a direct video link
 let openingDirectLink = false;
-
-// Track category view state
-let inCategoryView = false;
 
 // Function to show/hide loading spinner
 function showLoading() {
@@ -961,7 +958,7 @@ function loadFormDataFromLocalStorage() {
         document.getElementById('video-title').value = formData.title || '';
         document.getElementById('video-description').value = formData.description || '';
         document.getElementById('video-type').value = formData.type || 'movie';
-        document.getElementById('video-category').value = formData.category || 'Hollywood';
+        document.getElementById('video-category').value = formData.category || 'Algaita Dub-Studio';
         document.getElementById('video-genre').value = formData.genre || 'Action';
         document.getElementById('video-country').value = formData.country || 'USA';
         document.getElementById('video-year').value = formData.year || '';
@@ -1462,7 +1459,7 @@ const createCarousel = () => {
             <div class="video-title">${item.title}</div>
             <div class="video-info">${item.type || 'Movie'} | ${item.year || '2025'} | ${tagsDisplay}</div>
             <button class="download-btn">
-                <i class="fas fa-play"></i> Watch
+                <i class="fas fa-download"></i> Download
             </button>
         `;
         
@@ -2662,8 +2659,7 @@ const showAllVideos = (category) => {
     
     // Set flag and push state for grid view
     inGridView = true;
-    inCategoryView = true;
-    history.pushState({ gridView: true, categoryView: true }, '');
+    history.pushState({ gridView: true }, '');
     
     const categoryData = data.filter(item => item.category === category);
     currentGridData = categoryData; // Set current grid data for filtering
@@ -2951,7 +2947,7 @@ const applyFilters = () => {
         filteredData.sort((a, b) => a.title.localeCompare(b.title));
     }
     
-    // Update the grid with filtered data
+    // Update UI with filtered data
     const gridContainer = document.getElementById('grid-container');
     
     // Remove existing frames but keep the filter section
@@ -3445,8 +3441,8 @@ const filterContentByCategory = (category) => {
     // Filter data by category
     const filteredData = data.filter(item => {
         // Check if item matches the selected category
-        if (category === 'Hollywood') return item.category === 'Hollywood';
-        if (category === 'Nollywood') return item.category === 'Nollywood';
+        if (category === 'Algaita Dub-Studio') return item.category === 'Algaita Dub-Studio';
+        if (category === 'Sultan Record') return item.category === 'Sultan Record';
         if (category === 'Bollywood') return item.category === 'Bollywood';
         if (category === 'Kannywood') return item.category === 'Kannywood';
         if (category === 'Action') return item.genre === 'Action';
@@ -3596,26 +3592,7 @@ function initCarousel() {
     setInterval(nextSlide, 5000);
 }
 
-// Enhanced back button handling
-window.addEventListener('popstate', (event) => {
-    // Handle video modal closing
-    if (inVideoModal) {
-        closeModal();
-        inVideoModal = false;
-    } 
-    // Handle grid view navigation back to discover
-    else if (inGridView) {
-        inGridView = false;
-        showDiscoverSection();
-    }
-    // Handle category navigation
-    else if (inCategoryView) {
-        inCategoryView = false;
-        showDiscoverSection();
-    }
-});
-
-// Enhanced closeModal function
+// Function to close the modal - optimized for immediate closing
 const closeModal = () => {
     // Stop the video immediately
     const videoPlayer = document.getElementById('video-player');
@@ -3661,7 +3638,6 @@ const closeModal = () => {
         }
     }
 };
-
 // Modified closeNav function for immediate closing
 const closeNav = () => {
     if (inVideoModal) {
@@ -3679,22 +3655,3 @@ const closeNav = () => {
         closeModal();
     }
 };
-
-// Add touch handling for Android back button
-document.addEventListener('backbutton', (e) => {
-    e.preventDefault();
-    
-    if (inVideoModal) {
-        closeModal();
-        inVideoModal = false;
-    } else if (inGridView) {
-        inGridView = false;
-        showDiscoverSection();
-    } else if (inCategoryView) {
-        inCategoryView = false;
-        showDiscoverSection();
-    } else {
-        // Exit app if on home screen
-        navigator.app.exitApp();
-    }
-}, false);
