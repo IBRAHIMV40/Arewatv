@@ -1,11 +1,11 @@
 // Initialize Firebase with your configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyA9JK8BX2pAXpmW_d6GpXRZjFpTLkso1KI",
-    authDomain: "movie-nest-77e6b.firebaseapp.com",
-    projectId: "movie-nest-77e6b",
-    storageBucket: "movie-nest-77e6b.firebasestorage.app",
-    messagingSenderId: "513317696448",
-    appId: "1:513317696448:web:c70c566151226ef55bce25"
+    apiKey: "AIzaSyARFUQJo32JwHMzPmlgz-1pOOINzkdZTH8",
+    authDomain: "arewatv-d151b.firebaseapp.com",
+    projectId: "arewatv-d151b",
+    storageBucket: "arewatv-d151b.firebasestorage.app",
+    messagingSenderId: "1051914778796",
+    appId: "1:1051914778796:web:173a5e42dc3dc4da1a0709"
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
