@@ -1,7 +1,7 @@
 :root {
     --bg-color: #1a1a1a;
     --text-color: #ffffff;
-    --card-bg: #2c2c2c;
+    --card-bg: #1a1a1a;
     --border-color: #444;
     --primary-color: #00b300;
     --light-bg: #2c2c2c;
@@ -408,7 +408,7 @@ header {
     flex: 0 0 auto;
     width: 112px;
     background-color: var(--card-bg);
-    border-radius: 8px;
+    border-radius: 2px;
     margin-left: 4px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     overflow: hidden;
