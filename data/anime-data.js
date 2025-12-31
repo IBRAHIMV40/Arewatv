@@ -63,7 +63,7 @@ const ANIME_DATA = [
         description: "A kind-hearted boy becomes a demon slayer.",
         imgUrl: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiBP59KxPB_AYFVWokv6iYi-JxdcwkIpcJGr3-e1Q-RSJrnN9II4_b74HigWZhvpWELGUty1KAqHakHhjqrrMEpLOnr0prgE-HEy2wE9wrzrI-EdIUXA-j0BcjuCC5fJ-B_Mc2eeyO3ykDSNWcAjIXS3QRTbIKNEr1w70HgyqnJ-WkBPj2GRysH3bP-6Fae/s1280/1000264204.jpg",
         carouselCover: "https://media.themoviedb.org/t/p/w1000_and_h563_face/example11.jpg",
-        videoUrl: "https://www.youtube.com/embed/example7",
+        videoUrl: "https://www.2embed.cc/embedtv/tt1199099&s=1&e=2",
         share: "#",
         category: "Anime",
         genre: "Action",
