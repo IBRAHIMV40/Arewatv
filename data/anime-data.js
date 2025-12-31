@@ -63,7 +63,7 @@ const ANIME_DATA = [
         description: "A kind-hearted boy becomes a demon slayer.",
         imgUrl: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiBP59KxPB_AYFVWokv6iYi-JxdcwkIpcJGr3-e1Q-RSJrnN9II4_b74HigWZhvpWELGUty1KAqHakHhjqrrMEpLOnr0prgE-HEy2wE9wrzrI-EdIUXA-j0BcjuCC5fJ-B_Mc2eeyO3ykDSNWcAjIXS3QRTbIKNEr1w70HgyqnJ-WkBPj2GRysH3bP-6Fae/s1280/1000264204.jpg",
         carouselCover: "https://media.themoviedb.org/t/p/w1000_and_h563_face/example11.jpg",
-        videoUrl: "https://iframe.mediadelivery.net/play/572667/da83bc53-c726-41ea-9bb3-b95c0c79db6b",
+        videoUrl: "https://arewatv26.b-cdn.net/%E2%80%8Ers%E2%9E%95%E2%80%8E20250502%E2%80%8E_Phoenix.mp4",
         share: "#",
         category: "Anime",
         genre: "Action",
