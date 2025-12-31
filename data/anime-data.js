@@ -7,7 +7,7 @@ const ANIME_DATA = [
         description: "Humanity's last stand against giant humanoid creatures.",
         imgUrl: "https://raw.githubusercontent.com/IBRAHIMV40/Monthly/refs/heads/main/FB_IMG_1755087031214.jpg",
         carouselCover: "https://media.themoviedb.org/t/p/w1000_and_h563_face/example7.jpg",
-        videoUrl: "https://www.youtube.com/embed/example5",
+        videoUrl: "https://drive.google.com/file/d/1FiMLgmT2CfHcy6ZNTsEhGN709358Zeop/preview",
         share: "#",
         category: "Anime",
         genre: "Action",
