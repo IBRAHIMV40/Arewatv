@@ -20,7 +20,7 @@ const SERIES_DATA = [
         trending: true,
         views: 120000,
         rating: 4.8,
-        openUrl: false,
+        openUrl: true,
         dateAdded: "2022-05-15",
         premium: false,
         price: 0,
