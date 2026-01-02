@@ -88,7 +88,7 @@ const MOVIE_DATA = [
         description: "Exploring galaxy to save humanity from an alien threat.",
         imgUrl: "https://media.themoviedb.org/t/p/w600_and_h900_face/c15BtJxCXMrISLVmysdsnZUPQft.jpg",
         carouselCover: "https://media.themoviedb.org/t/p/w1000_and_h563_face/cvyb6dy1p3kdjEgwz7vmEDtSkHm.jpg",
-        videoUrl: "https://1024terabox.com/s/1o1fSfMUZPnkvBPjyD4cb3Q",
+        videoUrl: "https://www.1024tera.com/wap/share/filelist?surl=Ico36S0rivG3ERJQsmzuZQ",
         share: "#",
         category: "Hollywood",
         genre: "Sci-Fi",
