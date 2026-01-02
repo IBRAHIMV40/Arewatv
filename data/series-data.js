@@ -88,7 +88,7 @@ const SERIES_DATA = [
         description: "Mockumentary on a group of typical office workers.",
         imgUrl: "https://media.themoviedb.org/t/p/w600_and_h900_face/qWnJzyZhyy74gjpSjIXWmuk0ifX.jpg",
         carouselCover: "https://media.themoviedb.org/t/p/w1000_and_h563_face/example5.jpg",
-        videoUrl: "https://www.youtube.com/embed/example3",
+        videoUrl: "https://1024terabox.com/s/1Hho_cECsrXQi7Cr7_R-tog",
         share: "#",
         category: "Hollywood",
         genre: "Comedy",
@@ -111,7 +111,7 @@ const SERIES_DATA = [
                 episodes: [
                     { 
                         number: 1, 
-                        url: "https://www.youtube.com/embed/example3",
+                        url: "https://1024terabox.com/s/1Hho_cECsrXQi7Cr7_R-tog",
                         title: "Pilot",
                         premium: false,
                         price: 0,
@@ -119,9 +119,10 @@ const SERIES_DATA = [
                     },
                     { 
                         number: 2, 
-                        url: "https://www.youtube.com/embed/example4",
+                        url: "https://1024terabox.com/s/1Hho_cECsrXQi7Cr7_R-tog",
                         title: "Diversity Day",
                         premium: false,
+                        openUrl: true,
                         price: 0,
                         duration: "21m"
                     }
