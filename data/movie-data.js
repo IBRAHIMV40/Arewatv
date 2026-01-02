@@ -113,7 +113,7 @@ const MOVIE_DATA = [
         id: 'movie-005',
         title: "Clash of the Empires",
         description: "A family drama set in modern day Lagos.",
-        imgUrl: "https://image.tmdb.org/t/p/original/8TLZk63zHgZsYqmMezmOMYjREnI.jpg",
+        imgUrl: "https://media.themoviedb.org/t/p/w600_and_h900_face/wMovcNZDHV5KtEXni3pMWkxG0w9.jpg",
         carouselCover: "https://media.themoviedb.org/t/p/w1000_and_h563_face/example2.jpg",
         videoUrl: "https://www.youtube.com/embed/yn1a61gaLY4",
         share: "#",
