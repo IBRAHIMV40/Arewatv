@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MovieNest - Premium Streaming</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Stream your favorite movies, series, and anime on MovieNest. Premium content with secure payments via Paystack and Flutterwave.">
+    <meta name="keywords" content="movies, series, anime, streaming, premium, paystack, flutterwave">
+    <meta name="theme-color" content="#000000">
+    <meta name="robots" content="index, follow">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Payment SDKs -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script src="https://checkout.flutterwave.com/v3.js"></script>
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+    <!-- Network Warning -->
+    <div class="network-warning hidden" id="network-warning">
+        <i class="fas fa-wifi-slash network-warning-icon"></i>
+        <div class="network-warning-text">No network connection found</div>
+        <button class="network-warning-retry" onclick="checkNetworkConnection()">Try Again</button>
+    </div>
+    
+    <header id="main-header">
+        <div class="header-top">
+            <div class="bars-icon" onclick="toggleSidebarModal()">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="logo">
+                <img src="https://2hkypzmojf.ucarecd.net/daaf8fd2-4344-45f2-9b86-4d3a6eb74f54/-/preview/1000x1000/" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="MovieNest Logo" />
+                <span style="display:none; font-weight: bold; font-size: 1.2rem; color: var(--primary-color);">MovieNest</span>
+            </div>
+            <div class="history-icon" onclick="toggleHistoryModal()">
+                <i class="fas fa-history"></i>
+                <span class="notification-badge" id="history-count">0</span>
+            </div>
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-bar" placeholder="Search..." oninput="handleSearch()" onfocus="showSearchSuggestions()" onblur="hideSearchSuggestions()" />
+                <i class="fas fa-filter" onclick="toggleFilterModal()" style="margin-left: 5px; cursor: pointer;"></i>
+                <div class="search-suggestions" id="search-suggestions"></div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Category Tabs -->
+    <div class="category-tabs" id="category-tabs">
+        <div class="category-tab active" data-category="all">All</div>
+        <div class="category-tab" data-category="movies">Movies</div>
+        <div class="category-tab" data-category="series">Series</div>
+        <div class="category-tab" data-category="anime">Anime</div>
+        <div class="category-tab" data-category="hollywood">Hollywood</div>
+        <div class="category-tab" data-category="nollywood">Nollywood</div>
+        <div class="category-tab" data-category="bollywood">Bollywood</div>
+        <div class="category-tab" data-category="kannywood">Kannywood</div>
+        <div class="category-tab" data-category="trending">Trending</div>
+    </div>
+    
+    <!-- Filter Modal -->
+    <div class="filter-container" id="filter-modal">
+        <div class="filter-header">
+            <h3>Filter & Sort</h3>
+            <button onclick="toggleFilterModal()">✖</button>
+        </div>
+        <div id="dynamic-filters"></div>
+        <button class="auth-submit-btn" onclick="applyFilters()">Apply Filters</button>
+    </div>
+    
+    <!-- Sidebar Modal -->
+    <div class="sidebar-modal" id="sidebar-modal">
+        <div class="sidebar-modal-header">
+            <h3>Menu</h3>
+            <button onclick="toggleSidebarModal()">×</button>
+        </div>
+        
+        <div class="user-profile">
+            <div class="user-avatar" id="user-avatar">
+                <i class="fas fa-user" style="font-size: 24px; color: #fff;"></i>
+            </div>
+            <div class="user-info">
+                <h3 id="user-name">Guest User</h3>
+                <p style="font-size: 0.8rem; color: #888;" id="user-email-text">Not logged in</p>
+                <p style="font-size: 0.7rem; color: var(--gold);" id="user-country"></p>
+            </div>
+            <button class="auth-submit-btn" id="auth-sidebar-btn" style="font-size:0.8rem; padding:4px 8px;" onclick="handleAuthSidebarClick()">
+                Login
+            </button>
+        </div>
+        
+        <!-- Account Actions Menu (Hidden by default) -->
+        <div class="account-actions-menu" id="account-actions-menu">
+            <button class="account-action-btn logout" onclick="handleLogout()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+            <button class="account-action-btn delete" onclick="handleDeleteAccount()">
+                <i class="fas fa-trash-alt"></i> Delete Account
+            </button>
+        </div>
+        
+        <div class="sidebar-list" id="sidebar-list">
+            <div class="sidebar-item" onclick="toggleWalletModal()">
+                <i class="fas fa-wallet" style="color: #00b300; font-size: 20px;"></i>
+                <div>
+                    <div>My Wallet</div>
+                    <div style="font-size: 0.7rem; color: var(--gold);" id="sidebar-balance">0 Coins</div>
+                </div>
+            </div>
+
+            <div class="sidebar-item" onclick="openPrivacyModal()">
+                <i class="fas fa-shield-alt" style="color: #007aff; font-size: 20px;"></i>
+                <span>Privacy Policy</span>
+            </div>
+            <div class="sidebar-item" onclick="toggleReferralModal()">
+                <i class="fas fa-user-friends" style="color: var(--gold); font-size: 20px;"></i>
+                <span>Referral</span>
+            </div>
+            <div class="sidebar-item" onclick="toggleEditProfileModal()">
+                <i class="fas fa-cog" style="color: #ccc; font-size: 20px;"></i>
+                <span>Settings</span>
+            </div>
+            <div class="sidebar-item" onclick="openExternalLink('https://support.com.ng')">
+                <i class="fas fa-question-circle" style="color: #007aff; font-size: 20px;"></i>
+                <span>Help & Support</span>
+            </div>
+            <div class="sidebar-item" onclick="toggleHistoryModal()">
+                <i class="fas fa-history" style="color: #888; font-size: 20px;"></i>
+                <span>Watch History</span>
+                <span class="notification-badge" id="sidebar-history-count">0</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Wallet Modal -->
+    <div class="wallet-modal" id="wallet-modal">
+        <div class="wallet-modal-header">
+            <h3>My Wallet</h3>
+            <button onclick="toggleWalletModal()">✖</button>
+        </div>
+        <div class="wallet-balance-card">
+            <div>Current Balance</div>
+            <div class="coin-display" style="justify-content: center; margin: 20px 0;">
+                <i class="fas fa-coins coin-icon" style="font-size: 2.5rem;"></i>
+                <div class="balance-amount" id="wallet-balance-display">0 Coins</div>
+            </div>
+            <div class="coin-info"></div>
+            <button class="fund-btn" onclick="togglePaymentModal()">Buy Coins</button>
+        </div>
+        <div class="transaction-list">
+            <h4 style="margin-bottom: 15px; color: #fff;">Recent Transactions</h4>
+            <div id="transaction-history">
+                <div style="text-align: center; color: #666; padding: 20px;">No transactions yet.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="payment-modal" id="payment-modal">
+        <div class="payment-modal-header">
+            <h3>Buy Coins</h3>
+            <button onclick="togglePaymentModal()">✖</button>
+        </div>
+        
+        <!-- Coin Packages -->
+        <div style="padding: 0 20px 10px;">
+            <label style="color: #ccc; font-size: 0.9rem;">Select Coin Package</label>
+        </div>
+        <div id="coin-packages-container">
+            <!-- Coin packages will be dynamically generated based on user's country -->
+        </div>
+
+        <div style="padding: 0 20px 10px; margin-top: 20px;">
+            <label style="color: #ccc; font-size: 0.9rem;">Select Payment Method</label>
+        </div>
+        <div class="payment-methods" id="payment-methods-container">
+            <!-- Payment methods will be dynamically generated based on user's country -->
+        </div>
+
+        <button class="auth-submit-btn" onclick="processPayment()" id="pay-now-btn">Buy Now</button>
+        <div class="loading-overlay" id="payment-loading">
+            <div class="spinner"></div>
+            <div>Processing Payment...</div>
+        </div>
+    </div>
+
+    <!-- Login / Register Modal -->
+    <div class="login-modal" id="login-modal">
+        <div class="login-modal-header">
+            <h3 id="auth-title">Login</h3>
+            <button onclick="toggleLoginModal()">✖</button>
+        </div>
+        
+        <div id="auth-forms">
+            <!-- Login Form -->
+            <div id="login-form">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="login-email" placeholder="user@example.com" />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="password-container">
+                        <input type="password" id="login-password" placeholder="••••••••" />
+                        <button type="button" class="password-toggle" onclick="togglePasswordVisibility('login-password', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <button class="auth-submit-btn" id="login-submit-btn" onclick="handleLogin()">Login</button>
+                <div class="forgot-password-link" onclick="toggleForgotPasswordModal()">
+                    Forgot Password?
+                </div>
+                <div class="auth-switch">
+                    <span id="auth-switch-text" onclick="toggleAuthMode()">New here? Create Account</span>
+                </div>
+                
+                <!-- Terms and Privacy Links -->
+                <div class="terms-links">
+                    By continuing, you agree to our 
+                    <a onclick="openTermsModal()">Terms of Service</a> and 
+                    <a onclick="openPrivacyModal()">Privacy Policy</a>.
+                </div>
+            </div>
+            
+            <!-- Register Form -->
+            <div id="register-form" style="display: none;">
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" id="register-first-name" placeholder="John" />
+                </div>
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" id="register-last-name" placeholder="Doe" />
+                </div>
+                <div class="form-group">
+                    <label>Country</label>
+                    <select id="register-country" class="filter-select" onchange="updateCountryCode()">
+                        <option value="">Select your country</option>
+                        <!-- Countries will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="register-email" placeholder="user@example.com" />
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <div class="phone-input-wrapper">
+                        <div class="country-code-indicator" id="country-code-indicator">+1</div>
+                        <input type="tel" id="register-phone" placeholder="Enter phone number" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="password-container">
+                        <input type="password" id="register-password" placeholder="••••••••" oninput="checkPasswordStrength()" />
+                        <button type="button" class="password-toggle" onclick="togglePasswordVisibility('register-password', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="password-strength">
+                        <div class="strength-bar" id="strength-bar"></div>
+                    </div>
+                    <div class="password-requirements" id="password-requirements">
+                        <div class="requirement" id="req-length"><i class="fas fa-times"></i> At least 8 characters</div>
+                        <div class="requirement" id="req-uppercase"><i class="fas fa-times"></i> Uppercase letter</div>
+                        <div class="requirement" id="req-lowercase"><i class="fas fa-times"></i> Lowercase letter</div>
+                        <div class="requirement" id="req-number"><i class="fas fa-times"></i> Number</div>
+                        <div class="requirement" id="req-special"><i class="fas fa-times"></i> Special character</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <div class="password-container">
+                        <input type="password" id="register-confirm-password" placeholder="••••••••" oninput="checkPasswordMatch()" />
+                        <button type="button" class="password-toggle" onclick="togglePasswordVisibility('register-confirm-password', this)">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div id="password-match-message" class="text-sm mt-2" style="color: #888;"></div>
+                </div>
+                
+                <!-- Referral Code Section -->
+                <div class="form-group">
+                    <label>Referral Code (Optional)</label>
+                    <input type="text" id="referral-code" placeholder="Enter referral code if any" />
+                </div>
+                
+                <button class="auth-submit-btn" id="register-submit-btn" onclick="handleRegister()">Create Account</button>
+                <div class="auth-switch">
+                    <span id="register-switch-text" onclick="toggleAuthMode()">Have an account? Login</span>
+                </div>
+                
+                <!-- Terms and Privacy Links -->
+                <div class="terms-links">
+                    By continuing, you agree to our 
+                    <a onclick="openTermsModal()">Terms of Service</a> and 
+                    <a onclick="openPrivacyModal()">Privacy Policy</a>.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms of Service Modal -->
+    <div class="terms-modal" id="terms-modal">
+        <div class="terms-modal-header">
+            <h3>Terms of Service</h3>
+            <button onclick="closeTermsModal()">✖</button>
+        </div>
+        <div class="modal-content">
+            <p>Last updated: December 2024</p>
+            
+            <h3>1. Acceptance of Terms</h3>
+            <p>By accessing and using MovieNest, you accept and agree to be bound by the terms and provision of this agreement.</p>
+            
+            <h3>2. Description of Service</h3>
+            <p>MovieNest provides a streaming platform for movies, series, and other video content. The service may include both free and premium content.</p>
+            
+            <h3>3. User Accounts</h3>
+            <p>You are responsible for maintaining the confidentiality of your account and password. You agree to notify us immediately of any unauthorized use of your account.</p>
+            
+            <h3>4. Payment and Billing</h3>
+            <p>Premium content may require payment. All payments are processed through secure third-party providers. Refunds are subject to our refund policy.</p>
+            
+            <h3>5. Content Usage</h3>
+            <p>All content on MovieNest is for personal, non-commercial use only. You may not distribute, modify, or reproduce any content without permission.</p>
+            
+            <h3>6. Referral Program</h3>
+            <p>Referral bonuses (500 coins) are awarded when a referred user makes their first purchase. Both referrer and referee must have valid accounts.</p>
+            
+            <h3>7. Termination</h3>
+            <p>We reserve the right to terminate or suspend your account for violations of these terms.</p>
+            
+            <h3>8. Changes to Terms</h3>
+            <p>We may modify these terms at any time. Continued use of the service constitutes acceptance of modified terms.</p>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div class="privacy-modal" id="privacy-modal">
+        <div class="privacy-modal-header">
+            <h3>Privacy Policy</h3>
+            <button onclick="closePrivacyModal()">✖</button>
+        </div>
+        <div class="modal-content">
+            <p>Last updated: December 2024</p>
+            
+            <h3>1. Information We Collect</h3>
+            <p>We collect information you provide directly to us, including:</p>
+            <ul>
+                <li>Account information (name, email, phone number)</li>
+                <li>Payment information (processed securely by third parties)</li>
+                <li>Usage data and preferences</li>
+                <li>Device information</li>
+            </ul>
+            
+            <h3>2. How We Use Your Information</h3>
+            <p>We use the information we collect to:</p>
+            <ul>
+                <li>Provide, maintain, and improve our services</li>
+                <li>Process transactions and send confirmations</li>
+                <li>Send technical notices and support messages</li>
+                <li>Respond to your comments and questions</li>
+                <li>Monitor and analyze usage patterns</li>
+            </ul>
+            
+            <h3>3. Information Sharing</h3>
+            <p>We do not sell your personal information. We may share information:</p>
+            <ul>
+                <li>With service providers who assist in our operations</li>
+                <li>To comply with legal obligations</li>
+                <li>To protect rights and safety</li>
+                <li>With your consent</li>
+            </ul>
+            
+            <h3>4. Data Security</h3>
+            <p>We implement appropriate security measures to protect your personal information. However, no method of transmission over the internet is 100% secure.</p>
+            
+            <h3>5. Your Rights</h3>
+            <p>You have the right to:</p>
+            <ul>
+                <li>Access your personal information</li>
+                <li>Correct inaccurate information</li>
+                <li>Request deletion of your information</li>
+                <li>Opt-out of marketing communications</li>
+            </ul>
+            
+            <h3>6. Contact Us</h3>
+            <p>If you have questions about this Privacy Policy, please contact us at privacy@movienest.com</p>
+        </div>
+    </div>
+
+    <!-- Referral Modal -->
+    <div class="referral-modal" id="referral-modal">
+        <div class="referral-modal-header">
+            <h3>Referral Program</h3>
+            <button onclick="toggleReferralModal()">✖</button>
+        </div>
+        <div class="referral-modal-content">
+            <div style="padding: 20px; padding-top: 0;">
+                <div class="referral-stats">
+                    <div class="referral-stat">
+                        <div class="referral-stat-value" id="referral-count">0</div>
+                        <div class="referral-stat-label">Total Referrals</div>
+                    </div>
+                    <div class="referral-stat">
+                        <div class="referral-stat-value" id="referral-earnings">0</div>
+                        <div class="referral-stat-label">Coins Earned</div>
+                    </div>
+                </div>
+                
+                <div class="referral-section">
+                    <h3 style="margin-bottom: 15px;">Your Referral Code</h3>
+                    <p style="color: #ccc; margin-bottom: 10px;">Share this code with friends</p>
+                    <div class="referral-code">
+                        <span id="referral-code-display">XXXX-XXXX</span>
+                        <button class="copy-btn" onclick="copyReferralCode()">Copy</button>
+                    </div>
+                    <div class="referral-info">
+                        <p><strong>How it works:</strong></p>
+                        <ol style="text-align: left; margin: 10px 0; padding-left: 20px;">
+                            <li>Share your referral code with friends</li>
+                            <li>They sign up using your code</li>
+                            <li>When they make their first purchase, you get 500 coins!</li>
+                        </ol>
+                        <p style="color: var(--gold); margin-top: 10px;"><i class="fas fa-star"></i> No limit on how many friends you can refer!</p>
+                    </div>
+                </div>
+                
+                <div id="referral-history-container" style="display: none;">
+                    <div class="referral-section">
+                        <h3 style="margin-bottom: 15px;">Referred Friends</h3>
+                        <div id="referral-list" style="max-height: 300px; overflow-y: auto;">
+                            <!-- Referred friends will be listed here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="forgot-password-modal" id="forgot-password-modal">
+        <div class="forgot-password-header">
+            <h3>Reset Password</h3>
+            <button onclick="toggleForgotPasswordModal()">✖</button>
+        </div>
+        <div class="form-group">
+            <label>Enter your email address</label>
+            <input type="email" id="reset-email" placeholder="user@example.com" oninput="checkResetEmail()" />
+        </div>
+        
+        <div class="phone-display" id="phone-display-container" style="display: none;">
+            <div style="font-size: 0.8rem; color: #888; margin-bottom: 5px;">Registered Phone Number</div>
+            <div id="phone-display"></div>
+            <div style="font-size: 0.7rem; color: #666; margin-top: 10px;">Enter the last 4 digits to verify</div>
+        </div>
+        
+        <div class="form-group">
+            <label>Enter last 4 digits of phone number</label>
+            <div class="verification-inputs">
+                <input type="text" maxlength="1" class="verification-digit" id="digit1" oninput="moveToNext(this, 'digit2')" />
+                <input type="text" maxlength="1" class="verification-digit" id="digit2" oninput="moveToNext(this, 'digit3')" />
+                <input type="text" maxlength="1" class="verification-digit" id="digit3" oninput="moveToNext(this, 'digit4')" />
+                <input type="text" maxlength="1" class="verification-digit" id="digit4" oninput="verifyResetDigits()" />
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>New Password</label>
+            <div class="password-container">
+                <input type="password" id="reset-new-password" placeholder="••••••••" />
+                <button type="button" class="password-toggle" onclick="togglePasswordVisibility('reset-new-password', this)">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Confirm New Password</label>
+            <div class="password-container">
+                <input type="password" id="reset-confirm-password" placeholder="••••••••" />
+                <button type="button" class="password-toggle" onclick="togglePasswordVisibility('reset-confirm-password', this)">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+            <div id="reset-password-match" class="text-sm mt-2" style="color: #888;"></div>
+        </div>
+        
+        <button class="auth-submit-btn" onclick="handlePasswordReset()" id="reset-password-btn" disabled>Reset Password</button>
+        <div class="auth-switch">
+            <span onclick="toggleForgotPasswordModal(); toggleLoginModal()">Back to Login</span>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div class="edit-profile-modal" id="edit-profile-modal">
+        <div class="edit-profile-header">
+            <h3>Edit Profile</h3>
+            <button onclick="toggleEditProfileModal()">✖</button>
+        </div>
+        <div class="form-group">
+            <label>First Name</label>
+            <input type="text" id="edit-first-name" placeholder="John" />
+        </div>
+        <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" id="edit-last-name" placeholder="Doe" />
+        </div>
+        <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="edit-email" placeholder="user@example.com" disabled />
+        </div>
+        <div class="form-group">
+            <label>Country</label>
+            <input type="text" id="edit-country" disabled />
+        </div>
+        <div class="form-group">
+            <label>Phone Number</label>
+            <div style="display: flex; gap: 10px;">
+                <input type="tel" id="edit-phone" placeholder="+234 800 000 0000" style="flex: 1;" />
+                <button class="notification-button" onclick="verifyPhoneNumber()" style="white-space: nowrap;">
+                    <span id="phone-status-text">Verify</span>
+                </button>
+            </div>
+            <div class="text-sm mt-2" id="phone-status">
+                <span class="status-indicator status-pending" id="phone-status-badge">
+                    <i class="fas fa-clock"></i> Not Verified
+                </span>
+            </div>
+        </div>
+        <button class="auth-submit-btn" onclick="saveProfile()">Save Changes</button>
+    </div>
+    
+    <!-- History Modal -->
+    <div class="history-modal" id="history-modal">
+        <div class="history-modal-header">
+            <h3>Recently Watched</h3>
+            <button onclick="toggleHistoryModal()">✖</button>
+        </div>
+        <div class="sidebar-list" id="history-list"></div>
+        <button class="auth-submit-btn" style="background:#ff0000; margin:20px auto;" onclick="clearHistory()">Clear All History</button>
+    </div>
+
+    <!-- Notification Bar -->
+    <div class="notification-bar" id="notification-bar">
+        <img src="https://via.placeholder.com/40x40/007aff/ffffff?text=MN" alt="App Logo">
+        <div class="notification-text">Enjoy more movies download Hausa Movies app.</div>
+        <button class="notification-button" onclick="window.open('#', '_blank')">OPEN</button>
+        <button class="close-button" onclick="closeNotification()">✖</button>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content" id="main-content">
+        <!-- Discover Section -->
+        <div class="discover-container tab-content active" id="discover-container">
+            <div class="carousel-container">
+                <div class="carousel" id="carousel"></div>
+                <div class="dots" id="dots"></div>
+            </div>
+        </div>
+
+        <!-- Categories Section -->
+        <div id="categories-container"></div>
+
+        <!-- Grid Layout -->
+        <div id="grid-container" class="grid-container"></div>
+    </div>
+
+    <!-- Premium Unlock Modal -->
+    <div class="premium-modal" id="premium-modal">
+        <div class="premium-box">
+            <i class="fas fa-crown premium-icon"></i>
+            <h2>Premium Content</h2>
+            <p class="premium-desc" id="premium-desc">This video requires coins to unlock.</p>
+            <div class="coin-display" style="justify-content: center; margin: 20px 0;">
+                <i class="fas fa-coins coin-icon" style="font-size: 2.5rem;"></i>
+                <div class="premium-price" id="premium-price-display">500 Coins</div>
+            </div>
+            <button class="btn-unlock" onclick="unlockPremiumVideo()">Unlock & Watch</button>
+            <button class="btn-cancel" onclick="closePremiumModal()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Video Player Navigation Modal -->
+    <div class="nav-container" id="video-nav">
+        <div class="nav-content">
+            <div class="nav-header">
+                <button id="close-btn" onclick="closeNav()"><i class="fas fa-arrow-left"></i></button>
+                <div style="display:flex; gap:10px;">
+                    <button id="share-btn" onclick="shareMovie()"><i class="fa-solid fa-arrow-up-from-bracket"></i>  Share</button>
+                    <button id="download-btn" onclick="openReportPage()" class="report-btn">
+                        <i class="fas fa-flag"></i> Report
+                    </button>
+                    <button id="save-btn" class="save-btn" onclick="toggleSaveStatus()">Add to list</button>
+                </div>
+            </div>
+            <div class="nav-body">
+                <div style="position: relative; width: 100%; height: 100%;">
+                    <button class="notification-button" style="position:absolute; top: 40px; right: 3px; z-index:5; font-size: 0.1rem; background: 0;">Download</button>
+                    <iframe id="video-player" src="" frameborder="0" allowfullscreen style="width: 100%; height: 100%;"></iframe>
+                </div>
+            </div>
+            <div class="episode-footer" id="episode-footer" style="display: none;">
+                <div class="episode-header">
+                    <div class="episode-title" id="episode-title">Episodes</div>
+                    <div class="episode-count" id="episode-count">0 Episodes</div>
+                </div>
+                <div class="episode-scroller" id="episode-scroller"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ad Container -->
+    <div class="ad-container" id="adContainer">
+        <div class="ad-wrapper">
+            <div class="app-icon">
+                <img id="adIcon" src="https://via.placeholder.com/40x40/007aff/ffffff?text=APP" alt="App Icon" />
+            </div>
+            <div class="ad-info">
+                <div class="ad-name" id="adName">MovieNest App</div>
+                <div class="ad-meta" id="adMeta">Sponsored · 4.5 ★</div>
+            </div>
+        </div>
+        <a href="#" id="installButton" class="install-button" target="_blank">Install</a>
+    </div>
+    
+    <!-- Social Media Footer -->
+    <div id="social-media-descriptions">
+        <h2>Follow us on social media:</h2>
+        <p style="margin-top: 10px; color: #666;">Stay updated with latest movies and offers</p>
+    </div>
+    <div id="social-media">
+        <a href="https://www.facebook.com/" target="_blank" class="social-icon">
+            <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://twitter.com/" target="_blank" class="social-icon"><i class="fab fa-twitter"></i></a>
+        <a href="https://t.me/" target="_blank" class="social-icon"><i class="fab fa-telegram"></i></a>
+        <a href="https://instagram.com/" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+        <a href="https://youtube.com/" target="_blank" class="social-icon"><i class="fab fa-youtube"></i></a>
+        <a href="https://wa.me/" target="_blank" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <footer>
+        <label class="nav-icon active" data-target="discover" onclick="switchTab('discover')">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </label>
+        <label class="nav-icon" data-target="movies" onclick="switchTab('movies')">
+            <i class="fas fa-film"></i>
+            <span>Movies</span>
+        </label>
+        <label class="nav-icon" data-target="series" onclick="switchTab('series')">
+            <i class="fas fa-tv"></i>
+            <span>Series</span>
+        </label>
+        <label class="nav-icon" data-target="anime" onclick="switchTab('anime')">
+            <i class="fas fa-gamepad"></i>
+            <span>Anime</span>
+        </label>
+        <label class="nav-icon" data-target="mylist" onclick="switchTab('mylist')">
+            <i class="fas fa-tasks"></i>
+            <span>My List</span>
+        </label>
+    </footer>
+
+    <!-- External JavaScript files -->
+    <script src="data/movie-data.js"></script>
+    <script src="data/series-data.js"></script>
+    <script src="data/anime-data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
