@@ -37,7 +37,7 @@ const ANIME_DATA = [
         carouselCover: "https://image.tmdb.org/t/p/original/9S65uEjDqepU7d71CNmxIBHHdo.jpg",
         videoUrl: "https://www.youtube.com/embed/example6",
         share: "#",
-        category: "Anime",
+        category: "Nollywood",
         genre: "Adventure",
         year: "2007",
         language: "Japanese",
