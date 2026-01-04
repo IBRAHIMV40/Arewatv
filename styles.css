@@ -190,7 +190,7 @@ header {
     display: flex;
     gap: 10px;
     overflow-x: auto;
-    padding-bottom: 4px;
+    padding-bottom: 0px;
     scrollbar-width: none;
 }
 .category-scroll::-webkit-scrollbar { display: none; }
