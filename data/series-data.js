@@ -7,7 +7,7 @@ const SERIES_DATA = [
         description: "Political drama full of manipulation and power.",
         imgUrl: "https://media.themoviedb.org/t/p/w600_and_h900_face/6Z37lW0JfLdeFcgH9yaTyg6B9A6.jpg",
         carouselCover: "https://media.themoviedb.org/t/p/w1000_and_h563_face/m96iaX6b4bKaD9xME9JOQghBrqC.jpg",
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        videoUrl: "https://www.youtube.com/embed/MN4hHqWWpwU",
         share: "#",
         category: "Hollywood",
         genre: "Drama",
@@ -20,7 +20,7 @@ const SERIES_DATA = [
         trending: true,
         views: 120000,
         rating: 4.8,
-        openUrl: true,
+        openUrl: false,
         dateAdded: "2022-05-15",
         premium: false,
         price: 0,
@@ -30,7 +30,7 @@ const SERIES_DATA = [
                 episodes: [
                     { 
                         number: 1, 
-                        url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+                        url: "https://www.youtube.com/embed/MN4hHqWWpwU",
                         title: "Chapter 1",
                         premium: false,
                         price: 0,
@@ -39,16 +39,16 @@ const SERIES_DATA = [
                     },
                     { 
                         number: 2, 
-                        url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+                        url: "https://www.youtube.com/embed/MN4hHqWWpwU",
                         title: "Chapter 2",
-                        premium: true,
-                        price: 200,
+                        premium: false,
+                        price:   0,
                         duration: "47m",
                         description: "Power plays continue."
                     },
                     { 
                         number: 3, 
-                        url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+                        url: "https://www.youtube.com/embed/MN4hHqWWpwU",
                         title: "Chapter 3",
                         premium: false,
                         price: 0,
@@ -62,19 +62,19 @@ const SERIES_DATA = [
                 episodes: [
                     { 
                         number: 1, 
-                        url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+                        url: "https://www.youtube.com/embed/MN4hHqWWpwU",
                         title: "Chapter 6",
-                        premium: false,
-                        price: 0,
+                        premium: true,
+                        price: 20,
                         duration: "48m",
                         description: "New season begins."
                     },
                     { 
                         number: 2, 
-                        url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+                        url: "https://www.youtube.com/embed/MN4hHqWWpwU",
                         title: "Chapter 7",
                         premium: true,
-                        price: 250,
+                        price:  20,
                         duration: "49m",
                         description: "Conflict intensifies."
                     }
