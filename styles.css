@@ -183,14 +183,14 @@ header {
 .dot.active { background: white; transform: scale(1.2); }
 
 /* --- MOVIE LISTS (Categories) --- */
-.category-container { margin-bottom: 25px; padding: 0 5px; }
+.category-container { margin-bottom: 25px; padding: 0 6px; }
 .category-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .category-title span { font-size: 1.1rem; font-weight: bold; }
 .category-scroll {
     display: flex;
     gap: 10px;
     overflow-x: auto;
-    padding-bottom: 10px;
+    padding-bottom: 4px;
     scrollbar-width: none;
 }
 .category-scroll::-webkit-scrollbar { display: none; }
