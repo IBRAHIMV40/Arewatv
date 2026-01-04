@@ -88,7 +88,7 @@ const SERIES_DATA = [
         description: "Mockumentary on a group of typical office workers.",
         imgUrl: "https://media.themoviedb.org/t/p/w600_and_h900_face/qWnJzyZhyy74gjpSjIXWmuk0ifX.jpg",
         carouselCover: "https://media.themoviedb.org/t/p/w1000_and_h563_face/example5.jpg",
-        videoUrl: "https://www.1024tera.com/wap/share/filelist?surl=Ico36S0rivG3ERJQsmzuZQ",
+        videoUrl: "https://drive.google.com/file/d/1Cm52d5TH1SpkHVpAcKXk4VLMEl9ptB4P/preview",
         share: "#",
         category: "Hollywood",
         genre: "Comedy",
@@ -111,7 +111,7 @@ const SERIES_DATA = [
                 episodes: [
                     { 
                         number: 1, 
-                        url: "https://www.1024tera.com/wap/share/filelist?surl=Ico36S0rivG3ERJQsmzuZQ",
+                        url: "https://drive.google.com/file/d/1Cm52d5TH1SpkHVpAcKXk4VLMEl9ptB4P/preview",
                         title: "Pilot",
                         premium: false,
                         price: 0,
@@ -119,7 +119,7 @@ const SERIES_DATA = [
                     },
                     { 
                         number: 2, 
-                        url: "https://www.1024tera.com/wap/share/filelist?surl=Ico36S0rivG3ERJQsmzuZQ",
+                        url: "https://drive.google.com/file/d/1Cm52d5TH1SpkHVpAcKXk4VLMEl9ptB4P/preview",
                         title: "Diversity Day",
                         premium: false,
                         openUrl: true,
