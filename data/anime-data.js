@@ -34,7 +34,7 @@ const ANIME_DATA = [
         title: "Naruto Shippuden",
         description: "Naruto Uzumaki's journey to become Hokage.",
         imgUrl: "https://media.themoviedb.org/t/p/w600_and_h900_face/example8.jpg",
-        carouselCover: "https://media.themoviedb.org/t/p/w1000_and_h563_face/example9.jpg",
+        carouselCover: "https://image.tmdb.org/t/p/original/9S65uEjDqepU7d71CNmxIBHHdo.jpg",
         videoUrl: "https://www.youtube.com/embed/example6",
         share: "#",
         category: "Anime",
