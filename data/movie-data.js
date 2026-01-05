@@ -61,7 +61,7 @@ const MOVIE_DATA = [
         description: "A romantic comedy about two strangers meeting in the city of lights.",
         imgUrl: "https://media.themoviedb.org/t/p/w600_and_h900_face/nrM2xFUfKJJEmZzd5d7kohT2G0C.jpg",
         carouselCover: "https://media.themoviedb.org/t/p/w1000_and_h563_face/m96iaX6b4bKaD9xME9JOQghBrqC.jpg",
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        videoUrl: "https://filmboom.top/spa/videoPlayPage/movies/gullivers-travels-I8ZVa4RHWT3?id=3275256027440107304&type=/movie/detail&detailSe=&detailEp=&lang=en",
         share: "#",
         category: "Hollywood",
         genre: "Romance",
@@ -77,7 +77,7 @@ const MOVIE_DATA = [
         openUrl: false,
         dateAdded: "2023-10-10",
         premium: true,
-        price: 500,
+        price: 20,
         duration: "1h 35m",
         cast: ["French Actor", "American Star"],
         director: "Romance Director"
