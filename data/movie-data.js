@@ -142,7 +142,7 @@ const MOVIE_DATA = [
         description: "A colorful musical romance with dance numbers.",
         imgUrl: "https://image.tmdb.org/t/p/w1280/w46Vw536HwNnEzOa7J24YH9DPRS.jpg",
         carouselCover: "https://media.themoviedb.org/t/p/w1000_and_h563_face/example4.jpg",
-        videoUrl: "https://www.youtube.com/embed/example2",
+        videoUrl: "https://drive.google.com/file/d/1Ex4v3gox1DVWmhPCN1gyTunoeCXM5ll-/preview",
         share: "#",
         category: "Action",
         genre: "Musical",
