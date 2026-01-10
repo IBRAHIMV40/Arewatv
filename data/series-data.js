@@ -119,7 +119,7 @@ const SERIES_DATA = [
                     },
                     { 
                         number: 2, 
-                        url: "https://drive.google.com/file/d/1Cm52d5TH1SpkHVpAcKXk4VLMEl9ptB4P/preview",
+                        url: "https://drive.google.com/file/d/1a-42mhgpHiRr9vLo-Uma-b4Pm_G0Uq9C/preview",
                         title: "Diversity Day",
                         premium: false,
                         openUrl: true,
