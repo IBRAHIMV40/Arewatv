@@ -275,7 +275,7 @@ header {
 .episode-footer {
     background: #000;
     padding: 15px 0;
-    border-top: 1px solid #333;
+    border-top: 1px solid #;
 }
 .episode-header { display: flex; justify-content: space-between; margin-bottom: 10px; padding: 0 15px; }
 
