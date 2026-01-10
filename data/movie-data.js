@@ -7,7 +7,7 @@ const MOVIE_DATA = [
         description: "A failed actor plans to film his final days before suicide.",
         imgUrl: "https://media.themoviedb.org/t/p/w600_and_h900_face/g96wHxU7EnoIFwemb2RgohIXrgW.jpg",
         carouselCover: "https://media.themoviedb.org/t/p/w1000_and_h563_face/iN41Ccw4DctL8npfmYg1j5Tr1eb.jpg",
-        videoUrl: "https://www.youtube.com/embed/OFu05YuLJh4",
+        videoUrl: "https://drive.google.com/file/d/1yMkiXnc8BTsBbMr3aNGf3yvz3Or_yQF4/preview",
         share: "#",
         category: "Hollywood",
         genre: "Drama",
