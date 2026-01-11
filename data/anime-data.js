@@ -35,7 +35,7 @@ const ANIME_DATA = [
         description: "Naruto Uzumaki's journey to become Hokage.",
         imgUrl: "https://image.tmdb.org/t/p/original/kCAEdk8cVVsNC4PsSRnqMOgpq1t.jpg",
         carouselCover: "https://image.tmdb.org/t/p/original/9S65uEjDqepU7d71CNmxIBHHdo.jpg",
-        videoUrl: "https://drive.google.com/file/d/1kaohqx2iDcxCBCYXiMccxH-r_HqiPyqp/preview",
+        videoUrl: "https://iframe.mediadelivery.net/embed/572667/15f8b7e5-3558-42a3-bdb2-b7cce9c9a421?autoplay=false&loop=false&muted=false&preload=false&responsive=false",
         share: "#",
         category: "Nollywood",
         genre: "Adventure",
