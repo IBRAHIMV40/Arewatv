@@ -51,9 +51,9 @@ const ANIME_DATA = [
         openUrl: false,
         dateAdded: "2023-07-20",
         premium: true,
-        price: 700,
+        price:  20,
         duration: "23m",
-        episodes: 500,
+        episodes: 20,
         status: "Completed",
         studio: "Studio Pierrot"
     },
