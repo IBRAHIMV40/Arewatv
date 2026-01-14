@@ -88,7 +88,7 @@ const MOVIE_DATA = [
         description: "Exploring galaxy to save humanity from an alien threat.",
         imgUrl: "https://media.themoviedb.org/t/p/w600_and_h900_face/c15BtJxCXMrISLVmysdsnZUPQft.jpg",
         carouselCover: "https://media.themoviedb.org/t/p/w1000_and_h563_face/cvyb6dy1p3kdjEgwz7vmEDtSkHm.jpg",
-        videoUrl: "https://t.me/s/Indian_hausa_drs?before=37",
+        videoUrl: "https://t.me/Indian_hausa_drs/36?single",
         share: "#",
         category: "Hollywood",
         genre: "Sci-Fi",
