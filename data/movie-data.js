@@ -30,7 +30,7 @@ const MOVIE_DATA = [
     },
     {
         id: 'movie-006',
-        title: "MUGUN MUTUM RETURNS",
+        title: "MUGUN MUTUM",
         description: "Labarin dawowar mugun mutum ne da ya sake jefa rayuwar mutane cikin rikici da tashin hankali. Sultan Record",
         imgUrl: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgQDO9Zz0Y9AY89UC_6bFQJFMtdA-jjk6Oq4RdTKwUVwQ-xQPEYU8grDIbkc-GOYXbr_FX7EZNaLDZzOqUSQSj2BIojfhsBrHaFKvMbTbkp1PhxSm1SWCpT72cX4Fx0a7TklVSIe8PJjdUDnaP0Jd2si3u27cCmt4EYt1lS8rqJZsbPWjhKD7p6WZnAfooS/s2048/1000268954.jpg",
         carouselCover: "https://image.tmdb.org/t/p/original/ksXEgtqmOHAzmNV93I03wz3RhJ2.jpg",
