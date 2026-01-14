@@ -2773,7 +2773,7 @@ function initCarousel() {
 function createCategories(data) {
     const container = document.getElementById('categories-container');
     container.innerHTML = '';
-    const categories = ['Hollywood', 'Action', 'Nollywood', 'Bollywood', 'Kannywood', 'Comedy', 'Drama', 'Romance'];
+    const categories = ['Algaita Dub Studio', 'Sultan Record', 'Hollywood', 'Action', 'Nollywood', 'Bollywood', 'Kannywood', 'Comedy', 'Drama', 'Romance'];
     
     categories.forEach(cat => {
         const catData = data.filter(i => i.category === cat || i.genre === cat);
