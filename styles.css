@@ -202,8 +202,8 @@ header {
     transition: transform 0.2s;
 }
 .frame img { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-radius: 4px; }
-.frame:hover { transform: scale(1.05); }
-.content h2 { font-size: 0.8rem; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.frame:hover { transform: scale(1.00); }
+.content h2 { font-size: 0.6rem; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .content p { font-size: 0.7rem; color: #888; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 /* --- PREMIUM BADGE --- */
